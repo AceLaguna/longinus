@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Longinus | Tip of the Spear — The Spear of Destiny</title>
+  <meta name="description" content="The Roman spear that pierced the side of Christ — fact, faith, and enduring mystery. Explore the legend of the Spear of Destiny." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            parchment:        '#f5e8c7',
+            'parchment-dark': '#e8d5a3',
+            'parchment-mid':  '#eed9b0',
+            leather:          '#3c2f2f',
+            'leather-light':  '#5a4040',
+            gold:             '#d4a017',
+            'gold-light':     '#e8b820',
+            'gold-dim':       '#a07810',
+            shadow:           '#1a1008',
+            ink:              '#2a1f1f',
+            crimson:          '#8b1a1a',
+            'crimson-dim':    '#5a0f0f',
+          },
+          fontFamily: {
+            display: ['"Cinzel Decorative"', 'serif'],
+            heading:  ['"Cinzel"', 'serif'],
+            body:     ['"EB Garamond"', 'Georgia', 'serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --parchment:      #f5e8c7;
+      --parchment-dark: #e8d5a3;
+      --parchment-mid:  #eed9b0;
+      --leather:        #3c2f2f;
+      --leather-light:  #5a4040;
+      --gold:           #d4a017;
+      --gold-light:     #e8b820;
+      --gold-dim:       #a07810;
+      --shadow:         #1a1008;
+      --ink:            #2a1f1f;
+      --crimson:        #8b1a1a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--parchment);
+      color: var(--ink);
+      font-family: 'EB Garamond', Georgia, serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ── Aged noise texture ── */
+    .aged-texture::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Gold rule ── */
+    .gold-rule {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+      opacity: 0.55;
+    }
+
+    /* ── Nav links ── */
+    .nav-link {
+      position: relative;
+      text-decoration: none;
+      color: #c8a878;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.2em 0;
+      transition: color 0.25s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 50%; right: 50%;
+      bottom: -3px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), var(--gold-dim));
+      transition: left 0.3s, right 0.3s;
+    }
+    .nav-link:hover         { color: var(--gold-light); }
+    .nav-link:hover::after  { left: 0; right: 0; }
+    .nav-link.active        { color: var(--gold); }
+    .nav-link.active::after { left: 0; right: 0; }
+
+    .spear-sep { display:inline-block; color:#6a4a2a; opacity:0.5; font-size:0.65rem; margin:0 0.4rem; user-select:none; }
+
+    /* ── Logo shimmer ── */
+    @keyframes border-shimmer {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    .logo-shimmer {
+      background: linear-gradient(90deg, transparent, rgba(212,160,23,0.5), transparent);
+      background-size: 200% 100%;
+      animation: border-shimmer 4s linear infinite;
+    }
+
+    /* ── Relic glow ── */
+    .relic-glow { transition: filter 0.35s, transform 0.35s; cursor: pointer; }
+    .relic-glow:hover {
+      filter: drop-shadow(0 0 6px rgba(212,160,23,0.85)) drop-shadow(0 0 14px rgba(212,160,23,0.45));
+      transform: scale(1.1);
+    }
+
+    .torch-icon { display:inline-block; transition: filter 0.3s, transform 0.3s; }
+    .torch-icon:hover { filter: drop-shadow(0 0 8px rgba(212,160,23,0.9)); transform: scale(1.15) rotate(-5deg); }
+
+    /* ── Hamburger ── */
+    .hamburger span { display:block; width:22px; height:2px; background:#f5e8c7; margin:5px 0; transition:all 0.3s; transform-origin:center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('crucifixion-placeholder.jpg');
+      background-size: cover;
+      background-position: center top;
+      background-attachment: fixed; /* parallax */
+      filter: sepia(0.55) brightness(0.38) contrast(1.15);
+      transform: scale(1.04);
+      will-change: transform;
+    }
+
+    /* Layered overlays for dramatic depth */
+    #hero-overlay-1 {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(26,16,8,0.0) 0%, rgba(26,16,8,0.65) 70%, rgba(26,16,8,0.9) 100%);
+    }
+    #hero-overlay-2 {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg,
+        rgba(26,16,8,0.55) 0%,
+        rgba(26,16,8,0.05) 30%,
+        rgba(26,16,8,0.05) 65%,
+        rgba(26,16,8,0.85) 100%
+      );
+    }
+    /* Crimson vignette for drama */
+    #hero-overlay-3 {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 60%, rgba(100,20,20,0.18) 0%, transparent 70%);
+    }
+
+    #hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      max-width: 860px;
+      width: 100%;
+    }
+
+    /* Quote mark */
+    .hero-openquote {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(5rem, 12vw, 9rem);
+      color: var(--gold);
+      opacity: 0.18;
+      line-height: 0.6;
+      display: block;
+      margin-bottom: -1rem;
+      user-select: none;
+    }
+
+    .hero-verse {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(1.3rem, 3.5vw, 2.05rem);
+      color: #f0dfa8;
+      line-height: 1.65;
+      font-style: italic;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.8), 0 0 60px rgba(212,160,23,0.12);
+      letter-spacing: 0.01em;
+    }
+
+    .hero-verse em {
+      font-style: normal;
+      color: var(--gold-light);
+      text-shadow: 0 0 20px rgba(212,160,23,0.55), 0 2px 20px rgba(0,0,0,0.8);
+    }
+
+    .hero-citation {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      margin-top: 1.2rem;
+      display: block;
+    }
+
+    /* Decorative spear divider */
+    .spear-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1.6rem auto;
+    }
+    .spear-divider-line {
+      height: 1px;
+      width: clamp(50px, 10vw, 120px);
+      background: linear-gradient(90deg, transparent, var(--gold-dim));
+      opacity: 0.6;
+    }
+    .spear-divider-line.right {
+      background: linear-gradient(90deg, var(--gold-dim), transparent);
+    }
+
+    .hero-subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.72rem, 1.6vw, 0.88rem);
+      letter-spacing: 0.18em;
+      color: #b8946a;
+      text-transform: uppercase;
+      line-height: 1.7;
+      text-shadow: 0 1px 12px rgba(0,0,0,0.7);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Scroll indicator */
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); opacity: 0.7; }
+      50%       { transform: translateY(8px); opacity: 1; }
+    }
+    .scroll-cue { animation: bounce-slow 2.2s ease-in-out infinite; }
+
+    /* ── FADE-IN on scroll ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered children */
+    .reveal-children > * {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal-children.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay: 0.05s; }
+    .reveal-children.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay: 0.18s; }
+    .reveal-children.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay: 0.31s; }
+    .reveal-children.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay: 0.44s; }
+    .reveal-children.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay: 0.57s; }
+    .reveal-children.visible > *:nth-child(6) { opacity:1; transform:none; transition-delay: 0.70s; }
+
+    /* ── Section labels ── */
+    .section-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.32em;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    /* ── Teaser card ── */
+    .teaser-card {
+      position: relative;
+      background: linear-gradient(135deg, #ede0c0 0%, #e0cfa0 60%, #d5c494 100%);
+      border: 1px solid rgba(160,120,16,0.3);
+      border-radius: 3px;
+      padding: 1.8rem 1.6rem;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .teaser-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .teaser-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+    .teaser-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(26,16,8,0.3), 0 0 0 1px rgba(212,160,23,0.25);
+      border-color: rgba(212,160,23,0.5);
+    }
+    .teaser-card:hover::after { opacity: 1; }
+
+    .teaser-icon {
+      font-size: 1.8rem;
+      display: block;
+      margin-bottom: 0.2rem;
+      transition: filter 0.3s, transform 0.3s;
+    }
+    .teaser-card:hover .teaser-icon {
+      filter: drop-shadow(0 0 8px rgba(212,160,23,0.7));
+      transform: scale(1.08) rotate(-3deg);
+    }
+    .teaser-num {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--gold-dim);
+      opacity: 0.6;
+      text-transform: uppercase;
+    }
+    .teaser-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      color: var(--leather);
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .teaser-desc {
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      color: #5a4030;
+      line-height: 1.65;
+    }
+    .teaser-cta {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      margin-top: auto;
+      padding-top: 0.6rem;
+      transition: color 0.25s, letter-spacing 0.25s;
+    }
+    .teaser-card:hover .teaser-cta { color: var(--gold); letter-spacing: 0.28em; }
+
+    /* ── "What Is Known" box ── */
+    .known-box {
+      background: linear-gradient(160deg, #2a1a0e 0%, #3c2f2f 50%, #2e2020 100%);
+      border: 1px solid rgba(212,160,23,0.25);
+      border-radius: 3px;
+      position: relative;
+      overflow: hidden;
+    }
+    .known-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .known-box::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+    }
+
+    .evidence-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(212,160,23,0.1);
+    }
+    .evidence-item:last-child { border-bottom: none; }
+
+    .evidence-marker {
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      border: 1px solid rgba(212,160,23,0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      color: var(--gold);
+      background: rgba(212,160,23,0.08);
+      margin-top: 0.1rem;
+    }
+
+    .evidence-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    .evidence-text {
+      font-family: 'EB Garamond', serif;
+      font-size: 1rem;
+      color: #c8a878;
+      line-height: 1.7;
+    }
+
+    /* ── Intro strip ── */
+    .intro-strip {
+      background: linear-gradient(180deg, #f5e8c7 0%, #eed9b0 100%);
+      border-top: 1px solid rgba(160,120,16,0.2);
+      border-bottom: 1px solid rgba(160,120,16,0.2);
+    }
+
+    /* ── Footer utils ── */
+    .footer-ornament { letter-spacing:1.2em; color:var(--gold-dim); opacity:0.6; font-size:0.7rem; }
+
+    /* ── CTA button ── */
+    .btn-relic {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--shadow);
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dim));
+      border: none;
+      padding: 0.75rem 1.8rem;
+      border-radius: 2px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(212,160,23,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+      transition: box-shadow 0.3s, transform 0.2s, filter 0.3s;
+    }
+    .btn-relic:hover {
+      box-shadow: 0 6px 30px rgba(212,160,23,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #c8a878;
+      background: transparent;
+      border: 1px solid rgba(212,160,23,0.35);
+      padding: 0.7rem 1.6rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: color 0.3s, border-color 0.3s, background 0.3s;
+    }
+    .btn-ghost:hover {
+      color: var(--gold-light);
+      border-color: rgba(212,160,23,0.7);
+      background: rgba(212,160,23,0.06);
+    }
+
+    /* ── Flicker ── */
+    @keyframes flicker {
+      0%,100%{ opacity:1; } 48%{ opacity:0.9; } 50%{ opacity:0.75; } 52%{ opacity:0.95; } 75%{ opacity:0.88; }
+    }
+    .flicker { animation: flicker 5s ease-in-out infinite; }
+
+    /* ── Hero load-in ── */
+    @keyframes fade-up {
+      from { opacity:0; transform: translateY(24px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    .hero-load-1 { animation: fade-up 1.1s ease 0.3s both; }
+    .hero-load-2 { animation: fade-up 1.1s ease 0.7s both; }
+    .hero-load-3 { animation: fade-up 1.1s ease 1.1s both; }
+    .hero-load-4 { animation: fade-up 1.0s ease 1.5s both; }
+    .hero-load-5 { animation: fade-up 1.0s ease 1.8s both; }
+
+    /* Page-wide parchment vein pattern */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(125deg, rgba(180,140,60,0.03) 0%, transparent 40%),
+        linear-gradient(250deg, rgba(140,100,30,0.04) 0%, transparent 50%);
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HEADER ════════════════════════════════ -->
+<header class="aged-texture relative" style="position:sticky;top:0;z-index:100;background:linear-gradient(180deg,#2a1a0e 0%,#3c2f2f 60%,#2e2020 100%);box-shadow:0 4px 30px rgba(0,0,0,0.7);" id="site-header">
+  <div style="height:3px;background:linear-gradient(90deg,transparent,#6a4a1a,#d4a017,#e8b820,#d4a017,#6a4a1a,transparent);"></div>
+
+  <div class="relative z-10 px-6 md:px-10 py-4 flex items-center justify-between gap-6">
+    <!-- Logo -->
+    <a href="index.html" class="flex items-start gap-3 group no-underline flex-shrink-0">
+      <div class="relic-glow mt-1" title="The Sacred Lance">
+        <svg width="26" height="50" viewBox="0 0 28 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="14,0 20,18 14,22 8,18" fill="#d4a017" opacity="0.95"/>
+          <polygon points="14,0 14,22 8,18" fill="#a07810" opacity="0.8"/>
+          <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#7a5c2e"/>
+          <rect x="13.2" y="21" width="1.5" height="26" rx="0.75" fill="#9a7a3e" opacity="0.6"/>
+          <rect x="6" y="34" width="16" height="2.5" rx="1" fill="#c09010"/>
+          <ellipse cx="14" cy="50" rx="4" ry="2.5" fill="#a07810"/>
+          <ellipse cx="14" cy="50" rx="2" ry="1.5" fill="#d4a017" opacity="0.5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="flex items-baseline gap-2">
+          <span style="font-family:'Cinzel Decorative',serif;font-size:1.1rem;font-weight:700;color:#d4a017;letter-spacing:0.04em;text-shadow:0 0 20px rgba(212,160,23,0.5);">LONGINUS</span>
+          <span style="color:#6a4a2a;font-size:0.85rem;">|</span>
+          <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.22em;color:#c8a878;text-transform:uppercase;font-weight:600;padding-top:2px;">TIP OF THE SPEAR</span>
+        </div>
+        <div class="logo-shimmer" style="height:1px;margin-top:5px;border-radius:2px;"></div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.6rem;color:#8a6a4a;letter-spacing:0.18em;margin-top:3px;font-style:italic;">The Spear of Destiny</div>
+      </div>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden lg:flex items-center gap-1 flex-wrap justify-end" aria-label="Primary navigation">
+      <a href="index.html"            class="nav-link active px-3 py-2">Home</a>
+      <span class="spear-sep">⟡</span>
+      <a href="soldier.html"          class="nav-link px-3 py-2">The Soldier</a>
+      <span class="spear-sep">⟡</span>
+      <a href="spear.html"            class="nav-link px-3 py-2">The Spear</a>
+      <span class="spear-sep">⟡</span>
+      <a href="art-depictions.html"   class="nav-link px-3 py-2">Art &amp; Depictions</a>
+      <span class="spear-sep">⟡</span>
+      <a href="through-the-ages.html" class="nav-link px-3 py-2">Through the Ages</a>
+      <span class="spear-sep">⟡</span>
+      <a href="maps-journeys.html"    class="nav-link px-3 py-2">Maps &amp; Journeys</a>
+      <span class="spear-sep">⟡</span>
+      <a href="resources.html"        class="nav-link px-3 py-2">Resources</a>
+    </nav>
+
+    <!-- Hamburger -->
+    <button class="hamburger lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded focus:outline-none" aria-label="Toggle menu" id="menu-toggle"
+      style="background:rgba(212,160,23,0.08);border:1px solid rgba(212,160,23,0.2);">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="gold-rule mx-6 md:mx-10 opacity-40"></div>
+
+  <div class="relative z-10 px-6 md:px-10 py-1.5 hidden md:flex items-center justify-between">
+    <span style="font-family:'EB Garamond',serif;font-size:0.65rem;color:#7a5a3a;letter-spacing:0.2em;font-style:italic;">"He who holds the Spear holds the destiny of the world."</span>
+    <div class="flex items-center gap-4">
+      <span class="relic-glow torch-icon" title="Light the Path"      style="color:#d4a017;font-size:0.95rem;">🔦</span>
+      <span class="relic-glow torch-icon" title="The Sacred Lance"    style="color:#d4a017;font-size:0.95rem;">⚔️</span>
+      <span class="relic-glow torch-icon" title="Ancient Mysteries"   style="color:#d4a017;font-size:0.95rem;">📜</span>
+    </div>
+  </div>
+
+  <div style="height:2px;background:linear-gradient(90deg,transparent,#4a3010,#d4a017,#4a3010,transparent);opacity:0.5;"></div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden lg:hidden" style="background:linear-gradient(180deg,#2e2020,#3c2f2f);border-top:1px solid rgba(212,160,23,0.2);">
+    <nav class="flex flex-col py-2" aria-label="Mobile navigation">
+      <a href="index.html"            class="nav-link active px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Home</a>
+      <a href="soldier.html"          class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">The Soldier</a>
+      <a href="spear.html"            class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">The Spear</a>
+      <a href="art-depictions.html"   class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Art &amp; Depictions</a>
+      <a href="through-the-ages.html" class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Through the Ages</a>
+      <a href="maps-journeys.html"    class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Maps &amp; Journeys</a>
+      <a href="resources.html"        class="nav-link px-6 py-3">Resources</a>
+    </nav>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════════ HERO ═════════════════════════════════ -->
+<section id="hero" aria-label="Hero — The Spear of Destiny">
+
+  <!-- Background: swap src for actual public-domain image (e.g. Wikimedia Commons) -->
+  <div id="hero-bg"
+       role="img"
+       aria-label="Crucifixion scene — public domain artwork placeholder"
+       style="background-image: url('crucifixion-placeholder.jpg');"></div>
+
+  <!-- Fallback gradient if image absent -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,#3a2010 0%,#1a0c08 60%,#0d0603 100%);z-index:0;"></div>
+
+  <div id="hero-overlay-1"></div>
+  <div id="hero-overlay-2"></div>
+  <div id="hero-overlay-3"></div>
+
+  <!-- Subtle vignette edges -->
+  <div style="position:absolute;inset:0;box-shadow:inset 0 0 120px rgba(0,0,0,0.7);z-index:2;pointer-events:none;"></div>
+
+  <div id="hero-content">
+
+    <!-- Eyebrow label -->
+    <div class="hero-load-1">
+      <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.4em;color:#8a6a3a;text-transform:uppercase;display:inline-block;border:1px solid rgba(212,160,23,0.2);padding:0.35rem 1.1rem;margin-bottom:2rem;background:rgba(212,160,23,0.05);border-radius:1px;">
+        ✦ &nbsp; John 19:34 &nbsp; ✦
+      </span>
+    </div>
+
+    <!-- Opening quote mark -->
+    <span class="hero-openquote hero-load-1" aria-hidden="true">"</span>
+
+    <!-- Bible verse -->
+    <blockquote class="hero-load-2">
+      <p class="hero-verse">
+        One of the soldiers pierced his side with a <em>spear</em>,<br />
+        and at once there came out <em>blood and water</em>.
+      </p>
+      <cite class="hero-citation">— John 19:34 &nbsp;·&nbsp; The Holy Bible (ESV)</cite>
+    </blockquote>
+
+    <!-- Decorative spear divider -->
+    <div class="spear-divider hero-load-3" aria-hidden="true">
+      <div class="spear-divider-line"></div>
+      <svg width="22" height="42" viewBox="0 0 28 54" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.55;">
+        <polygon points="14,0 20,18 14,22 8,18" fill="#d4a017"/>
+        <polygon points="14,0 14,22 8,18" fill="#a07810"/>
+        <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#8a6a2e"/>
+        <rect x="6" y="34" width="16" height="2.5" rx="1" fill="#c09010"/>
+      </svg>
+      <div class="spear-divider-line right"></div>
+    </div>
+
+    <!-- Page title & subtitle -->
+    <div class="hero-load-4">
+      <h1 style="font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,6vw,3.6rem);font-weight:900;color:#f0dfa8;line-height:1.15;letter-spacing:0.03em;text-shadow:0 4px 30px rgba(0,0,0,0.8),0 0 60px rgba(212,160,23,0.15);margin-bottom:1.2rem;">
+        The Spear<br/>
+        <span style="color:var(--gold);font-size:0.72em;letter-spacing:0.06em;text-shadow:0 0 40px rgba(212,160,23,0.45),0 4px 30px rgba(0,0,0,0.8);">of Destiny</span>
+      </h1>
+      <p class="hero-subtitle">
+        The Roman spear that pierced the side of Christ<br/>
+        — fact, faith, and enduring mystery —
+      </p>
+    </div>
+
+    <!-- CTA buttons -->
+    <div class="hero-load-5 flex flex-wrap items-center justify-center gap-4 mt-10">
+      <a href="spear.html"   class="btn-relic">Discover the Spear →</a>
+      <a href="soldier.html" class="btn-ghost">Meet the Soldier</a>
+    </div>
+
+  </div>
+
+  <!-- Scroll cue -->
+  <div class="scroll-cue" style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:10;text-align:center;">
+    <span style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.3em;color:#7a5a3a;text-transform:uppercase;display:block;margin-bottom:0.5rem;">Scroll</span>
+    <svg width="16" height="24" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 0 L8 20 M2 14 L8 20 L14 14" stroke="#d4a017" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+    </svg>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════ INTRO STRIP ══════════════════════════════ -->
+<section class="intro-strip py-16 px-6 md:px-12" aria-labelledby="intro-heading">
+  <div class="max-w-4xl mx-auto text-center reveal">
+    <span class="section-eyebrow">The Legend Begins</span>
+    <h2 id="intro-heading" style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.4rem,3.5vw,2.1rem);color:var(--leather);line-height:1.3;margin-bottom:1.4rem;">
+      A Single Thrust. <span style="color:var(--gold-dim);">An Eternal Mystery.</span>
+    </h2>
+    <div class="gold-rule" style="max-width:300px;margin:0 auto 1.6rem;"></div>
+    <p style="font-family:'EB Garamond',serif;font-size:1.18rem;color:#5a4030;line-height:1.85;max-width:680px;margin:0 auto 1.2rem;">
+      On a hill outside Jerusalem, as the sun darkened and the earth trembled, a Roman soldier raised his lance and thrust it into the side of a man already dead. From that moment, the weapon became more than iron and wood — it became a <em>conduit of destiny</em>, sought by emperors, crusaders, mystics, and dictators across two thousand years of history.
+    </p>
+    <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#7a5a3a;line-height:1.8;max-width:600px;margin:0 auto;font-style:italic;">
+      What do we truly know? What has been embellished by faith and legend? Where is the Spear today — and does it matter?
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ TEASER CARDS ══════════════════════════════ -->
+<section class="py-16 px-6 md:px-12" style="background:linear-gradient(180deg,#eed9b0 0%,#e8d5a3 100%);" aria-labelledby="explore-heading">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-12 reveal">
+      <span class="section-eyebrow">Explore the Chronicle</span>
+      <h2 id="explore-heading" style="font-family:'Cinzel',serif;font-size:clamp(1.1rem,2.5vw,1.5rem);color:var(--leather);letter-spacing:0.06em;font-weight:700;">
+        Choose Your Path Through History
+      </h2>
+      <div class="gold-rule" style="max-width:200px;margin:0.8rem auto 0;"></div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 reveal-children">
+
+      <!-- Card 1 — The Soldier -->
+      <a href="soldier.html" class="teaser-card">
+        <span class="teaser-icon" aria-hidden="true">⚔️</span>
+        <span class="teaser-num">I &nbsp;·&nbsp; The Soldier</span>
+        <h3 class="teaser-title">Longinus: The Man Behind the Lance</h3>
+        <p class="teaser-desc">Who was the Roman legionary who carried the spear that day? Explore the historical record, the apocryphal legends of his blindness healed by sacred blood, and his surprising path to sainthood.</p>
+        <span class="teaser-cta">Enter the Biography →</span>
+      </a>
+
+      <!-- Card 2 — The Spear -->
+      <a href="spear.html" class="teaser-card">
+        <span class="teaser-icon" aria-hidden="true">🗡️</span>
+        <span class="teaser-num">II &nbsp;·&nbsp; The Spear</span>
+        <h3 class="teaser-title">The Holy Lance: Relic, Symbol, and Weapon</h3>
+        <p class="teaser-desc">From Roman lancea to imperial treasure — the physical object itself, its metallurgical analysis, the competing relics in Vienna, Rome, Kraków, and Antioch, and what science tells us about their authenticity.</p>
+        <span class="teaser-cta">Examine the Relic →</span>
+      </a>
+
+      <!-- Card 3 — Art & Depictions -->
+      <a href="art-depictions.html" class="teaser-card">
+        <span class="teaser-icon" aria-hidden="true">🎨</span>
+        <span class="teaser-num">III &nbsp;·&nbsp; Art &amp; Depictions</span>
+        <h3 class="teaser-title">Two Thousand Years of Sacred Imagery</h3>
+        <p class="teaser-desc">From Byzantine mosaics to Rubens, El Greco to modern cinema — the Spear has haunted the imagination of artists across every era. Browse masterworks and iconographic traditions.</p>
+        <span class="teaser-cta">View the Gallery →</span>
+      </a>
+
+      <!-- Card 4 — Through the Ages -->
+      <a href="through-the-ages.html" class="teaser-card">
+        <span class="teaser-icon" aria-hidden="true">⏳</span>
+        <span class="teaser-num">IV &nbsp;·&nbsp; Through the Ages</span>
+        <h3 class="teaser-title">Emperors, Crusaders &amp; the Third Reich</h3>
+        <p class="teaser-desc">Constantine, Charlemagne, Barbarossa, Napoleon, and Hitler — each believed possessing the Spear guaranteed world dominion. A chilling journey through the relic's role in the arc of Western power.</p>
+        <span class="teaser-cta">Trace the Timeline →</span>
+      </a>
+
+      <!-- Card 5 — Maps & Journeys -->
+      <a href="maps-journeys.html" class="teaser-card">
+        <span class="teaser-icon" aria-hidden="true">🗺️</span>
+        <span class="teaser-num">V &nbsp;·&nbsp; Maps &amp; Journeys</span>
+        <h3 class="teaser-title">The Relic's Odyssey Across Continents</h3>
+        <p class="teaser-desc">Follow the Spear's documented journeys — Jerusalem to Constantinople, Antioch to Vienna, and into the chaos of World War II. Interactive maps chart every verified transfer and contested claim.</p>
+        <span class="teaser-cta">Open the Map →</span>
+      </a>
+
+      <!-- Card 6 — Resources -->
+      <a href="resources.html" class="teaser-card">
+        <span class="teaser-icon" aria-hidden="true">📚</span>
+        <span class="teaser-num">VI &nbsp;·&nbsp; Resources</span>
+        <h3 class="teaser-title">Sources, Scholarship &amp; Further Reading</h3>
+        <p class="teaser-desc">Primary sources from Eusebius to the Nuremberg Chronicle, modern archaeological reports, recommended books, documentaries, and scholarly journals for the serious researcher.</p>
+        <span class="teaser-cta">Open the Archive →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ WHAT IS KNOWN ═════════════════════════════ -->
+<section class="py-16 px-6 md:px-12" style="background:linear-gradient(180deg,#e8d5a3 0%,#f0e0b8 100%);" aria-labelledby="known-heading">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-10 reveal">
+      <span class="section-eyebrow">Biblical &amp; Historical Evidence</span>
+      <h2 id="known-heading" style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,3vw,1.9rem);color:var(--leather);line-height:1.3;">
+        What Is <span style="color:var(--gold-dim);">Known</span>
+      </h2>
+      <div class="gold-rule" style="max-width:260px;margin:0.8rem auto 0;"></div>
+    </div>
+
+    <div class="known-box reveal" style="padding:clamp(1.5rem,4vw,3rem) clamp(1.5rem,4vw,2.8rem);">
+      <div class="relative z-10">
+
+        <!-- Header inside box -->
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-6 pb-5" style="border-bottom:1px solid rgba(212,160,23,0.2);">
+          <div style="font-size:2rem;" aria-hidden="true" class="relic-glow flicker">🕯</div>
+          <div>
+            <h3 style="font-family:'Cinzel',serif;font-size:0.95rem;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:0.2rem;">A Summary of the Biblical Record</h3>
+            <p style="font-family:'EB Garamond',serif;font-size:0.95rem;color:#8a6a4a;font-style:italic;">Separating documented scripture from later legend and mysticism</p>
+          </div>
+        </div>
+
+        <!-- Evidence items -->
+        <div>
+
+          <div class="evidence-item">
+            <div class="evidence-marker">I</div>
+            <div>
+              <span class="evidence-label">The Gospel Account</span>
+              <p class="evidence-text">Only the Gospel of John (19:34) records the spear thrust. The three Synoptic Gospels — Matthew, Mark, and Luke — make no mention of it. John writes as an eyewitness: <em style="color:#e0c080;">"One of the soldiers pierced his side with a spear, and immediately blood and water came out."</em> Most scholars date this account to c. 90–110 AD.</p>
+            </div>
+          </div>
+
+          <div class="evidence-item">
+            <div class="evidence-marker">II</div>
+            <div>
+              <span class="evidence-label">The Soldier's Identity</span>
+              <p class="evidence-text">The Gospel of John does not name the soldier. The name "Longinus" appears first in the 4th-century <em style="color:#e0c080;">Acts of Pilate</em> (Gospel of Nicodemus) — a non-canonical text. The name may derive from the Greek <em style="color:#e0c080;">longche</em> (λόγχη), simply meaning "spear," suggesting it is a titular epithet rather than a given name.</p>
+            </div>
+          </div>
+
+          <div class="evidence-item">
+            <div class="evidence-marker">III</div>
+            <div>
+              <span class="evidence-label">Medical &amp; Theological Significance</span>
+              <p class="evidence-text">The "blood and water" detail has been interpreted theologically as symbolic of the Eucharist and Baptism, and medically as evidence of a pleural effusion or pericardial fluid — consistent with crucifixion trauma and death. It became a central image in Christian iconography and sacramental theology.</p>
+            </div>
+          </div>
+
+          <div class="evidence-item">
+            <div class="evidence-marker">IV</div>
+            <div>
+              <span class="evidence-label">The First Known Relic Claim</span>
+              <p class="evidence-text">The earliest historical record of a physical spear relic dates to the <em style="color:#e0c080;">Pilgrim of Piacenza</em> (c. 570 AD), who reported seeing "the lance of Our Lord" in Jerusalem's Church of the Holy Sepulchre. The relic subsequently disappeared from the historical record during the Persian conquest of Jerusalem in 614 AD.</p>
+            </div>
+          </div>
+
+          <div class="evidence-item">
+            <div class="evidence-marker">V</div>
+            <div>
+              <span class="evidence-label">The Vienna Spear: Modern Analysis</span>
+              <p class="evidence-text">The spear held in the Kunsthistorisches Museum, Vienna — the "Hofburg Spear" — is the most studied claimant. Scientific analysis in 2003 dated its iron blade to the 7th century AD at earliest, consistent with Carolingian craftsmanship rather than Roman-era manufacture. A nail embedded in its center is of indeterminate age. It is historically significant — but almost certainly not the original lance.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Summary note -->
+        <div style="margin-top:1.5rem;padding:1rem 1.2rem;background:rgba(212,160,23,0.07);border-left:2px solid rgba(212,160,23,0.4);border-radius:1px;">
+          <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#a07840;line-height:1.75;font-style:italic;">
+            <strong style="font-style:normal;color:#c8a050;font-family:'Cinzel',serif;font-size:0.75rem;letter-spacing:0.1em;">NOTE:</strong>
+            &nbsp; Whether or not any surviving relic is authentic, the scriptural event itself — and the profound historical and spiritual weight it has carried for two millennia — remains one of history's most consequential single moments.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ QUOTE INTERLUDE ═══════════════════════════ -->
+<section aria-hidden="true" style="background:linear-gradient(135deg,#2a1a0e 0%,#3c2f2f 50%,#2a1a0e 100%);padding:5rem 2rem;text-align:center;position:relative;overflow:hidden;">
+  <!-- Atmospheric glow -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(212,160,23,0.07) 0%,transparent 65%);pointer-events:none;"></div>
+  <div style="height:1px;background:linear-gradient(90deg,transparent,#d4a017,transparent);opacity:0.3;margin-bottom:3rem;"></div>
+  <div class="reveal" style="max-width:700px;margin:0 auto;position:relative;z-index:1;">
+    <span style="font-family:'EB Garamond',serif;font-size:4.5rem;color:#d4a017;opacity:0.15;line-height:0.5;display:block;margin-bottom:-0.5rem;" aria-hidden="true">"</span>
+    <blockquote style="font-family:'EB Garamond',serif;font-size:clamp(1.1rem,2.5vw,1.55rem);color:#c8a878;line-height:1.8;font-style:italic;">
+      He who possesses the Holy Lance and understands the powers it serves, holds in his hands the destiny of the world for good or evil.
+    </blockquote>
+    <cite style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.25em;color:#7a5a3a;text-transform:uppercase;display:block;margin-top:1.2rem;">— attributed to the Teutonic prophecy, c. 13th century</cite>
+  </div>
+  <div style="height:1px;background:linear-gradient(90deg,transparent,#d4a017,transparent);opacity:0.3;margin-top:3rem;"></div>
+</section>
+
+
+<!-- ══════════════════════════ CTA STRIP ═════════════════════════════════ -->
+<section class="py-16 px-6 md:px-12 text-center" style="background:linear-gradient(180deg,#f0e0b8 0%,#f5e8c7 100%);">
+  <div class="max-w-xl mx-auto reveal">
+    <span class="section-eyebrow">Begin Your Investigation</span>
+    <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,2.8vw,1.65rem);color:var(--leather);margin-bottom:1rem;line-height:1.35;">
+      Trace the Spear<br/>
+      <span style="color:var(--gold-dim);">Across Two Millennia</span>
+    </h2>
+    <div class="gold-rule" style="max-width:220px;margin:0 auto 1.6rem;"></div>
+    <p style="font-family:'EB Garamond',serif;font-size:1.1rem;color:#5a4030;line-height:1.8;margin-bottom:2rem;">
+      From Calvary to Nuremberg, from Byzantine glory to the vaults of the Kunsthistorisches Museum — the Spear of Destiny has never stopped moving. Follow it.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="through-the-ages.html" class="btn-relic">Through the Ages →</a>
+      <a href="maps-journeys.html"    class="btn-ghost">Maps &amp; Journeys</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer class="aged-texture relative" style="background:linear-gradient(0deg,#1a1008 0%,#2e2020 40%,#3c2f2f 100%);box-shadow:0 -4px 30px rgba(0,0,0,0.6);">
+  <div style="height:2px;background:linear-gradient(90deg,transparent,#4a3010,#d4a017,#4a3010,transparent);opacity:0.5;"></div>
+  <div class="gold-rule mx-6 md:mx-12 opacity-30 mt-0"></div>
+
+  <div class="relative z-10 px-6 md:px-12 pt-10 pb-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+
+      <!-- Brand -->
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+          <svg width="18" height="34" viewBox="0 0 28 54" fill="none" xmlns="http://www.w3.org/2000/svg" class="relic-glow">
+            <polygon points="14,0 20,18 14,22 8,18" fill="#d4a017" opacity="0.85"/>
+            <polygon points="14,0 14,22 8,18" fill="#a07810" opacity="0.7"/>
+            <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#6a4a1e"/>
+            <rect x="6" y="34" width="16" height="2.5" rx="1" fill="#c09010"/>
+            <ellipse cx="14" cy="50" rx="4" ry="2.5" fill="#a07810"/>
+          </svg>
+          <span style="font-family:'Cinzel Decorative',serif;font-size:0.95rem;font-weight:700;color:#d4a017;letter-spacing:0.05em;text-shadow:0 0 15px rgba(212,160,23,0.4);">LONGINUS</span>
+        </div>
+        <p style="font-family:'EB Garamond',serif;font-size:0.92rem;color:#8a6a4a;line-height:1.75;font-style:italic;">Tracing the path of the most powerful relic in history — from Golgotha to the vaults of the unknown.</p>
+        <div style="display:inline-block;border:1px solid rgba(212,160,23,0.3);padding:0.5rem 1rem;border-radius:2px;background:rgba(212,160,23,0.06);">
+          <span style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;">✦ Explore the Mystery ✦</span>
+        </div>
+      </div>
+
+      <!-- Sitemap -->
+      <div>
+        <h3 style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:0.5rem;">Chapters</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+          <li><a href="index.html"            style="font-family:'Cinzel',serif;font-size:0.7rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Home</a></li>
+          <li><a href="soldier.html"          style="font-family:'Cinzel',serif;font-size:0.7rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ The Soldier</a></li>
+          <li><a href="spear.html"            style="font-family:'Cinzel',serif;font-size:0.7rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ The Spear</a></li>
+          <li><a href="art-depictions.html"   style="font-family:'Cinzel',serif;font-size:0.7rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Art &amp; Depictions</a></li>
+          <li><a href="through-the-ages.html" style="font-family:'Cinzel',serif;font-size:0.7rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Through the Ages</a></li>
+          <li><a href="maps-journeys.html"    style="font-family:'Cinzel',serif;font-size:0.7rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Maps &amp; Journeys</a></li>
+          <li><a href="resources.html"        style="font-family:'Cinzel',serif;font-size:0.7rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Resources</a></li>
+        </ul>
+      </div>
+
+      <!-- Quote -->
+      <div>
+        <h3 style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:0.5rem;">The Relic</h3>
+        <blockquote style="font-family:'EB Garamond',serif;font-size:1rem;color:#7a5a3a;line-height:1.8;font-style:italic;border-left:2px solid rgba(212,160,23,0.35);padding-left:1rem;">
+          "When the soldier thrust the lance into the side of Jesus, the blood and water that poured forth became legend — the legend of the Spear of Destiny."
+        </blockquote>
+        <p style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.15em;color:#5a4030;margin-top:0.7rem;text-align:right;">— John 19:34</p>
+        <div class="flex items-center gap-5 mt-4">
+          <span class="relic-glow" style="font-size:1.3rem;color:#c8a878;">✝</span>
+          <span class="relic-glow" style="font-size:1.3rem;color:#d4a017;">⚔</span>
+          <span class="relic-glow" style="font-size:1.3rem;">📜</span>
+          <span class="relic-glow" style="font-size:1.3rem;">🗺</span>
+          <span class="relic-glow flicker" style="font-size:1.3rem;color:#d4a017;">🕯</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-ornament text-center mb-4">✦ ✦ ✦</div>
+    <div class="gold-rule opacity-25 mb-5"></div>
+
+    <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+      <span style="font-family:'EB Garamond',serif;font-size:0.75rem;color:#5a4030;font-style:italic;">
+        &copy; <span id="footer-year"></span> Longinus — Tip of the Spear. All rights reserved.
+      </span>
+      <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.22em;color:#6a4a2a;text-transform:uppercase;">Forged in History &nbsp;·&nbsp; Sealed in Mystery</span>
+      <div class="flex items-center gap-3">
+        <a href="privacy.html" style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Privacy</a>
+        <span style="color:#4a3020;">·</span>
+        <a href="sitemap.html" style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Sitemap</a>
+        <span style="color:#4a3020;">·</span>
+        <a href="contact.html" style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:3px;background:linear-gradient(90deg,transparent,#6a4a1a,#d4a017,#e8b820,#d4a017,#6a4a1a,transparent);"></div>
+</footer>
+
+
+<!-- ═══════════════════════════════ SCRIPTS ═══════════════════════════════ -->
+<script>
+  // ── Copyright year ──
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  // ── Mobile menu ──
+  const toggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  toggle.addEventListener('click', () => {
+    const isOpen = !mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden', isOpen);
+    toggle.classList.toggle('open', !isOpen);
+  });
+
+  // ── Sticky header shadow ──
+  const siteHeader = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    siteHeader.style.boxShadow = window.scrollY > 10
+      ? '0 6px 40px rgba(0,0,0,0.9), 0 2px 12px rgba(212,160,23,0.1)'
+      : '0 4px 30px rgba(0,0,0,0.7)';
+  }, { passive: true });
+
+  // ── Parallax hero background ──
+  const heroBg = document.getElementById('hero-bg');
+  function updateParallax() {
+    const scrollY = window.scrollY;
+    // Move bg at 40% of scroll speed for depth
+    heroBg.style.transform = `scale(1.04) translateY(${scrollY * 0.3}px)`;
+  }
+  // Only enable on devices that can handle it
+  if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    window.addEventListener('scroll', updateParallax, { passive: true });
+  }
+
+  // ── Scroll-reveal with IntersectionObserver ──
+  const revealEls = document.querySelectorAll('.reveal, .reveal-children');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+  revealEls.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

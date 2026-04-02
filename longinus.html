@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Soldier Called Longinus | Longinus — Tip of the Spear</title>
+  <meta name="description" content="Who was the Roman soldier who pierced the side of Christ? Separating Biblical record from later tradition in the legend of Longinus." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            parchment:        '#f5e8c7',
+            'parchment-dark': '#e8d5a3',
+            leather:          '#3c2f2f',
+            'leather-light':  '#5a4040',
+            gold:             '#d4a017',
+            'gold-light':     '#e8b820',
+            'gold-dim':       '#a07810',
+            shadow:           '#1a1008',
+            ink:              '#2a1f1f',
+            crimson:          '#8b1a1a',
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --parchment:      #f5e8c7;
+      --parchment-dark: #e8d5a3;
+      --leather:        #3c2f2f;
+      --gold:           #d4a017;
+      --gold-light:     #e8b820;
+      --gold-dim:       #a07810;
+      --shadow:         #1a1008;
+      --ink:            #2a1f1f;
+      --crimson:        #8b1a1a;
+      --crimson-dim:    #6b1010;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--parchment);
+      color: var(--ink);
+      font-family: 'EB Garamond', Georgia, serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ── Noise grain ── */
+    .grain::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Gold rule ── */
+    .gold-rule {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+      opacity: 0.55;
+    }
+
+    /* ── Nav ── */
+    .nav-link {
+      position: relative;
+      text-decoration: none;
+      color: #c8a878;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.2em 0;
+      transition: color 0.25s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 50%; right: 50%;
+      bottom: -3px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), var(--gold-dim));
+      transition: left 0.3s, right 0.3s;
+    }
+    .nav-link:hover        { color: var(--gold-light); }
+    .nav-link:hover::after { left: 0; right: 0; }
+    .nav-link.active        { color: var(--gold); }
+    .nav-link.active::after { left: 0; right: 0; }
+    .spear-sep { display:inline-block; color:#6a4a2a; opacity:0.5; font-size:0.65rem; margin:0 0.4rem; user-select:none; }
+
+    @keyframes border-shimmer {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    .logo-shimmer {
+      background: linear-gradient(90deg, transparent, rgba(212,160,23,0.5), transparent);
+      background-size: 200% 100%;
+      animation: border-shimmer 4s linear infinite;
+    }
+
+    .relic-glow { transition: filter 0.35s, transform 0.35s; cursor: pointer; }
+    .relic-glow:hover {
+      filter: drop-shadow(0 0 6px rgba(212,160,23,0.85)) drop-shadow(0 0 14px rgba(212,160,23,0.45));
+      transform: scale(1.1);
+    }
+    .torch-icon { display:inline-block; transition: filter 0.3s, transform 0.3s; }
+    .torch-icon:hover { filter: drop-shadow(0 0 8px rgba(212,160,23,0.9)); transform: scale(1.15) rotate(-5deg); }
+
+    .hamburger span { display:block; width:22px; height:2px; background:#f5e8c7; margin:5px 0; transition:all 0.3s; transform-origin:center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── PAGE HERO ── */
+    #page-hero {
+      position: relative;
+      min-height: 52vh;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      overflow: hidden;
+    }
+    #page-hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('longinus-fresco-placeholder.jpg');
+      background-size: cover;
+      background-position: center 20%;
+      filter: sepia(0.6) brightness(0.32) contrast(1.2);
+      transform: scale(1.03);
+    }
+    #page-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(26,16,8,0.92) 0%, rgba(26,16,8,0.5) 55%, rgba(26,16,8,0.15) 100%),
+        linear-gradient(0deg, rgba(26,16,8,0.9) 0%, transparent 50%);
+    }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: #7a5a3a;
+      text-transform: uppercase;
+    }
+    .breadcrumb a { color: #9a7a5a; text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--gold); }
+
+    /* ── Section eyebrow ── */
+    .section-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.32em;
+      color: var(--gold-dim);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.55rem;
+    }
+
+    /* ── Reliability badge ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.28rem 0.75rem;
+      border-radius: 2px;
+      border: 1px solid;
+    }
+    .badge-biblical {
+      color: #4a7a3a;
+      border-color: rgba(60,120,40,0.4);
+      background: rgba(60,120,40,0.07);
+    }
+    .badge-tradition {
+      color: #8a6020;
+      border-color: rgba(160,100,20,0.4);
+      background: rgba(160,100,20,0.07);
+    }
+    .badge-legend {
+      color: #7a3a3a;
+      border-color: rgba(140,40,40,0.35);
+      background: rgba(140,40,40,0.06);
+    }
+
+    /* ── Verse block ── */
+    .verse-block {
+      background: linear-gradient(160deg, #2a1a0e 0%, #3a2a1a 50%, #2a1a0e 100%);
+      border: 1px solid rgba(212,160,23,0.2);
+      border-left: 3px solid var(--gold-dim);
+      border-radius: 2px;
+      padding: 2rem 2.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .verse-block::before {
+      content: '"';
+      position: absolute;
+      top: -0.5rem;
+      left: 1rem;
+      font-family: 'EB Garamond', serif;
+      font-size: 7rem;
+      color: var(--gold);
+      opacity: 0.08;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .verse-block::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold-dim), transparent);
+    }
+    .verse-line {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.05rem;
+      color: #c8a878;
+      line-height: 1.9;
+      font-style: italic;
+    }
+    .verse-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      color: var(--gold-dim);
+      letter-spacing: 0.1em;
+      vertical-align: super;
+      margin-right: 0.2rem;
+      font-style: normal;
+    }
+    .verse-highlight {
+      color: var(--gold-light);
+      font-style: italic;
+      text-shadow: 0 0 20px rgba(212,160,23,0.25);
+    }
+    .verse-citation {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      color: #7a5a3a;
+      text-transform: uppercase;
+      margin-top: 1.2rem;
+      display: block;
+      text-align: right;
+    }
+
+    /* ── Image placeholder ── */
+    .img-placeholder {
+      position: relative;
+      background: linear-gradient(135deg, #2a1a0e 0%, #3c2a14 40%, #2a1a0e 100%);
+      border: 1px solid rgba(212,160,23,0.2);
+      border-radius: 2px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+    }
+    .img-placeholder img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(0.4) brightness(0.65) contrast(1.1);
+      transition: filter 0.4s, transform 0.5s;
+    }
+    .img-placeholder:hover img { filter: sepia(0.25) brightness(0.75) contrast(1.05); transform: scale(1.02); }
+    .img-placeholder-inner {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem;
+    }
+    .img-placeholder-inner.has-img { pointer-events: none; opacity: 0; }
+
+    .img-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(0deg, rgba(26,16,8,0.92) 0%, transparent 100%);
+      padding: 1.4rem 1rem 0.8rem;
+      z-index: 3;
+    }
+
+    /* ── Fact/legend panel ── */
+    .fact-panel {
+      border-radius: 2px;
+      padding: 1.6rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .fact-panel-biblical {
+      background: linear-gradient(135deg, #1a2a18 0%, #223022 100%);
+      border: 1px solid rgba(60,120,40,0.3);
+    }
+    .fact-panel-biblical::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(80,160,50,0.6), transparent);
+    }
+    .fact-panel-tradition {
+      background: linear-gradient(135deg, #2a1e0e 0%, #3a280e 100%);
+      border: 1px solid rgba(160,120,20,0.3);
+    }
+    .fact-panel-tradition::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(180,130,20,0.6), transparent);
+    }
+    .fact-panel-legend {
+      background: linear-gradient(135deg, #2a1010 0%, #3a1818 100%);
+      border: 1px solid rgba(140,40,40,0.3);
+    }
+    .fact-panel-legend::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(160,50,50,0.6), transparent);
+    }
+
+    .fact-item {
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .fact-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .fact-dot {
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 0.55rem;
+    }
+
+    /* ── Timeline ── */
+    .timeline-item {
+      display: flex;
+      gap: 1.5rem;
+      position: relative;
+      padding-bottom: 2rem;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 36px;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(212,160,23,0.4), transparent);
+    }
+    .timeline-item:last-child::before { display: none; }
+    .timeline-dot {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(212,160,23,0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(212,160,23,0.07);
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      color: var(--gold-dim);
+      letter-spacing: 0.05em;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* ── Art card ── */
+    .art-card {
+      position: relative;
+      border-radius: 2px;
+      overflow: hidden;
+      border: 1px solid rgba(212,160,23,0.2);
+      transition: box-shadow 0.35s, transform 0.35s, border-color 0.35s;
+    }
+    .art-card:hover {
+      box-shadow: 0 12px 40px rgba(26,16,8,0.5), 0 0 0 1px rgba(212,160,23,0.3);
+      transform: translateY(-3px);
+      border-color: rgba(212,160,23,0.45);
+    }
+    .art-card-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(160deg, #2a1a0e, #3c2a14, #1a1008);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .art-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(0.35) brightness(0.7) contrast(1.1);
+      transition: filter 0.4s, transform 0.5s;
+    }
+    .art-card:hover .art-card-img img { filter: sepia(0.2) brightness(0.82); transform: scale(1.04); }
+
+    /* ── Pull quote ── */
+    .pull-quote {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      color: #7a5030;
+      line-height: 1.65;
+      font-style: italic;
+      border-left: 2px solid rgba(212,160,23,0.4);
+      padding-left: 1.5rem;
+      margin: 0;
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-left  { opacity: 0; transform: translateX(-24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left.visible { opacity: 1; transform: none; }
+    .reveal-right { opacity: 0; transform: translateX(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right.visible { opacity: 1; transform: none; }
+    .reveal-children > * { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal-children.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:0.05s; }
+    .reveal-children.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.18s; }
+    .reveal-children.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.31s; }
+    .reveal-children.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.44s; }
+
+    /* ── Page-load hero animation ── */
+    @keyframes fade-up { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+    .load-1 { animation: fade-up 1s ease 0.2s both; }
+    .load-2 { animation: fade-up 1s ease 0.5s both; }
+    .load-3 { animation: fade-up 1s ease 0.8s both; }
+    .load-4 { animation: fade-up 1s ease 1.1s both; }
+
+    @keyframes flicker { 0%,100%{opacity:1;} 48%{opacity:0.9;} 50%{opacity:0.72;} 52%{opacity:0.95;} 75%{opacity:0.85;} }
+    .flicker { animation: flicker 5s ease-in-out infinite; }
+
+    /* ── Divider ornament ── */
+    .ornament-divider {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin: 0 auto;
+    }
+    .ornament-divider-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(160,120,16,0.4));
+    }
+    .ornament-divider-line.right { background: linear-gradient(270deg, transparent, rgba(160,120,16,0.4)); }
+
+    /* ── Footer ── */
+    .footer-ornament { letter-spacing:1.2em; color:var(--gold-dim); opacity:0.6; font-size:0.7rem; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HEADER ════════════════════════════════ -->
+<header class="grain relative" style="position:sticky;top:0;z-index:100;background:linear-gradient(180deg,#2a1a0e 0%,#3c2f2f 60%,#2e2020 100%);box-shadow:0 4px 30px rgba(0,0,0,0.7);" id="site-header">
+  <div style="height:3px;background:linear-gradient(90deg,transparent,#6a4a1a,#d4a017,#e8b820,#d4a017,#6a4a1a,transparent);"></div>
+  <div class="relative z-10 px-6 md:px-10 py-4 flex items-center justify-between gap-6">
+    <a href="index.html" class="flex items-start gap-3 no-underline flex-shrink-0">
+      <div class="relic-glow mt-1">
+        <svg width="24" height="46" viewBox="0 0 28 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="14,0 20,18 14,22 8,18" fill="#d4a017" opacity="0.95"/>
+          <polygon points="14,0 14,22 8,18" fill="#a07810" opacity="0.8"/>
+          <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#7a5c2e"/>
+          <rect x="13.2" y="21" width="1.5" height="26" rx="0.75" fill="#9a7a3e" opacity="0.6"/>
+          <rect x="6" y="34" width="16" height="2.5" rx="1" fill="#c09010"/>
+          <ellipse cx="14" cy="50" rx="4" ry="2.5" fill="#a07810"/>
+          <ellipse cx="14" cy="50" rx="2" ry="1.5" fill="#d4a017" opacity="0.5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="flex items-baseline gap-2">
+          <span style="font-family:'Cinzel Decorative',serif;font-size:1.05rem;font-weight:700;color:#d4a017;text-shadow:0 0 20px rgba(212,160,23,0.5);">LONGINUS</span>
+          <span style="color:#6a4a2a;font-size:0.85rem;">|</span>
+          <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.22em;color:#c8a878;text-transform:uppercase;font-weight:600;">TIP OF THE SPEAR</span>
+        </div>
+        <div class="logo-shimmer" style="height:1px;margin-top:5px;border-radius:2px;"></div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.58rem;color:#8a6a4a;letter-spacing:0.18em;margin-top:3px;font-style:italic;">The Spear of Destiny</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 flex-wrap justify-end">
+      <a href="index.html"            class="nav-link px-3 py-2">Home</a>
+      <span class="spear-sep">⟡</span>
+      <a href="longinus.html"         class="nav-link active px-3 py-2">The Soldier</a>
+      <span class="spear-sep">⟡</span>
+      <a href="spear.html"            class="nav-link px-3 py-2">The Spear</a>
+      <span class="spear-sep">⟡</span>
+      <a href="art-depictions.html"   class="nav-link px-3 py-2">Art &amp; Depictions</a>
+      <span class="spear-sep">⟡</span>
+      <a href="through-the-ages.html" class="nav-link px-3 py-2">Through the Ages</a>
+      <span class="spear-sep">⟡</span>
+      <a href="maps-journeys.html"    class="nav-link px-3 py-2">Maps &amp; Journeys</a>
+      <span class="spear-sep">⟡</span>
+      <a href="resources.html"        class="nav-link px-3 py-2">Resources</a>
+    </nav>
+    <button class="hamburger lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded focus:outline-none" aria-label="Toggle menu" id="menu-toggle" style="background:rgba(212,160,23,0.08);border:1px solid rgba(212,160,23,0.2);">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="gold-rule mx-6 md:mx-10 opacity-40"></div>
+  <div class="relative z-10 px-6 md:px-10 py-1.5 hidden md:flex items-center justify-between">
+    <span style="font-family:'EB Garamond',serif;font-size:0.65rem;color:#7a5a3a;letter-spacing:0.2em;font-style:italic;">"He who holds the Spear holds the destiny of the world."</span>
+    <div class="flex items-center gap-4">
+      <span class="relic-glow torch-icon" style="color:#d4a017;font-size:0.95rem;">🔦</span>
+      <span class="relic-glow torch-icon" style="color:#d4a017;font-size:0.95rem;">⚔️</span>
+      <span class="relic-glow torch-icon" style="color:#d4a017;font-size:0.95rem;">📜</span>
+    </div>
+  </div>
+  <div style="height:2px;background:linear-gradient(90deg,transparent,#4a3010,#d4a017,#4a3010,transparent);opacity:0.5;"></div>
+  <div id="mobile-menu" class="hidden lg:hidden" style="background:linear-gradient(180deg,#2e2020,#3c2f2f);border-top:1px solid rgba(212,160,23,0.2);">
+    <nav class="flex flex-col py-2">
+      <a href="index.html"            class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Home</a>
+      <a href="longinus.html"         class="nav-link active px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">The Soldier</a>
+      <a href="spear.html"            class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">The Spear</a>
+      <a href="art-depictions.html"   class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Art &amp; Depictions</a>
+      <a href="through-the-ages.html" class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Through the Ages</a>
+      <a href="maps-journeys.html"    class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Maps &amp; Journeys</a>
+      <a href="resources.html"        class="nav-link px-6 py-3">Resources</a>
+    </nav>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════ PAGE HERO ════════════════════════════════ -->
+<section id="page-hero" aria-label="The Soldier Called Longinus">
+  <div id="page-hero-bg" role="img" aria-label="Roman soldier at the crucifixion — artwork placeholder"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(100,30,10,0.15) 0%,transparent 65%);z-index:2;pointer-events:none;"></div>
+
+  <div class="relative z-10 px-8 md:px-14 pb-14 pt-20 max-w-4xl">
+    <div class="load-1">
+      <nav class="breadcrumb mb-5" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span style="margin:0 0.6rem;opacity:0.4;">⟶</span>
+        <span style="color:#7a5a3a;">The Soldier</span>
+      </nav>
+    </div>
+
+    <div class="load-2">
+      <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.38em;color:#8a6030;text-transform:uppercase;display:inline-block;border:1px solid rgba(212,160,23,0.18);padding:0.3rem 0.9rem;margin-bottom:1.4rem;background:rgba(212,160,23,0.04);">
+        ✦ &nbsp; Chapter I &nbsp; ✦
+      </span>
+    </div>
+
+    <h1 class="load-3" style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,5.5vw,3.4rem);font-weight:900;color:#f0dfa8;line-height:1.15;text-shadow:0 4px 30px rgba(0,0,0,0.9),0 0 60px rgba(212,160,23,0.1);margin-bottom:1rem;">
+      The Soldier<br/>
+      <span style="color:var(--gold);font-size:0.78em;letter-spacing:0.04em;text-shadow:0 0 40px rgba(212,160,23,0.4),0 4px 30px rgba(0,0,0,0.9);">Called Longinus</span>
+    </h1>
+
+    <p class="load-4" style="font-family:'EB Garamond',serif;font-size:clamp(1rem,2vw,1.2rem);color:#b8946a;line-height:1.75;max-width:560px;font-style:italic;">
+      A nameless act. An eternal consequence. Who was the legionary who thrust the lance — and what became of him?
+    </p>
+
+    <!-- Spear SVG decorative -->
+    <div class="load-4 flex items-center gap-4 mt-7" aria-hidden="true">
+      <div style="height:1px;width:60px;background:linear-gradient(90deg,transparent,rgba(212,160,23,0.5));"></div>
+      <svg width="16" height="32" viewBox="0 0 28 54" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.45;">
+        <polygon points="14,0 20,18 14,22 8,18" fill="#d4a017"/>
+        <polygon points="14,0 14,22 8,18" fill="#a07810"/>
+        <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#8a6a2e"/>
+        <rect x="6" y="34" width="16" height="2.5" rx="1" fill="#c09010"/>
+      </svg>
+      <div style="height:1px;width:60px;background:linear-gradient(90deg,rgba(212,160,23,0.5),transparent);"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═════════════════════ SECTION I — THE BIBLICAL RECORD ════════════════ -->
+<section style="background:linear-gradient(180deg,#f5e8c7 0%,#eed9b0 100%);" class="py-16 px-6 md:px-12">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-12 reveal">
+      <span class="section-eyebrow">Part One</span>
+      <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,3vw,1.9rem);color:var(--leather);line-height:1.3;margin-bottom:0.5rem;">
+        The Biblical Record
+      </h2>
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#6a4a2a;font-style:italic;">What the Gospel of John actually says — and nothing more.</p>
+      <div class="gold-rule" style="max-width:280px;margin:0.9rem auto 0;"></div>
+    </div>
+
+    <!-- Two-column: text + verse -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start mb-14">
+
+      <!-- Left: context -->
+      <div class="reveal-left">
+        <span class="badge badge-biblical mb-4">✦ Trusted Biblical Core</span>
+        <h3 style="font-family:'Cinzel',serif;font-size:1.05rem;color:var(--leather);letter-spacing:0.05em;margin-bottom:1rem;font-weight:700;">A Single Verse. One Unnamed Soldier.</h3>
+        <p style="font-family:'EB Garamond',serif;font-size:1.1rem;color:#4a3020;line-height:1.85;margin-bottom:1rem;">
+          Of the four canonical Gospels — Matthew, Mark, Luke, and John — only <strong>John</strong> records that a soldier pierced the side of Christ with a spear. The three Synoptic Gospels are entirely silent on the matter. The Fourth Gospel, widely dated by scholars to c. 90–110 AD, presents this detail in a resurrection and witness context: the soldier's act, unintentionally, fulfils two Hebrew prophecies simultaneously.
+        </p>
+        <p style="font-family:'EB Garamond',serif;font-size:1.1rem;color:#4a3020;line-height:1.85;margin-bottom:1rem;">
+          Critically, the soldier is given <em>no name</em>. He appears for three verses and vanishes. The Gospel's interest is theological — the blood and water, the unbroken bones, the fulfilment of scripture — not biographical. The man himself is, to John, incidental.
+        </p>
+        <p style="font-family:'EB Garamond',serif;font-size:1.1rem;color:#4a3020;line-height:1.85;">
+          This is the irreducible historical core. Everything else — the name, the biography, the conversion, the miracles — belongs to a later tradition built atop this single, brief, unrepeated passage.
+        </p>
+
+        <!-- Key facts -->
+        <div style="margin-top:1.6rem;background:rgba(60,47,47,0.06);border:1px solid rgba(60,47,47,0.12);border-radius:2px;padding:1.2rem 1.4rem;">
+          <p style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.8rem;">Key facts from John 19</p>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.55rem;">
+            <li class="fact-item" style="padding-top:0;">
+              <div class="fact-dot" style="background:#4a7a3a;"></div>
+              <span style="font-family:'EB Garamond',serif;font-size:1rem;color:#3a2a12;line-height:1.65;">It is the day of Passover preparation; the Jewish authorities ask Pilate to hasten death so bodies are not left on the cross over the Sabbath.</span>
+            </li>
+            <li class="fact-item">
+              <div class="fact-dot" style="background:#4a7a3a;"></div>
+              <span style="font-family:'EB Garamond',serif;font-size:1rem;color:#3a2a12;line-height:1.65;">Soldiers break the legs of the two men crucified alongside Jesus — a practice called <em>crurifragium</em>, to accelerate suffocation.</span>
+            </li>
+            <li class="fact-item">
+              <div class="fact-dot" style="background:#4a7a3a;"></div>
+              <span style="font-family:'EB Garamond',serif;font-size:1rem;color:#3a2a12;line-height:1.65;">Finding Jesus already dead, one soldier pierces his side with a spear (<em>lonchē</em>, λόγχη in Greek). Blood and water flow out.</span>
+            </li>
+            <li class="fact-item">
+              <div class="fact-dot" style="background:#4a7a3a;"></div>
+              <span style="font-family:'EB Garamond',serif;font-size:1rem;color:#3a2a12;line-height:1.65;">John presents this as eyewitness testimony and fulfilment of Psalms 34:20 and Zechariah 12:10.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: full verse block -->
+      <div class="reveal-right">
+        <div style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.28em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.6rem;">John 19:31–37 · English Standard Version</div>
+        <div class="verse-block">
+          <div class="relative z-10">
+            <p class="verse-line">
+              <span class="verse-num">31</span>Since it was the day of Preparation, and so that the bodies would not remain on the cross on the Sabbath (for that Sabbath was a high day), the Jews asked Pilate that their legs might be broken and that they might be taken away.
+            </p>
+            <p class="verse-line" style="margin-top:0.9rem;">
+              <span class="verse-num">32</span>So the soldiers came and broke the legs of the first, and of the other who had been crucified with him.
+            </p>
+            <p class="verse-line" style="margin-top:0.9rem;">
+              <span class="verse-num">33</span>But when they came to Jesus and saw that he was already dead, they did not break his legs.
+            </p>
+            <p class="verse-line" style="margin-top:0.9rem;">
+              <span class="verse-num">34</span>But <span class="verse-highlight">one of the soldiers pierced his side with a spear, and at once blood and water came out.</span>
+            </p>
+            <p class="verse-line" style="margin-top:0.9rem;">
+              <span class="verse-num">35</span>He who saw it has borne witness — his testimony is true, and he knows that he is telling the truth — that you also may believe.
+            </p>
+            <p class="verse-line" style="margin-top:0.9rem;">
+              <span class="verse-num">36</span>For these things took place that the Scripture might be fulfilled: <span class="verse-highlight">"Not one of his bones will be broken."</span>
+            </p>
+            <p class="verse-line" style="margin-top:0.9rem;">
+              <span class="verse-num">37</span>And again another Scripture says, <span class="verse-highlight">"They will look on him whom they have pierced."</span>
+            </p>
+            <cite class="verse-citation">— John 19:31–37, ESV</cite>
+          </div>
+        </div>
+
+        <!-- Medical note -->
+        <div style="margin-top:1rem;padding:1rem 1.2rem;background:rgba(60,47,47,0.07);border:1px solid rgba(60,47,47,0.12);border-radius:2px;border-left:2px solid rgba(160,120,16,0.4);">
+          <p style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.18em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.4rem;">Medical note</p>
+          <p style="font-family:'EB Garamond',serif;font-size:0.95rem;color:#5a4030;line-height:1.7;font-style:italic;">
+            The "blood and water" has been interpreted medically as a pleural effusion or pericardial fluid separating post-mortem — consistent with death by crucifixion. It has also been read sacramentally as prefiguring the Eucharist (blood) and Baptism (water).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ SECTION II — THE NAME ════════════════════════ -->
+<section style="background:linear-gradient(180deg,#eed9b0 0%,#e8d5a3 100%);" class="py-16 px-6 md:px-12">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-12 reveal">
+      <span class="section-eyebrow">Part Two</span>
+      <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,3vw,1.9rem);color:var(--leather);line-height:1.3;margin-bottom:0.5rem;">
+        The Name "Longinus"
+      </h2>
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#6a4a2a;font-style:italic;">Where it came from, when it appeared, and what it likely means.</p>
+      <div class="gold-rule" style="max-width:280px;margin:0.9rem auto 0;"></div>
+    </div>
+
+    <!-- Side by side: etymology + image placeholder -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start mb-14">
+
+      <!-- Text — wider column -->
+      <div class="lg:col-span-3 reveal-left" style="display:flex;flex-direction:column;gap:1.4rem;">
+
+        <div>
+          <span class="badge badge-tradition mb-3">◈ Later Christian Tradition</span>
+          <h3 style="font-family:'Cinzel',serif;font-size:1rem;color:var(--leather);letter-spacing:0.05em;font-weight:700;margin-bottom:0.8rem;">From Greek <em>lonchē</em> (λόγχη) — "spear"</h3>
+          <p style="font-family:'EB Garamond',serif;font-size:1.1rem;color:#4a3020;line-height:1.85;">
+            The name <em>Longinus</em> almost certainly derives from the Greek word <strong>λόγχη</strong> (<em>lonchē</em>), meaning "lance" or "spear" — the very word used by John in verse 34. In other words, the soldier was likely named <em>after his instrument</em>, not recorded by name and later associated with a spear. The appellation is titular, not biographical. It identifies the soldier by what he did, not who he was.
+          </p>
+        </div>
+
+        <div>
+          <h3 style="font-family:'Cinzel',serif;font-size:1rem;color:var(--leather);letter-spacing:0.05em;font-weight:700;margin-bottom:0.8rem;">First Appearance: The Gospel of Nicodemus</h3>
+          <p style="font-family:'EB Garamond',serif;font-size:1.1rem;color:#4a3020;line-height:1.85;">
+            The name appears in writing for the first time in the <strong>Acts of Pilate</strong>, also known as the <em>Gospel of Nicodemus</em> — an apocryphal (non-canonical) text compiled no earlier than the 4th century AD, though claiming earlier material. It is not considered historical scripture by any major Christian tradition. The text gives the soldier the name "Longinus" in the context of the passion narrative, but without biographical elaboration.
+          </p>
+        </div>
+
+        <div>
+          <h3 style="font-family:'Cinzel',serif;font-size:1rem;color:var(--leather);letter-spacing:0.05em;font-weight:700;margin-bottom:0.8rem;">First Visual Record: The Rabula Gospels, 586 AD</h3>
+          <p style="font-family:'EB Garamond',serif;font-size:1.1rem;color:#4a3020;line-height:1.85;">
+            The soldier is first depicted and <em>labelled</em> in the <strong>Rabula Gospels</strong> — a lavishly illustrated Syriac manuscript produced in the monastery of St. John of Zagba, Mesopotamia, in 586 AD. The full-page Crucifixion miniature shows the spear-bearer with his name inscribed beside him in Syriac script. This is the earliest surviving image of the soldier with a name attached. It appears more than five centuries after the event it depicts.
+          </p>
+        </div>
+
+        <!-- Etymology box -->
+        <div style="background:linear-gradient(135deg,#2a1a0e,#3a2510);border:1px solid rgba(212,160,23,0.2);border-radius:2px;padding:1.4rem 1.6rem;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(212,160,23,0.5),transparent);"></div>
+          <p style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.22em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.9rem;">Etymology at a Glance</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1.5rem;">
+            <div>
+              <div style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.15em;color:#8a6a3a;text-transform:uppercase;margin-bottom:0.2rem;">Greek</div>
+              <div style="font-family:'EB Garamond',serif;font-size:1.3rem;color:#e0c078;font-style:italic;">λόγχη (lonchē)</div>
+              <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#8a6a4a;margin-top:0.1rem;">"lance" or "spear"</div>
+            </div>
+            <div>
+              <div style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.15em;color:#8a6a3a;text-transform:uppercase;margin-bottom:0.2rem;">Latin</div>
+              <div style="font-family:'EB Garamond',serif;font-size:1.3rem;color:#e0c078;font-style:italic;">Longinus</div>
+              <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#8a6a4a;margin-top:0.1rem;">Latinised titular name</div>
+            </div>
+            <div>
+              <div style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.15em;color:#8a6a3a;text-transform:uppercase;margin-bottom:0.2rem;">First text</div>
+              <div style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#c0a068;">Acts of Pilate</div>
+              <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#8a6a4a;margin-top:0.1rem;">4th century AD (apocryphal)</div>
+            </div>
+            <div>
+              <div style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.15em;color:#8a6a3a;text-transform:uppercase;margin-bottom:0.2rem;">First image</div>
+              <div style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#c0a068;">Rabula Gospels</div>
+              <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#8a6a4a;margin-top:0.1rem;">586 AD, Mesopotamia</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Image placeholder — narrower column -->
+      <div class="lg:col-span-2 reveal-right flex flex-col gap-5">
+        <div class="img-placeholder" style="min-height:380px;">
+          <img src="rabula-gospels-placeholder.jpg" alt="Rabula Gospels crucifixion miniature, 586 AD" loading="lazy" />
+          <div class="img-placeholder-inner">
+            <div style="font-size:2rem;margin-bottom:0.6rem;opacity:0.4;" aria-hidden="true">🖼</div>
+            <p style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.2em;color:#6a4a2a;text-transform:uppercase;opacity:0.7;">Image Placeholder</p>
+          </div>
+          <div class="img-caption">
+            <p style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.18em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.2rem;">Rabula Gospels · 586 AD</p>
+            <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#c8a878;line-height:1.5;font-style:italic;">The Crucifixion page — the earliest surviving depiction of the soldier named "Longinus," shown with a spear at the right side of Christ. Monastery of St. John of Zagba, Mesopotamia.</p>
+          </div>
+        </div>
+
+        <div class="img-placeholder" style="min-height:240px;">
+          <img src="acts-pilate-manuscript-placeholder.jpg" alt="Acts of Pilate manuscript illustration" loading="lazy" />
+          <div class="img-placeholder-inner">
+            <div style="font-size:2rem;margin-bottom:0.6rem;opacity:0.4;" aria-hidden="true">📜</div>
+            <p style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.2em;color:#6a4a2a;text-transform:uppercase;opacity:0.7;">Image Placeholder</p>
+          </div>
+          <div class="img-caption">
+            <p style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.18em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.2rem;">Acts of Pilate · 4th–5th Century</p>
+            <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#c8a878;line-height:1.5;font-style:italic;">The apocryphal Gospel of Nicodemus, in which the soldier's name "Longinus" appears in written form for the first time. Non-canonical; not accepted as scripture.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════ SECTION III — TRUSTED VS TRADITION PANELS ════════════ -->
+<section style="background:linear-gradient(180deg,#e8d5a3 0%,#f0e0b8 100%);" class="py-16 px-6 md:px-12">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-12 reveal">
+      <span class="section-eyebrow">Part Three</span>
+      <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,3vw,1.9rem);color:var(--leather);line-height:1.3;">
+        Fact Versus Tradition
+      </h2>
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#6a4a2a;font-style:italic;max-width:500px;margin:0.4rem auto 0;">A clear separation of what is recorded, what is tradition, and what is later legend.</p>
+      <div class="gold-rule" style="max-width:280px;margin:0.9rem auto 0;"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal-children">
+
+      <!-- Panel 1: Biblical -->
+      <div class="fact-panel fact-panel-biblical">
+        <div class="relative z-10">
+          <span class="badge badge-biblical mb-4">✦ Trusted Biblical Core</span>
+          <h3 style="font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:0.08em;color:#8ace78;font-weight:700;margin-bottom:1rem;">What the Gospel States</h3>
+          <div style="display:flex;flex-direction:column;">
+            <div class="fact-item" style="padding-top:0;">
+              <div class="fact-dot" style="background:#6ace50;flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:0.55rem;"></div>
+              <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#a8d898;line-height:1.7;">An unnamed Roman soldier pierced the side of the already-dead Jesus with a spear (Greek: <em>lonchē</em>).</p>
+            </div>
+            <div class="fact-item">
+              <div class="fact-dot" style="background:#6ace50;flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:0.55rem;"></div>
+              <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#a8d898;line-height:1.7;">Blood and water immediately flowed from the wound — recorded as an eyewitness detail.</p>
+            </div>
+            <div class="fact-item">
+              <div class="fact-dot" style="background:#6ace50;flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:0.55rem;"></div>
+              <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#a8d898;line-height:1.7;">The act fulfilled two Hebrew prophecies (Psalm 34:20 and Zechariah 12:10).</p>
+            </div>
+            <div class="fact-item">
+              <div class="fact-dot" style="background:#6ace50;flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:0.55rem;"></div>
+              <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#a8d898;line-height:1.7;">No other Gospel records this. No canonical text names the soldier or describes his fate.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Early tradition -->
+      <div class="fact-panel fact-panel-tradition">
+        <div class="relative z-10">
+          <span class="badge badge-tradition mb-4">◈ Early Christian Tradition</span>
+          <h3 style="font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:0.08em;color:#d4a840;font-weight:700;margin-bottom:1rem;">4th–6th Century Sources</h3>
+          <div style="display:flex;flex-direction:column;">
+            <div class="fact-item" style="padding-top:0;">
+              <div class="fact-dot" style="background:#c09020;flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:0.55rem;"></div>
+              <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#c8a860;line-height:1.7;">The <em>Acts of Pilate</em> (Gospel of Nicodemus, c. 4th century) names the soldier "Longinus" for the first time. This text is apocryphal — not accepted as canonical scripture.</p>
+            </div>
+            <div class="fact-item">
+              <div class="fact-dot" style="background:#c09020;flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:0.55rem;"></div>
+              <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#c8a860;line-height:1.7;">The Rabula Gospels (586 AD) provide the first visual labelling of the soldier as Longinus — over five centuries after the crucifixion.</p>
+            </div>
+            <div class="fact-item">
+              <div class="fact-dot" style="background:#c09020;flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:0.55rem;"></div>
+              <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#c8a860;line-height:1.7;">The name derives almost certainly from the Greek <em>lonchē</em> — a titular identifier rather than a recorded personal name.</p>
+            </div>
+            <div class="fact-item">
+              <div class="fact-dot" style="background:#c09020;flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:0.55rem;"></div>
+              <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#c8a860;line-height:1.7;">The Roman Catholic Church commemorates Saint Longinus on March 15; the Eastern Orthodox Church on October 16. Veneration spread from the 5th century onward.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: Legend -->
+      <div class="fact-panel fact-panel-legend">
+        <div class="relative z-10">
+          <span class="badge badge-legend mb-4">✧ Later Legend &amp; Speculation</span>
+          <h3 style="font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:0.08em;color:#d87878;font-weight:700;margin-bottom:1rem;">Medieval &amp; Mystical Accretion</h3>
+          <div style="display:flex;flex-direction:column;">
+            <div class="fact-item" style="padding-top:0;">
+              <div class="fact-dot" style="background:#a04040;flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:0.55rem;"></div>
+              <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#c07878;line-height:1.7;">Medieval tradition holds that Longinus suffered from poor eyesight or partial blindness, and was instantly healed when the blood of Christ fell upon his eyes from the wound.</p>
+            </div>
+            <div class="fact-item">
+              <div class="fact-dot" style="background:#a04040;flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:0.55rem;"></div>
+              <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#c07878;line-height:1.7;">He is said to have immediately confessed Christ as the Son of God (harmonised from the Synoptic centurion's cry in Matthew 27:54 and Mark 15:39 — a different figure entirely).</p>
+            </div>
+            <div class="fact-item">
+              <div class="fact-dot" style="background:#a04040;flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:0.55rem;"></div>
+              <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#c07878;line-height:1.7;">Later hagiography claims he left military service, was baptised by the Apostles, retired to Cappadocia, and was martyred there — beheaded by order of Pontius Pilate.</p>
+            </div>
+            <div class="fact-item">
+              <div class="fact-dot" style="background:#a04040;flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:0.55rem;"></div>
+              <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#c07878;line-height:1.7;">None of these details appear in any first-century source. They are devotional traditions, spiritually meaningful to many, but historically unverifiable.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ SECTION IV — LEGEND OF CONVERSION ═══════════════ -->
+<section style="background:linear-gradient(180deg,#f0e0b8 0%,#eed9b0 100%);" class="py-16 px-6 md:px-12">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-12 reveal">
+      <span class="section-eyebrow">Part Four</span>
+      <div class="flex items-center justify-center gap-3 mb-1">
+        <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,3vw,1.9rem);color:var(--leather);line-height:1.3;">The Legend of Conversion</h2>
+      </div>
+      <span class="badge badge-legend" style="margin:0.5rem auto 0;display:inline-flex;">✧ Later Christian Legend — Not Historical Record</span>
+      <div class="gold-rule" style="max-width:280px;margin:0.9rem auto 0;"></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+
+      <!-- Left: the legend -->
+      <div class="reveal-left flex flex-col gap-5">
+        <div style="background:rgba(140,30,30,0.06);border:1px solid rgba(140,30,30,0.15);border-left:3px solid rgba(140,30,30,0.4);border-radius:2px;padding:0.8rem 1.1rem;margin-bottom:0.5rem;">
+          <p style="font-family:'EB Garamond',serif;font-size:0.95rem;color:#7a3030;line-height:1.65;font-style:italic;">
+            <strong style="font-style:normal;font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.12em;color:#a04040;text-transform:uppercase;">Scholarly Caution:</strong>
+            &nbsp;The following is a reconstruction of the traditional Christian legend of Longinus. It is presented here as devotional narrative, not history. No first-century or near-contemporary source supports these events.
+          </p>
+        </div>
+
+        <p style="font-family:'EB Garamond',serif;font-size:1.12rem;color:#4a3020;line-height:1.9;">
+          According to the tradition that grew around the unnamed soldier, Longinus was a Roman legionary of aging years, his eyesight failing — whether from disease or injury, the accounts differ. Some versions place him in the contubernium (eight-man tent unit) detailed to oversee executions on Golgotha that Friday afternoon.
+        </p>
+        <p style="font-family:'EB Garamond',serif;font-size:1.12rem;color:#4a3020;line-height:1.9;">
+          When he raised the spear and thrust it into the side of the man already dead, the blood that ran down the shaft and over his hands carried — in the tradition — something more than crimson warmth. Drops reached his eyes. And in that moment, the legend says, his sight was restored.
+        </p>
+        <p style="font-family:'EB Garamond',serif;font-size:1.12rem;color:#4a3020;line-height:1.9;">
+          Shaken, he is said to have uttered words drawn from the Synoptic centurion: <em>"Truly, this was the Son of God."</em> Here the tradition makes a conflation that scholars note — John's spear-soldier and the Synoptic centurion who makes this confession are almost certainly two different people, present in different Gospels for different purposes.
+        </p>
+
+        <!-- Pull quote -->
+        <div style="margin:0.5rem 0;">
+          <blockquote class="pull-quote">
+            "The blood ran down the shaft onto his hands — and in that moment, the blind man saw."
+          </blockquote>
+          <cite style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.18em;color:#9a7a5a;text-transform:uppercase;display:block;margin-top:0.6rem;padding-left:1.5rem;">— Medieval hagiographic tradition, c. 10th–13th century</cite>
+        </div>
+
+        <p style="font-family:'EB Garamond',serif;font-size:1.12rem;color:#4a3020;line-height:1.9;">
+          In the hagiographic elaboration, Longinus abandoned his military post, sought out the Apostles in Jerusalem, received instruction and baptism, and eventually withdrew to his home region of Cappadocia (in modern Turkey). There he lived as a monk and evangelist until the local governor — acting, the legend says, on orders from Pilate — had him arrested, his teeth drawn, his tongue cut out. Even mute, tradition holds, he miraculously spoke and performed healings.
+        </p>
+        <p style="font-family:'EB Garamond',serif;font-size:1.12rem;color:#4a3020;line-height:1.9;">
+          He was ultimately beheaded. The severed head, the story concludes, restored the governor's sight when he touched it in remorse — an inversion and echo of the healing at Golgotha. His relics were eventually claimed by the basilica of Sant'Andrea in Mantua, Italy, where they remain venerated to this day.
+        </p>
+      </div>
+
+      <!-- Right: image + timeline -->
+      <div class="reveal-right flex flex-col gap-7">
+
+        <div class="img-placeholder" style="min-height:350px;">
+          <img src="conversion-longinus-placeholder.jpg" alt="Artistic depiction of the conversion of Longinus" loading="lazy" />
+          <div class="img-placeholder-inner">
+            <div style="font-size:2rem;margin-bottom:0.6rem;opacity:0.4;" aria-hidden="true">🎨</div>
+            <p style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.2em;color:#6a4a2a;text-transform:uppercase;opacity:0.7;">Image Placeholder</p>
+          </div>
+          <div class="img-caption">
+            <p style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.18em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.2rem;">The Conversion of Longinus</p>
+            <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#c8a878;line-height:1.5;font-style:italic;">Depictions of Longinus's conversion became a common subject in Byzantine and Gothic ecclesiastical art. Replace with a public-domain work from Wikimedia Commons.</p>
+          </div>
+        </div>
+
+        <!-- Hagiographic timeline -->
+        <div>
+          <p style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.22em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:1.2rem;">The Traditional Legend — Timeline</p>
+          <div>
+            <div class="timeline-item">
+              <div class="timeline-dot">c. 30<br/>AD</div>
+              <div>
+                <p style="font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.08em;color:var(--leather);font-weight:700;margin-bottom:0.3rem;">The Piercing at Golgotha</p>
+                <p style="font-family:'EB Garamond',serif;font-size:0.98rem;color:#5a4030;line-height:1.65;">John 19:34 records the spear-thrust. The soldier is unnamed. This event alone has historical-textual grounding.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot" style="font-size:0.5rem;">4th C.<br/>AD</div>
+              <div>
+                <p style="font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.08em;color:var(--leather);font-weight:700;margin-bottom:0.3rem;">Name Appears in Apocrypha</p>
+                <p style="font-family:'EB Garamond',serif;font-size:0.98rem;color:#5a4030;line-height:1.65;">"Longinus" first written in the Acts of Pilate. The healing of blindness legend begins to circulate in devotional literature.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot" style="font-size:0.5rem;">586<br/>AD</div>
+              <div>
+                <p style="font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.08em;color:var(--leather);font-weight:700;margin-bottom:0.3rem;">Rabula Gospels</p>
+                <p style="font-family:'EB Garamond',serif;font-size:0.98rem;color:#5a4030;line-height:1.65;">First surviving named visual depiction of Longinus. His image becomes fixed in Christian iconographic tradition.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot" style="font-size:0.5rem;">10th–<br/>13th C.</div>
+              <div>
+                <p style="font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.08em;color:var(--leather);font-weight:700;margin-bottom:0.3rem;">Martyrdom Legends Solidify</p>
+                <p style="font-family:'EB Garamond',serif;font-size:0.98rem;color:#5a4030;line-height:1.65;">Medieval hagiographers elaborate the Cappadocia mission, torture, and beheading narrative. He becomes a popular saint.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot" style="font-size:0.5rem;">Mantua<br/>Italy</div>
+              <div>
+                <p style="font-family:'Cinzel',serif;font-size:0.72rem;letter-spacing:0.08em;color:var(--leather);font-weight:700;margin-bottom:0.3rem;">Relics Claimed at Sant'Andrea</p>
+                <p style="font-family:'EB Garamond',serif;font-size:0.98rem;color:#5a4030;line-height:1.65;">The Basilica of Sant'Andrea in Mantua claims the blood relic of Longinus — venerated to this day, though provenance is unverified.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ SECTION V — ART & DEPICTIONS ══════════════════ -->
+<section style="background:linear-gradient(180deg,#eed9b0 0%,#e8d5a3 100%);" class="py-16 px-6 md:px-12">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-12 reveal">
+      <span class="section-eyebrow">Part Five</span>
+      <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,3vw,1.9rem);color:var(--leather);line-height:1.3;">
+        Poignant Artistic Depictions
+      </h2>
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#6a4a2a;font-style:italic;max-width:500px;margin:0.4rem auto 0;">How two thousand years of artists have interpreted the soldier and his lance.</p>
+      <div class="gold-rule" style="max-width:280px;margin:0.9rem auto 0;"></div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal-children mb-12">
+
+      <!-- Art card 1 -->
+      <div class="art-card">
+        <div class="art-card-img">
+          <img src="art-byzantine-placeholder.jpg" alt="Byzantine mosaic of the Crucifixion with Longinus" loading="lazy" />
+          <div style="position:relative;z-index:2;text-align:center;padding:2rem;opacity:0.5;">
+            <div style="font-size:1.8rem;">🟡</div>
+            <p style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.15em;color:#8a6a3a;text-transform:uppercase;margin-top:0.4rem;">Placeholder</p>
+          </div>
+        </div>
+        <div style="background:linear-gradient(0deg,#2a1a0e,#3c2a14);padding:1rem 1.1rem;">
+          <p style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.14em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.3rem;">Byzantine · c. 11th Century</p>
+          <h4 style="font-family:'Cinzel',serif;font-size:0.8rem;color:#e0c078;margin-bottom:0.4rem;line-height:1.35;">Crucifixion Mosaic</h4>
+          <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#a08060;line-height:1.6;font-style:italic;">Gold mosaic tradition fixed Longinus as the soldier to Christ's right, spear raised. His identity became iconographically standardised.</p>
+        </div>
+      </div>
+
+      <!-- Art card 2 -->
+      <div class="art-card">
+        <div class="art-card-img">
+          <img src="art-grunewald-placeholder.jpg" alt="Matthias Grünewald Isenheim Altarpiece detail" loading="lazy" />
+          <div style="position:relative;z-index:2;text-align:center;padding:2rem;opacity:0.5;">
+            <div style="font-size:1.8rem;">🖼</div>
+            <p style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.15em;color:#8a6a3a;text-transform:uppercase;margin-top:0.4rem;">Placeholder</p>
+          </div>
+        </div>
+        <div style="background:linear-gradient(0deg,#2a1a0e,#3c2a14);padding:1rem 1.1rem;">
+          <p style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.14em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.3rem;">Grünewald · 1512–1516</p>
+          <h4 style="font-family:'Cinzel',serif;font-size:0.8rem;color:#e0c078;margin-bottom:0.4rem;line-height:1.35;">Isenheim Altarpiece</h4>
+          <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#a08060;line-height:1.6;font-style:italic;">Among the most viscerally agonizing Crucifixions ever painted. A soldier figure at right holds the lance; the suffering depicted made the wound a theological focal point.</p>
+        </div>
+      </div>
+
+      <!-- Art card 3 -->
+      <div class="art-card">
+        <div class="art-card-img">
+          <img src="art-bernini-placeholder.jpg" alt="Bernini's Saint Longinus sculpture, St Peter's Basilica" loading="lazy" />
+          <div style="position:relative;z-index:2;text-align:center;padding:2rem;opacity:0.5;">
+            <div style="font-size:1.8rem;">🗿</div>
+            <p style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.15em;color:#8a6a3a;text-transform:uppercase;margin-top:0.4rem;">Placeholder</p>
+          </div>
+        </div>
+        <div style="background:linear-gradient(0deg,#2a1a0e,#3c2a14);padding:1rem 1.1rem;">
+          <p style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.14em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.3rem;">Gian Lorenzo Bernini · 1635</p>
+          <h4 style="font-family:'Cinzel',serif;font-size:0.8rem;color:#e0c078;margin-bottom:0.4rem;line-height:1.35;">Saint Longinus · St. Peter's</h4>
+          <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#a08060;line-height:1.6;font-style:italic;">Bernini's colossal marble (4.4m) for the crossing of St. Peter's Basilica. Arms flung wide, gaze raised — the moment of conversion made permanent in stone.</p>
+        </div>
+      </div>
+
+      <!-- Art card 4 -->
+      <div class="art-card">
+        <div class="art-card-img">
+          <img src="art-rubens-placeholder.jpg" alt="Peter Paul Rubens Crucifixion detail" loading="lazy" />
+          <div style="position:relative;z-index:2;text-align:center;padding:2rem;opacity:0.5;">
+            <div style="font-size:1.8rem;">🎨</div>
+            <p style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.15em;color:#8a6a3a;text-transform:uppercase;margin-top:0.4rem;">Placeholder</p>
+          </div>
+        </div>
+        <div style="background:linear-gradient(0deg,#2a1a0e,#3c2a14);padding:1rem 1.1rem;">
+          <p style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.14em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.3rem;">Peter Paul Rubens · c. 1614</p>
+          <h4 style="font-family:'Cinzel',serif;font-size:0.8rem;color:#e0c078;margin-bottom:0.4rem;line-height:1.35;">The Lance of Longinus</h4>
+          <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#a08060;line-height:1.6;font-style:italic;">Rubens painted the scene multiple times, giving the soldier a look of dawning horror — as if only in the act did he understand what he had done. Blood flows from the wound in rivulets of crimson.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Art note -->
+    <div class="reveal" style="max-width:700px;margin:0 auto;text-align:center;">
+      <div class="ornament-divider mb-5">
+        <div class="ornament-divider-line"></div>
+        <span style="font-family:'EB Garamond',serif;font-size:1.4rem;color:#c8a060;opacity:0.5;" aria-hidden="true">⚔</span>
+        <div class="ornament-divider-line right"></div>
+      </div>
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#6a4a2a;line-height:1.8;font-style:italic;">
+        Explore the complete gallery of Longinus depictions — from Syriac illuminations to Baroque oil and modern film — in the
+        <a href="art-depictions.html" style="color:var(--gold-dim);text-decoration:underline;text-underline-offset:3px;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--gold-dim)'">Art &amp; Depictions</a>
+        chapter.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ QUOTE INTERLUDE ══════════════════════════════ -->
+<section aria-hidden="true" style="background:linear-gradient(135deg,#2a1a0e 0%,#3c2f2f 50%,#2a1a0e 100%);padding:4.5rem 2rem;text-align:center;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(212,160,23,0.06) 0%,transparent 65%);pointer-events:none;"></div>
+  <div style="height:1px;background:linear-gradient(90deg,transparent,#d4a017,transparent);opacity:0.3;margin-bottom:3rem;"></div>
+  <div class="reveal" style="max-width:650px;margin:0 auto;position:relative;z-index:1;">
+    <span style="font-family:'EB Garamond',serif;font-size:4rem;color:#d4a017;opacity:0.12;line-height:0.5;display:block;margin-bottom:-0.3rem;" aria-hidden="true">"</span>
+    <blockquote style="font-family:'EB Garamond',serif;font-size:clamp(1.05rem,2.2vw,1.45rem);color:#c8a878;line-height:1.85;font-style:italic;">
+      He came to this act in ignorance and left it changed. Whether by miracle or by the simple weight of what his hands had done — no soldier who killed a god could remain the same man afterward.
+    </blockquote>
+    <cite style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.25em;color:#7a5a3a;text-transform:uppercase;display:block;margin-top:1rem;">— Modern devotional reflection on the Longinus tradition</cite>
+  </div>
+  <div style="height:1px;background:linear-gradient(90deg,transparent,#d4a017,transparent);opacity:0.3;margin-top:3rem;"></div>
+</section>
+
+
+<!-- ══════════════════════ PAGE NAV — PREV / NEXT ═══════════════════════ -->
+<section style="background:linear-gradient(180deg,#f0e0b8 0%,#f5e8c7 100%);" class="py-12 px-6 md:px-12">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-col sm:flex-row items-stretch gap-4 reveal">
+
+      <a href="index.html" style="flex:1;background:rgba(60,47,47,0.06);border:1px solid rgba(60,47,47,0.15);border-radius:2px;padding:1.2rem 1.4rem;text-decoration:none;transition:background 0.25s,border-color 0.25s;" onmouseover="this.style.borderColor='rgba(212,160,23,0.4)';this.style.background='rgba(212,160,23,0.05)'" onmouseout="this.style.borderColor='rgba(60,47,47,0.15)';this.style.background='rgba(60,47,47,0.06)'">
+        <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.2em;color:#9a7a5a;text-transform:uppercase;margin-bottom:0.3rem;">← Previous</div>
+        <div style="font-family:'Cinzel',serif;font-size:0.82rem;color:var(--leather);font-weight:700;">Home</div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;font-style:italic;margin-top:0.1rem;">The Spear of Destiny</div>
+      </a>
+
+      <a href="spear.html" style="flex:1;background:rgba(60,47,47,0.06);border:1px solid rgba(60,47,47,0.15);border-radius:2px;padding:1.2rem 1.4rem;text-decoration:none;transition:background 0.25s,border-color 0.25s;text-align:right;" onmouseover="this.style.borderColor='rgba(212,160,23,0.4)';this.style.background='rgba(212,160,23,0.05)'" onmouseout="this.style.borderColor='rgba(60,47,47,0.15)';this.style.background='rgba(60,47,47,0.06)'">
+        <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.2em;color:#9a7a5a;text-transform:uppercase;margin-bottom:0.3rem;">Next →</div>
+        <div style="font-family:'Cinzel',serif;font-size:0.82rem;color:var(--leather);font-weight:700;">The Spear</div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;font-style:italic;margin-top:0.1rem;">Relic, Symbol, and Weapon</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer class="grain relative" style="background:linear-gradient(0deg,#1a1008 0%,#2e2020 40%,#3c2f2f 100%);box-shadow:0 -4px 30px rgba(0,0,0,0.6);">
+  <div style="height:2px;background:linear-gradient(90deg,transparent,#4a3010,#d4a017,#4a3010,transparent);opacity:0.5;"></div>
+  <div class="gold-rule mx-6 md:mx-12 opacity-30 mt-0"></div>
+  <div class="relative z-10 px-6 md:px-12 pt-10 pb-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+          <svg width="18" height="34" viewBox="0 0 28 54" fill="none" xmlns="http://www.w3.org/2000/svg" class="relic-glow">
+            <polygon points="14,0 20,18 14,22 8,18" fill="#d4a017" opacity="0.85"/>
+            <polygon points="14,0 14,22 8,18" fill="#a07810" opacity="0.7"/>
+            <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#6a4a1e"/>
+            <rect x="6" y="34" width="16" height="2.5" rx="1" fill="#c09010"/>
+            <ellipse cx="14" cy="50" rx="4" ry="2.5" fill="#a07810"/>
+          </svg>
+          <span style="font-family:'Cinzel Decorative',serif;font-size:0.95rem;font-weight:700;color:#d4a017;text-shadow:0 0 15px rgba(212,160,23,0.4);">LONGINUS</span>
+        </div>
+        <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#8a6a4a;line-height:1.75;font-style:italic;">Tracing the path of the most powerful relic in history — from Golgotha to the vaults of the unknown.</p>
+        <div style="display:inline-block;border:1px solid rgba(212,160,23,0.3);padding:0.5rem 1rem;border-radius:2px;background:rgba(212,160,23,0.06);">
+          <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;">✦ Explore the Mystery ✦</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:0.5rem;">Chapters</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+          <li><a href="index.html"            style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Home</a></li>
+          <li><a href="longinus.html"         style="font-family:'Cinzel',serif;font-size:0.68rem;color:#d4a017;letter-spacing:0.1em;text-decoration:none;">⟶ The Soldier</a></li>
+          <li><a href="spear.html"            style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ The Spear</a></li>
+          <li><a href="art-depictions.html"   style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Art &amp; Depictions</a></li>
+          <li><a href="through-the-ages.html" style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Through the Ages</a></li>
+          <li><a href="maps-journeys.html"    style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Maps &amp; Journeys</a></li>
+          <li><a href="resources.html"        style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Resources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:0.5rem;">On This Page</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+          <li><a href="#" style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">I. The Biblical Record</a></li>
+          <li><a href="#" style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">II. The Name "Longinus"</a></li>
+          <li><a href="#" style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">III. Fact vs. Tradition</a></li>
+          <li><a href="#" style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">IV. The Legend</a></li>
+          <li><a href="#" style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">V. Art &amp; Depictions</a></li>
+        </ul>
+        <div class="flex items-center gap-4 mt-5">
+          <span class="relic-glow" style="font-size:1.2rem;color:#c8a878;">✝</span>
+          <span class="relic-glow" style="font-size:1.2rem;color:#d4a017;">⚔</span>
+          <span class="relic-glow" style="font-size:1.2rem;">📜</span>
+          <span class="relic-glow flicker" style="font-size:1.2rem;color:#d4a017;">🕯</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-ornament text-center mb-4">✦ ✦ ✦</div>
+    <div class="gold-rule opacity-25 mb-5"></div>
+    <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+      <span style="font-family:'EB Garamond',serif;font-size:0.75rem;color:#5a4030;font-style:italic;">&copy; <span id="footer-year"></span> Longinus — Tip of the Spear. All rights reserved.</span>
+      <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.22em;color:#6a4a2a;text-transform:uppercase;">Forged in History &nbsp;·&nbsp; Sealed in Mystery</span>
+      <div class="flex items-center gap-3">
+        <a href="privacy.html" style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Privacy</a>
+        <span style="color:#4a3020;">·</span>
+        <a href="sitemap.html" style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Sitemap</a>
+        <span style="color:#4a3020;">·</span>
+        <a href="contact.html" style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div style="height:3px;background:linear-gradient(90deg,transparent,#6a4a1a,#d4a017,#e8b820,#d4a017,#6a4a1a,transparent);"></div>
+</footer>
+
+
+<!-- ═══════════════════════════════ SCRIPTS ═══════════════════════════════ -->
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  const toggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  toggle.addEventListener('click', () => {
+    const isOpen = !mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden', isOpen);
+    toggle.classList.toggle('open', !isOpen);
+  });
+
+  const siteHeader = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    siteHeader.style.boxShadow = window.scrollY > 10
+      ? '0 6px 40px rgba(0,0,0,0.9), 0 2px 12px rgba(212,160,23,0.1)'
+      : '0 4px 30px rgba(0,0,0,0.7)';
+  }, { passive: true });
+
+  // Scroll reveal
+  const allReveal = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-children');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+  allReveal.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

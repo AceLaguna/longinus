@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resources — Sources &amp; Scholarship | Longinus · Tip of the Spear</title>
+  <meta name="description" content="Curated scholarly resources, Bible references, museum links, and public domain image sources for the Holy Lance and Longinus. Fully annotated and reliability-rated." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --parchment:      #f5e8c7;
+      --parchment-dark: #e8d5a3;
+      --leather:        #3c2f2f;
+      --gold:           #d4a017;
+      --gold-light:     #e8b820;
+      --gold-dim:       #a07810;
+      --shadow:         #1a1008;
+      --ink:            #2a1f1f;
+      --crimson:        #8b1a1a;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--parchment);
+      color: var(--ink);
+      font-family: 'EB Garamond', Georgia, serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    .grain::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1;
+    }
+
+    .gold-rule { border: none; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); opacity: 0.55; }
+
+    /* ── Nav ── */
+    .nav-link { position: relative; text-decoration: none; color: #c8a878; font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2em 0; transition: color 0.25s; }
+    .nav-link::after { content: ''; position: absolute; left: 50%; right: 50%; bottom: -3px; height: 1px; background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), var(--gold-dim)); transition: left 0.3s, right 0.3s; }
+    .nav-link:hover { color: var(--gold-light); }
+    .nav-link:hover::after { left: 0; right: 0; }
+    .nav-link.active { color: var(--gold); }
+    .nav-link.active::after { left: 0; right: 0; }
+    .spear-sep { display: inline-block; color: #6a4a2a; opacity: 0.5; font-size: 0.65rem; margin: 0 0.4rem; user-select: none; }
+
+    @keyframes border-shimmer { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+    .logo-shimmer { background: linear-gradient(90deg, transparent, rgba(212,160,23,0.5), transparent); background-size: 200% 100%; animation: border-shimmer 4s linear infinite; }
+
+    .relic-glow { transition: filter 0.35s, transform 0.35s; cursor: pointer; }
+    .relic-glow:hover { filter: drop-shadow(0 0 6px rgba(212,160,23,0.85)) drop-shadow(0 0 14px rgba(212,160,23,0.45)); transform: scale(1.1); }
+    .torch-icon { display: inline-block; transition: filter 0.3s, transform 0.3s; }
+    .torch-icon:hover { filter: drop-shadow(0 0 8px rgba(212,160,23,0.9)); transform: scale(1.15) rotate(-5deg); }
+
+    .hamburger span { display: block; width: 22px; height: 2px; background: #f5e8c7; margin: 5px 0; transition: all 0.3s; transform-origin: center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── HERO ── */
+    #page-hero { position: relative; min-height: 44vh; display: flex; align-items: center; overflow: hidden; }
+    #page-hero-bg { position: absolute; inset: 0; background: linear-gradient(160deg,#1a1008,#2a1a0e,#1a1008); }
+    /* Decorative manuscript grid lines */
+    #page-hero-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(212,160,23,0.04) 40px, rgba(212,160,23,0.04) 41px),
+        repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(212,160,23,0.03) 60px, rgba(212,160,23,0.03) 61px);
+    }
+    #page-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(105deg, rgba(26,16,8,0.85) 0%, rgba(26,16,8,0.4) 60%, rgba(26,16,8,0.1) 100%); }
+    #page-hero-bot { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(26,16,8,0.9) 0%, transparent 40%); }
+
+    .section-eyebrow { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.32em; color: var(--gold-dim); text-transform: uppercase; display: block; margin-bottom: 0.55rem; }
+    .breadcrumb { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em; color: #7a5a3a; text-transform: uppercase; }
+    .breadcrumb a { color: #9a7a5a; text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--gold); }
+
+    /* ── DISCLAIMER BOX ── */
+    .disclaimer-box {
+      background: linear-gradient(160deg, #2a1a0e, #3a2810);
+      border: 1px solid rgba(212,160,23,0.3);
+      border-left: 4px solid var(--gold-dim);
+      border-radius: 3px;
+      padding: 1.6rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .disclaimer-box::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-dim));
+    }
+
+    /* ── RESOURCE SECTION HEADER ── */
+    .res-section-header {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 0 0.8rem;
+      border-bottom: 1px solid rgba(160,120,16,0.25);
+      margin-bottom: 1.2rem;
+    }
+    .res-section-icon {
+      width: 2.4rem; height: 2.4rem; border-radius: 50%;
+      border: 1px solid rgba(212,160,23,0.35);
+      background: rgba(212,160,23,0.07);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+      transition: box-shadow 0.3s;
+    }
+    .res-section-header:hover .res-section-icon {
+      box-shadow: 0 0 14px rgba(212,160,23,0.4);
+    }
+    .res-section-title {
+      font-family: 'Cinzel', serif; font-size: 0.88rem; letter-spacing: 0.1em;
+      color: var(--leather); font-weight: 700; text-transform: uppercase;
+    }
+    .res-section-count {
+      font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.14em;
+      color: var(--gold-dim); text-transform: uppercase; margin-top: 0.1rem;
+    }
+
+    /* ── RESOURCE CARD ── */
+    .res-card {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1rem 1.2rem;
+      background: linear-gradient(145deg, #f0e4c4, #e8d8ac);
+      border: 1px solid rgba(160,120,16,0.22);
+      border-radius: 2px;
+      position: relative; overflow: hidden;
+      transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .res-card::before {
+      content: '';  position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .res-card:hover { box-shadow: 0 6px 24px rgba(26,16,8,0.18), 0 0 0 1px rgba(212,160,23,0.3); border-color: rgba(212,160,23,0.45); transform: translateY(-2px); }
+    .res-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0; transition: opacity 0.3s; }
+    .res-card:hover::after { opacity: 1; }
+
+    /* Dark card variant */
+    .res-card-dark {
+      background: linear-gradient(145deg, #2a1a0e, #3a2810);
+      border-color: rgba(212,160,23,0.18);
+    }
+    .res-card-dark:hover { border-color: rgba(212,160,23,0.4); box-shadow: 0 6px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(212,160,23,0.25); }
+
+    .res-card-marker {
+      flex-shrink: 0; width: 2rem; height: 2rem;
+      border: 1px solid; border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; margin-top: 0.1rem;
+    }
+
+    .res-title { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.06em; color: var(--leather); font-weight: 700; line-height: 1.3; margin-bottom: 0.2rem; }
+    .res-title-light { color: #e0c070; }
+    .res-subtitle { font-family: 'EB Garamond', serif; font-size: 0.9rem; color: #6a4a2a; line-height: 1.3; font-style: italic; }
+    .res-subtitle-light { color: #9a7a50; }
+    .res-desc { font-family: 'EB Garamond', serif; font-size: 0.97rem; color: #5a4030; line-height: 1.65; margin-top: 0.4rem; }
+    .res-desc-light { color: #a88848; }
+
+    .res-tag {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: 0.14em;
+      text-transform: uppercase; padding: 0.18rem 0.5rem; border-radius: 2px; border: 1px solid;
+      margin-top: 0.5rem; margin-right: 0.3rem;
+    }
+    .tag-primary   { color: #4a8a3a; border-color: rgba(60,130,40,0.4);  background: rgba(60,130,40,0.07); }
+    .tag-biblical  { color: #3a7a5a; border-color: rgba(40,120,80,0.4);  background: rgba(40,120,80,0.07); }
+    .tag-scholarly { color: #3a6a8a; border-color: rgba(40,100,140,0.35); background: rgba(40,100,140,0.06); }
+    .tag-museum    { color: #7a5a1a; border-color: rgba(160,100,20,0.4); background: rgba(160,100,20,0.07); }
+    .tag-images    { color: #5a3a7a; border-color: rgba(100,50,140,0.35); background: rgba(100,50,140,0.06); }
+    .tag-overview  { color: #5a5a3a; border-color: rgba(100,100,40,0.35); background: rgba(100,100,40,0.06); }
+    .tag-caution   { color: #8a5a1a; border-color: rgba(160,90,20,0.35); background: rgba(160,90,20,0.06); }
+    .tag-light-scholarly { color: #70aad0; border-color: rgba(60,130,180,0.4); background: rgba(60,130,180,0.08); }
+    .tag-light-biblical  { color: #70c090; border-color: rgba(50,160,90,0.4);  background: rgba(50,160,90,0.08); }
+    .tag-light-museum    { color: #d4a017; border-color: rgba(212,160,23,0.4);  background: rgba(212,160,23,0.07); }
+    .tag-light-images    { color: #c090d0; border-color: rgba(160,100,200,0.35); background: rgba(160,100,200,0.07); }
+
+    .res-url {
+      font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.12em;
+      color: var(--gold-dim); text-decoration: none; display: inline-flex;
+      align-items: center; gap: 0.3rem; margin-top: 0.5rem;
+      transition: color 0.2s;
+    }
+    .res-url:hover { color: var(--gold); }
+    .res-url-light { color: #8a6a3a; }
+    .res-url-light:hover { color: var(--gold-light); }
+
+    /* ── RELIABILITY METER ── */
+    .rel-meter {
+      display: flex; align-items: center; gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+    .rel-label { font-family: 'Cinzel', serif; font-size: 0.48rem; letter-spacing: 0.12em; text-transform: uppercase; color: #7a5a3a; }
+    .rel-dots { display: flex; gap: 3px; }
+    .rel-dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid rgba(160,120,16,0.4); background: rgba(160,120,16,0.1); }
+    .rel-dot.filled-green  { background: #4a9a3a; border-color: #6acc50; }
+    .rel-dot.filled-gold   { background: var(--gold-dim); border-color: var(--gold); }
+    .rel-dot.filled-amber  { background: #c08020; border-color: #e0a030; }
+
+    /* ── SEARCH BAR ── */
+    .res-search-wrap { position: relative; }
+    .res-search {
+      width: 100%; font-family: 'EB Garamond', serif; font-size: 1rem;
+      color: var(--ink); background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(160,120,16,0.3); border-radius: 2px;
+      padding: 0.6rem 2.5rem 0.6rem 0.9rem;
+      outline: none; transition: border-color 0.2s, background 0.2s;
+    }
+    .res-search:focus { border-color: rgba(212,160,23,0.6); background: rgba(255,255,255,0.85); }
+    .res-search::placeholder { color: #9a7a5a; font-style: italic; }
+    .res-search-icon { position: absolute; right: 0.7rem; top: 50%; transform: translateY(-50%); color: var(--gold-dim); pointer-events: none; }
+
+    /* ── FILTER TABS ── */
+    .filter-chip {
+      font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.13em; text-transform: uppercase;
+      padding: 0.35rem 0.85rem; border-radius: 2px; border: 1px solid rgba(60,47,47,0.22);
+      background: rgba(60,47,47,0.05); color: #7a5a3a; cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s; user-select: none;
+    }
+    .filter-chip:hover { background: rgba(212,160,23,0.08); color: var(--gold-dim); border-color: rgba(212,160,23,0.3); }
+    .filter-chip.active { background: rgba(212,160,23,0.13); color: var(--gold); border-color: rgba(212,160,23,0.5); }
+
+    /* ── STICKY TOC ── */
+    .toc-panel { position: sticky; top: 120px; }
+    @media (max-width: 1024px) { .toc-panel { display: none; } }
+    .toc-link { font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: #7a5a3a; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0; border-left: 2px solid transparent; padding-left: 0.8rem; transition: color 0.2s, border-color 0.2s; }
+    .toc-link:hover { color: var(--gold-dim); border-left-color: rgba(212,160,23,0.4); }
+    .toc-link.toc-active { color: var(--gold); border-left-color: var(--gold-dim); }
+    .toc-icon { font-size: 0.85rem; }
+
+    /* ── REVEAL ── */
+    .reveal       { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left  { opacity: 0; transform: translateX(-20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right { opacity: 0; transform: translateX(20px);  transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible, .reveal-left.visible, .reveal-right.visible { opacity: 1; transform: none; }
+    .reveal-children > * { opacity: 0; transform: translateY(14px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal-children.visible > *:nth-child(1){opacity:1;transform:none;transition-delay:0.04s}
+    .reveal-children.visible > *:nth-child(2){opacity:1;transform:none;transition-delay:0.1s}
+    .reveal-children.visible > *:nth-child(3){opacity:1;transform:none;transition-delay:0.16s}
+    .reveal-children.visible > *:nth-child(4){opacity:1;transform:none;transition-delay:0.22s}
+    .reveal-children.visible > *:nth-child(5){opacity:1;transform:none;transition-delay:0.28s}
+    .reveal-children.visible > *:nth-child(6){opacity:1;transform:none;transition-delay:0.34s}
+
+    @keyframes fade-up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+    .load-1{animation:fade-up 1s ease 0.2s both}
+    .load-2{animation:fade-up 1s ease 0.5s both}
+    .load-3{animation:fade-up 1s ease 0.8s both}
+    .load-4{animation:fade-up 1s ease 1.1s both}
+
+    @keyframes flicker{0%,100%{opacity:1}48%{opacity:0.9}50%{opacity:0.72}52%{opacity:0.95}75%{opacity:0.85}}
+    .flicker{animation:flicker 5s ease-in-out infinite}
+
+    .page-nav-card { flex: 1; background: rgba(60,47,47,0.06); border: 1px solid rgba(60,47,47,0.15); border-radius: 2px; padding: 1.2rem 1.4rem; text-decoration: none; transition: background 0.25s, border-color 0.25s; }
+    .page-nav-card:hover { border-color: rgba(212,160,23,0.4); background: rgba(212,160,23,0.05); }
+    .footer-ornament { letter-spacing: 1.2em; color: var(--gold-dim); opacity: 0.6; font-size: 0.7rem; }
+
+    /* Hide / show for filter */
+    .res-group.hidden-group { display: none; }
+    .res-card.hidden-card   { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HEADER ════════════════════════════════ -->
+<header class="grain relative" id="site-header"
+  style="position:sticky;top:0;z-index:100;background:linear-gradient(180deg,#2a1a0e 0%,#3c2f2f 60%,#2e2020 100%);box-shadow:0 4px 30px rgba(0,0,0,0.7);">
+  <div style="height:3px;background:linear-gradient(90deg,transparent,#6a4a1a,#d4a017,#e8b820,#d4a017,#6a4a1a,transparent);"></div>
+  <div class="relative z-10 px-6 md:px-10 py-4 flex items-center justify-between gap-6">
+    <a href="index.html" class="flex items-start gap-3 no-underline flex-shrink-0">
+      <div class="relic-glow mt-1">
+        <svg width="24" height="46" viewBox="0 0 28 54" fill="none">
+          <polygon points="14,0 20,18 14,22 8,18" fill="#d4a017" opacity="0.95"/>
+          <polygon points="14,0 14,22 8,18" fill="#a07810" opacity="0.8"/>
+          <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#7a5c2e"/>
+          <rect x="13.2" y="21" width="1.5" height="26" rx=".75" fill="#9a7a3e" opacity="0.6"/>
+          <rect x="6" y="34" width="16" height="2.5" rx="1" fill="#c09010"/>
+          <ellipse cx="14" cy="50" rx="4" ry="2.5" fill="#a07810"/>
+          <ellipse cx="14" cy="50" rx="2" ry="1.5" fill="#d4a017" opacity="0.5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="flex items-baseline gap-2">
+          <span style="font-family:'Cinzel Decorative',serif;font-size:1.05rem;font-weight:700;color:#d4a017;text-shadow:0 0 20px rgba(212,160,23,0.5);">LONGINUS</span>
+          <span style="color:#6a4a2a;font-size:0.85rem;">|</span>
+          <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.22em;color:#c8a878;text-transform:uppercase;font-weight:600;">TIP OF THE SPEAR</span>
+        </div>
+        <div class="logo-shimmer" style="height:1px;margin-top:5px;border-radius:2px;"></div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.58rem;color:#8a6a4a;letter-spacing:0.18em;margin-top:3px;font-style:italic;">The Spear of Destiny</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 flex-wrap justify-end">
+      <a href="index.html"            class="nav-link px-3 py-2">Home</a>
+      <span class="spear-sep">⟡</span>
+      <a href="longinus.html"         class="nav-link px-3 py-2">The Soldier</a>
+      <span class="spear-sep">⟡</span>
+      <a href="the-spear.html"        class="nav-link px-3 py-2">The Spear</a>
+      <span class="spear-sep">⟡</span>
+      <a href="artifacts.html"        class="nav-link px-3 py-2">Art &amp; Depictions</a>
+      <span class="spear-sep">⟡</span>
+      <a href="history.html"          class="nav-link px-3 py-2">Through the Ages</a>
+      <span class="spear-sep">⟡</span>
+      <a href="maps.html"             class="nav-link px-3 py-2">Maps &amp; Journeys</a>
+      <span class="spear-sep">⟡</span>
+      <a href="resources.html"        class="nav-link active px-3 py-2">Resources</a>
+    </nav>
+    <button class="hamburger lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded focus:outline-none"
+      id="menu-toggle" aria-label="Toggle menu"
+      style="background:rgba(212,160,23,0.08);border:1px solid rgba(212,160,23,0.2);">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="gold-rule mx-6 md:mx-10 opacity-40"></div>
+  <div class="relative z-10 px-6 md:px-10 py-1.5 hidden md:flex items-center justify-between">
+    <span style="font-family:'EB Garamond',serif;font-size:0.65rem;color:#7a5a3a;letter-spacing:0.2em;font-style:italic;">"He who holds the Spear holds the destiny of the world."</span>
+    <div class="flex items-center gap-4">
+      <span class="relic-glow torch-icon" style="color:#d4a017;font-size:0.95rem;">🔦</span>
+      <span class="relic-glow torch-icon" style="color:#d4a017;font-size:0.95rem;">⚔️</span>
+      <span class="relic-glow torch-icon" style="color:#d4a017;font-size:0.95rem;">📜</span>
+    </div>
+  </div>
+  <div style="height:2px;background:linear-gradient(90deg,transparent,#4a3010,#d4a017,#4a3010,transparent);opacity:0.5;"></div>
+  <div id="mobile-menu" class="hidden lg:hidden" style="background:linear-gradient(180deg,#2e2020,#3c2f2f);border-top:1px solid rgba(212,160,23,0.2);">
+    <nav class="flex flex-col py-2">
+      <a href="index.html"            class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Home</a>
+      <a href="longinus.html"         class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">The Soldier</a>
+      <a href="the-spear.html"        class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">The Spear</a>
+      <a href="artifacts.html"        class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Art &amp; Depictions</a>
+      <a href="history.html"          class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Through the Ages</a>
+      <a href="maps.html"             class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Maps &amp; Journeys</a>
+      <a href="resources.html"        class="nav-link active px-6 py-3">Resources</a>
+    </nav>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════ PAGE HERO ════════════════════════════════ -->
+<section id="page-hero" aria-label="Resources — hero">
+  <div id="page-hero-bg"></div>
+  <div id="page-hero-bot"></div>
+  <!-- Decorative open book SVG -->
+  <div style="position:absolute;right:5%;bottom:10%;z-index:2;opacity:0.06;pointer-events:none;" aria-hidden="true">
+    <svg width="340" height="220" viewBox="0 0 340 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M170 20 Q100 10 10 30 L10 200 Q100 180 170 200 Q240 180 330 200 L330 30 Q240 10 170 20Z" fill="#d4a017"/>
+      <line x1="170" y1="20" x2="170" y2="200" stroke="#1a1008" stroke-width="4"/>
+      <line x1="40" y1="60" x2="155" y2="55" stroke="#1a1008" stroke-width="2" opacity="0.4"/>
+      <line x1="40" y1="80" x2="155" y2="76" stroke="#1a1008" stroke-width="2" opacity="0.4"/>
+      <line x1="40" y1="100" x2="155" y2="97" stroke="#1a1008" stroke-width="2" opacity="0.4"/>
+      <line x1="40" y1="120" x2="155" y2="118" stroke="#1a1008" stroke-width="2" opacity="0.4"/>
+      <line x1="185" y1="55" x2="300" y2="60" stroke="#1a1008" stroke-width="2" opacity="0.4"/>
+      <line x1="185" y1="76" x2="300" y2="80" stroke="#1a1008" stroke-width="2" opacity="0.4"/>
+      <line x1="185" y1="97" x2="300" y2="100" stroke="#1a1008" stroke-width="2" opacity="0.4"/>
+      <line x1="185" y1="118" x2="300" y2="120" stroke="#1a1008" stroke-width="2" opacity="0.4"/>
+    </svg>
+  </div>
+
+  <div class="relative z-10 px-8 md:px-14 pb-14 pt-16 max-w-4xl w-full">
+    <div class="load-1">
+      <nav class="breadcrumb mb-5" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span style="margin:0 0.6rem;opacity:0.4;">⟶</span>
+        <span style="color:#7a5a3a;">Resources</span>
+      </nav>
+    </div>
+    <div class="load-2">
+      <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.38em;color:#8a6030;text-transform:uppercase;display:inline-block;border:1px solid rgba(212,160,23,0.18);padding:0.3rem 0.9rem;margin-bottom:1.4rem;background:rgba(212,160,23,0.04);">
+        ✦ &nbsp; Chapter VI &nbsp; ✦
+      </span>
+    </div>
+    <h1 class="load-3" style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,5.5vw,3.2rem);font-weight:900;color:#f0dfa8;line-height:1.12;text-shadow:0 4px 30px rgba(0,0,0,0.9);margin-bottom:1rem;">
+      Sources, Scholarship<br/>
+      <span style="color:var(--gold);font-size:0.72em;letter-spacing:0.04em;text-shadow:0 0 40px rgba(212,160,23,0.4);">&amp; Further Reading</span>
+    </h1>
+    <p class="load-4" style="font-family:'EB Garamond',serif;font-size:clamp(1rem,2vw,1.2rem);color:#b8946a;line-height:1.75;max-width:580px;font-style:italic;">
+      Curated, annotated, and reliability-rated. Every resource on this page has been selected for relevance, accessibility, and accuracy. Use the filters to find what you need.
+    </p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     SITE DISCLAIMER — FULL WIDTH
+═══════════════════════════════════════════ -->
+<section style="background:linear-gradient(180deg,#f5e8c7,#eed9b0);" class="py-10 px-6 md:px-12" id="disclaimer">
+  <div class="max-w-4xl mx-auto reveal">
+    <div class="disclaimer-box">
+      <div class="relative z-10">
+        <div class="flex items-start gap-4">
+          <div style="font-size:1.6rem;flex-shrink:0;margin-top:0.1rem;" aria-hidden="true">📋</div>
+          <div>
+            <h2 style="font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:0.14em;color:var(--gold);font-weight:700;text-transform:uppercase;margin-bottom:0.8rem;">Site Disclaimer &amp; Editorial Approach</h2>
+            <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#c8a878;line-height:1.85;margin-bottom:0.8rem;">
+              This website — <em>Longinus: Tip of the Spear</em> — focuses primarily on the <strong style="color:#e0c070;">Biblical accounts</strong> of the spear-thrust at the Crucifixion (John 19:34) and the <strong style="color:#e0c070;">documented historical record</strong> of the Holy Lance relics as physical objects. These two categories form the scholarly and theological core of the site.
+            </p>
+            <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#c8a878;line-height:1.85;margin-bottom:0.8rem;">
+              Extra-Biblical traditions — including the name "Longinus," his conversion legend, his martyrdom in Cappadocia, and the hagiographic narrative — are clearly labelled as <strong style="color:#d4a017;">later Christian tradition</strong> rather than scripture. They are presented with their historical context and documented source dates.
+            </p>
+            <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#c8a878;line-height:1.85;margin-bottom:0.8rem;">
+              Modern claims about the "Spear of Destiny" — including occult power legends, the Ravenscroft narratives, and World War II mythology — are treated as <strong style="color:#d07070;">legend and speculation</strong>, clearly distinguished from historical fact. No page on this site presents these claims as credible history.
+            </p>
+            <p style="font-family:'EB Garamond',serif;font-size:0.97rem;color:#9a7a50;line-height:1.75;font-style:italic;">
+              All external links open in a new tab. Inclusion of a resource does not imply endorsement of all content on that site. Reliability ratings on resource cards reflect the consensus of mainstream biblical scholarship and archaeology.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     MAIN CONTENT — RESOURCES
+═══════════════════════════════════════════ -->
+<div style="background:linear-gradient(180deg,#eed9b0,#f0e0b8);">
+<div class="max-w-7xl mx-auto px-5 md:px-10 py-12">
+<div class="flex gap-10 items-start">
+
+  <!-- ── STICKY TOC ── -->
+  <aside class="w-48 flex-shrink-0 toc-panel" aria-label="Resource categories">
+    <p style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.8rem;">Categories</p>
+    <nav>
+      <a class="toc-link" href="#sec-bible"><span class="toc-icon">📖</span>Bible</a>
+      <a class="toc-link" href="#sec-scholarly"><span class="toc-icon">🎓</span>Scholarship</a>
+      <a class="toc-link" href="#sec-biblical-view"><span class="toc-icon">✝</span>Biblical View</a>
+      <a class="toc-link" href="#sec-museums"><span class="toc-icon">🏛️</span>Museums</a>
+      <a class="toc-link" href="#sec-images"><span class="toc-icon">🖼</span>Images</a>
+      <a class="toc-link" href="#sec-books"><span class="toc-icon">📚</span>Books</a>
+      <a class="toc-link" href="#sec-caution"><span class="toc-icon">⚠</span>With Caution</a>
+    </nav>
+    <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(160,120,16,0.2);">
+      <p style="font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.12em;color:#8a6a4a;text-transform:uppercase;margin-bottom:0.5rem;">Reliability Key</p>
+      <div style="display:flex;flex-direction:column;gap:0.4rem;">
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <div style="display:flex;gap:2px;"><div style="width:6px;height:6px;border-radius:50%;background:#4a9a3a;"></div><div style="width:6px;height:6px;border-radius:50%;background:#4a9a3a;"></div><div style="width:6px;height:6px;border-radius:50%;background:#4a9a3a;"></div></div>
+          <span style="font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.1em;color:#6a4a2a;text-transform:uppercase;">Primary / Peer-reviewed</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <div style="display:flex;gap:2px;"><div style="width:6px;height:6px;border-radius:50%;background:#d4a017;"></div><div style="width:6px;height:6px;border-radius:50%;background:#d4a017;"></div><div style="width:6px;height:6px;border-radius:50%;background:rgba(160,120,16,0.15);border:1px solid rgba(160,120,16,0.3);"></div></div>
+          <span style="font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.1em;color:#6a4a2a;text-transform:uppercase;">General / Reference</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <div style="display:flex;gap:2px;"><div style="width:6px;height:6px;border-radius:50%;background:#c08020;"></div><div style="width:6px;height:6px;border-radius:50%;background:rgba(160,120,16,0.15);border:1px solid rgba(160,120,16,0.3);"></div><div style="width:6px;height:6px;border-radius:50%;background:rgba(160,120,16,0.15);border:1px solid rgba(160,120,16,0.3);"></div></div>
+          <span style="font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.1em;color:#6a4a2a;text-transform:uppercase;">Devotional / Popular</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main style="flex:1;min-width:0;">
+
+    <!-- Search + filter bar -->
+    <div class="reveal mb-8">
+      <div class="res-search-wrap mb-4">
+        <input type="search" class="res-search" id="res-search" placeholder="Search resources — e.g. 'John 19', 'Hofburg', 'Wikimedia'…" aria-label="Search resources" />
+        <svg class="res-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+        <button class="filter-chip active" data-filter="all">All Resources</button>
+        <button class="filter-chip" data-filter="bible">📖 Bible</button>
+        <button class="filter-chip" data-filter="scholarly">🎓 Scholarship</button>
+        <button class="filter-chip" data-filter="biblical-view">✝ Biblical View</button>
+        <button class="filter-chip" data-filter="museums">🏛️ Museums</button>
+        <button class="filter-chip" data-filter="images">🖼 Images</button>
+        <button class="filter-chip" data-filter="books">📚 Books</button>
+        <button class="filter-chip" data-filter="caution">⚠ With Caution</button>
+      </div>
+      <p id="res-count" style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.14em;color:#8a6a4a;text-transform:uppercase;margin-top:0.6rem;">
+        Showing <strong id="count-num">24</strong> resources
+      </p>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         SECTION 1 — BIBLE TEXTS
+    ══════════════════════════════════════ -->
+    <section id="sec-bible" class="res-group reveal" data-category="bible">
+      <div class="res-section-header">
+        <div class="res-section-icon">📖</div>
+        <div>
+          <div class="res-section-title">Bible Texts &amp; Study Tools</div>
+          <div class="res-section-count">6 resources · Free online access</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3 reveal-children">
+
+        <a href="https://www.biblegateway.com/passage/?search=John+19%3A28-37&version=ESV" target="_blank" rel="noopener" class="res-card" data-keywords="bible gateway john 19 passion crucifixion esv">
+          <div class="res-card-marker" style="background:rgba(60,130,40,0.1);border-color:rgba(60,130,40,0.4);color:#4a9a3a;">📖</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">John 19:28–37 — The Passion Narrative</div>
+            <div class="res-subtitle">BibleGateway.com · ESV, NIV, KJV, and 60+ translations available</div>
+            <p class="res-desc">The primary Biblical text — the account of the Crucifixion, death, spear-thrust, and fulfilment of prophecy. BibleGateway provides instant cross-translation comparison, interlinear Greek, and verse-by-verse commentary access.</p>
+            <div>
+              <span class="res-tag tag-primary">✦ Primary Source</span>
+              <span class="res-tag tag-biblical">Scripture</span>
+            </div>
+            <div class="rel-meter">
+              <span class="rel-label">Reliability</span>
+              <div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div>
+            </div>
+            <div><a href="https://www.biblegateway.com/passage/?search=John+19%3A28-37&version=ESV" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ biblegateway.com</a></div>
+          </div>
+        </a>
+
+        <a href="https://www.biblegateway.com/passage/?search=Zechariah+12%3A10&version=ESV" target="_blank" rel="noopener" class="res-card" data-keywords="bible zechariah prophecy pierced">
+          <div class="res-card-marker" style="background:rgba(60,130,40,0.1);border-color:rgba(60,130,40,0.4);color:#4a9a3a;">📖</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Zechariah 12:10 — "They Shall Look on Him Whom They Pierced"</div>
+            <div class="res-subtitle">BibleGateway.com · Old Testament Prophecy</div>
+            <p class="res-desc">The Hebrew prophecy cited by John (19:37) as fulfilled in the spear-thrust. Written c. 520–518 BC — approximately 500 years before the Crucifixion. Compare across the Masoretic Text, Septuagint, and major English translations on BibleGateway.</p>
+            <div>
+              <span class="res-tag tag-primary">✦ Primary Source</span>
+              <span class="res-tag tag-biblical">OT Prophecy</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div></div>
+            <div><a href="https://www.biblegateway.com/passage/?search=Zechariah+12%3A10&version=ESV" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ biblegateway.com</a></div>
+          </div>
+        </a>
+
+        <a href="https://www.biblegateway.com/passage/?search=Psalm+34%3A20&version=ESV" target="_blank" rel="noopener" class="res-card" data-keywords="bible psalm 34 bones broken passover">
+          <div class="res-card-marker" style="background:rgba(60,130,40,0.1);border-color:rgba(60,130,40,0.4);color:#4a9a3a;">📖</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Psalm 34:20 &amp; Exodus 12:46 — "Not One Bone Broken"</div>
+            <div class="res-subtitle">BibleGateway.com · Psalms and Torah</div>
+            <p class="res-desc">The two passages cited by John (19:36) as fulfilled when the soldiers chose not to break Jesus's legs because he was already dead. Exodus 12:46 gives the Passover lamb requirement; Psalm 34:20 extends it to the righteous sufferer. Both are fulfilled in the same act that made the spear-thrust necessary.</p>
+            <div>
+              <span class="res-tag tag-primary">✦ Primary Source</span>
+              <span class="res-tag tag-biblical">OT Prophecy</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div></div>
+            <div><a href="https://www.biblegateway.com/passage/?search=Psalm+34%3A20&version=ESV" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ biblegateway.com</a></div>
+          </div>
+        </a>
+
+        <a href="https://biblehub.com/john/19-34.htm" target="_blank" rel="noopener" class="res-card" data-keywords="biblehub interlinear greek john 19:34 lonche">
+          <div class="res-card-marker" style="background:rgba(60,130,40,0.1);border-color:rgba(60,130,40,0.4);color:#4a9a3a;">🔍</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">John 19:34 — Interlinear Greek &amp; Lexicon</div>
+            <div class="res-subtitle">BibleHub.com · Greek Interlinear with Strong's Concordance</div>
+            <p class="res-desc">BibleHub's interlinear view shows the original Greek word <em>λόγχη</em> (lonchē — "spear") word-by-word with its Strong's number (G3057), pronunciation, parsing, and all other New Testament occurrences. Essential for understanding why the name "Longinus" likely derives from this word.</p>
+            <div>
+              <span class="res-tag tag-primary">✦ Primary Tool</span>
+              <span class="res-tag tag-scholarly">Greek Text</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div></div>
+            <div><a href="https://biblehub.com/john/19-34.htm" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ biblehub.com</a></div>
+          </div>
+        </a>
+
+        <a href="https://www.blueletterbible.org/esv/jhn/19/1/s_1016001" target="_blank" rel="noopener" class="res-card" data-keywords="blue letter bible john 19 study commentary tools">
+          <div class="res-card-marker" style="background:rgba(60,130,40,0.1);border-color:rgba(60,130,40,0.4);color:#4a9a3a;">📘</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">John 19 — Study Tools &amp; Commentaries</div>
+            <div class="res-subtitle">BlueLetterBible.org · Comprehensive Bible Study Platform</div>
+            <p class="res-desc">Blue Letter Bible aggregates multiple evangelical and scholarly commentaries (Matthew Henry, John MacArthur, David Guzik, Jamieson-Fausset-Brown) alongside the Greek text, cross-references, and concordance for every verse in John 19. Free and comprehensive.</p>
+            <div>
+              <span class="res-tag tag-biblical">Commentary</span>
+              <span class="res-tag tag-scholarly">Multi-Source</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-gold"></div></div></div>
+            <div><a href="https://www.blueletterbible.org/esv/jhn/19/1/s_1016001" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ blueletterbible.org</a></div>
+          </div>
+        </a>
+
+        <a href="https://www.esv.org/John+19/" target="_blank" rel="noopener" class="res-card" data-keywords="esv bible english standard version john 19 crossway">
+          <div class="res-card-marker" style="background:rgba(60,130,40,0.1);border-color:rgba(60,130,40,0.4);color:#4a9a3a;">📖</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">John 19 — English Standard Version (ESV)</div>
+            <div class="res-subtitle">ESV.org · Crossway · Full Chapter with Study Notes</div>
+            <p class="res-desc">The translation used throughout this site. The ESV (English Standard Version) is an essentially literal translation produced by over 100 scholars, closely following the original Greek while maintaining readability. The ESV Study Bible includes extensive historical and literary notes on the Passion narrative.</p>
+            <div>
+              <span class="res-tag tag-primary">✦ Translation Used</span>
+              <span class="res-tag tag-biblical">Scripture</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div></div>
+            <div><a href="https://www.esv.org/John+19/" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ esv.org</a></div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════
+         SECTION 2 — SCHOLARLY SOURCES
+    ══════════════════════════════════════ -->
+    <section id="sec-scholarly" class="res-group reveal" data-category="scholarly" style="margin-top:2.5rem;">
+      <div class="res-section-header">
+        <div class="res-section-icon">🎓</div>
+        <div>
+          <div class="res-section-title">Scholarly &amp; Reference Sources</div>
+          <div class="res-section-count">5 resources · Wikipedia, Britannica, and academic reference</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3 reveal-children">
+
+        <a href="https://en.wikipedia.org/wiki/Holy_Lance" target="_blank" rel="noopener" class="res-card" data-keywords="wikipedia holy lance spear destiny history overview">
+          <div class="res-card-marker" style="background:rgba(40,100,140,0.1);border-color:rgba(40,100,140,0.35);color:#3a6a8a;">📋</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Holy Lance — Wikipedia Overview</div>
+            <div class="res-subtitle">Wikipedia · Encyclopaedia · Regularly Updated</div>
+            <p class="res-desc">Wikipedia's "Holy Lance" article provides a solid general overview of the relic's history, the competing claimants, and the major historical events associated with the lance. Well-referenced with academic citations. Best used as an entry point and source of bibliography, not as a primary authority. Cross-check all claims against cited sources.</p>
+            <div>
+              <span class="res-tag tag-scholarly">Overview</span>
+              <span class="res-tag tag-overview">Peer-edited</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-gold"></div><div class="rel-dot filled-gold"></div><div class="rel-dot filled-gold"></div></div></div>
+            <div><a href="https://en.wikipedia.org/wiki/Holy_Lance" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ en.wikipedia.org</a></div>
+          </div>
+        </a>
+
+        <a href="https://www.britannica.com/topic/Holy-Lance" target="_blank" rel="noopener" class="res-card" data-keywords="britannica encyclopedia holy lance spear">
+          <div class="res-card-marker" style="background:rgba(40,100,140,0.1);border-color:rgba(40,100,140,0.35);color:#3a6a8a;">🏅</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Holy Lance — Encyclopædia Britannica</div>
+            <div class="res-subtitle">Britannica.com · Expert-authored reference article</div>
+            <p class="res-desc">Britannica's entry on the Holy Lance is written and reviewed by subject-matter experts and provides a concise, authoritative overview of the relic's history and significance. More reliable than Wikipedia for a quick accurate summary; less comprehensive in citation depth. Excellent starting point for the general reader.</p>
+            <div>
+              <span class="res-tag tag-scholarly">Expert-authored</span>
+              <span class="res-tag tag-overview">Reference</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-gold"></div></div></div>
+            <div><a href="https://www.britannica.com/topic/Holy-Lance" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ britannica.com</a></div>
+          </div>
+        </a>
+
+        <a href="https://en.wikipedia.org/wiki/Longinus" target="_blank" rel="noopener" class="res-card" data-keywords="wikipedia longinus soldier centurion saint">
+          <div class="res-card-marker" style="background:rgba(40,100,140,0.1);border-color:rgba(40,100,140,0.35);color:#3a6a8a;">📋</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Longinus — Wikipedia Entry</div>
+            <div class="res-subtitle">Wikipedia · History of the name, saint, and legend</div>
+            <p class="res-desc">Covers the etymology of the name (from Greek <em>lonchē</em>), the first appearances in text (Acts of Pilate) and art (Rabula Gospels), the saint's feast days in Roman Catholic and Eastern Orthodox tradition, and the veneration of his supposed relics. Useful for tracing the hagiographic tradition's development.</p>
+            <div>
+              <span class="res-tag tag-scholarly">Overview</span>
+              <span class="res-tag tag-overview">Hagiography</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-gold"></div><div class="rel-dot filled-gold"></div><div class="rel-dot filled-gold"></div></div></div>
+            <div><a href="https://en.wikipedia.org/wiki/Longinus" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ en.wikipedia.org</a></div>
+          </div>
+        </a>
+
+        <a href="https://en.wikipedia.org/wiki/Rabula_Gospels" target="_blank" rel="noopener" class="res-card" data-keywords="rabula gospels 586 AD syriac illuminated manuscript longinus">
+          <div class="res-card-marker" style="background:rgba(40,100,140,0.1);border-color:rgba(40,100,140,0.35);color:#3a6a8a;">📜</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Rabula Gospels (586 AD) — Wikipedia</div>
+            <div class="res-subtitle">Wikipedia · Manuscript history and digitisation</div>
+            <p class="res-desc">The Wikipedia article on the Rabula Gospels covers the manuscript's production at the Monastery of St. John of Zagba, its physical description, and its significance as the earliest surviving depiction of a named "Longinus." Includes links to the Biblioteca Medicea Laurenziana's digital facsimile — the manuscript can be viewed in full online.</p>
+            <div>
+              <span class="res-tag tag-scholarly">Manuscript Studies</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-gold"></div><div class="rel-dot filled-gold"></div><div class="rel-dot filled-gold"></div></div></div>
+            <div><a href="https://en.wikipedia.org/wiki/Rabula_Gospels" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ en.wikipedia.org</a></div>
+          </div>
+        </a>
+
+        <a href="https://en.wikipedia.org/wiki/Antimension#Historical_sources" target="_blank" rel="noopener" class="res-card" data-keywords="first crusade antioch 1098 lance discovery scholarly">
+          <div class="res-card-marker" style="background:rgba(40,100,140,0.1);border-color:rgba(40,100,140,0.35);color:#3a6a8a;">⚔</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">First Crusade — Wikipedia (Holy Lance at Antioch)</div>
+            <div class="res-subtitle">Wikipedia · en.wikipedia.org/wiki/First_Crusade</div>
+            <p class="res-desc">The First Crusade article covers the siege of Antioch in detail, including Peter Bartholomew's lance "discovery," the debate between the Provençal and Norman factions, Bishop Adhemar's scepticism, and the trial by ordeal. Well-cited with primary source references including the chronicles of Raymond of Aguilers and Fulcher of Chartres.</p>
+            <div>
+              <span class="res-tag tag-scholarly">Medieval History</span>
+              <span class="res-tag tag-overview">Crusades</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-gold"></div><div class="rel-dot filled-gold"></div><div class="rel-dot filled-gold"></div></div></div>
+            <div><a href="https://en.wikipedia.org/wiki/First_Crusade" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ en.wikipedia.org/wiki/First_Crusade</a></div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════
+         SECTION 3 — BIBLICAL/CHRISTIAN VIEW
+    ══════════════════════════════════════ -->
+    <section id="sec-biblical-view" class="res-group reveal" data-category="biblical-view" style="margin-top:2.5rem;">
+      <div class="res-section-header">
+        <div class="res-section-icon">✝</div>
+        <div>
+          <div class="res-section-title">Biblical &amp; Christian Perspective</div>
+          <div class="res-section-count">4 resources · Evangelical and orthodox theological sources</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3 reveal-children">
+
+        <a href="https://www.gotquestions.org/Longinus-soldier-spear.html" target="_blank" rel="noopener" class="res-card" data-keywords="gotquestions longinus soldier spear biblical view christian">
+          <div class="res-card-marker" style="background:rgba(40,120,80,0.1);border-color:rgba(40,120,80,0.35);color:#3a7a5a;">✝</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Who Was Longinus? — GotQuestions.org</div>
+            <div class="res-subtitle">GotQuestions.org · Evangelical Biblical Q&amp;A · Peer-reviewed by ministry team</div>
+            <p class="res-desc">GotQuestions addresses Longinus from a Biblical perspective — clearly distinguishing what scripture says (an unnamed soldier; John 19:34) from later tradition (the name, conversion, and martyrdom narrative). Accurate in its handling of the primary Biblical text and its assessment of the apocryphal sources. Written for a general Christian audience.</p>
+            <div>
+              <span class="res-tag tag-biblical">Biblical View</span>
+              <span class="res-tag tag-overview">Evangelical</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-gold"></div></div></div>
+            <div><a href="https://www.gotquestions.org/Longinus-soldier-spear.html" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ gotquestions.org</a></div>
+          </div>
+        </a>
+
+        <a href="https://www.gotquestions.org/spear-of-destiny.html" target="_blank" rel="noopener" class="res-card" data-keywords="gotquestions spear of destiny biblical view christian">
+          <div class="res-card-marker" style="background:rgba(40,120,80,0.1);border-color:rgba(40,120,80,0.35);color:#3a7a5a;">✝</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">What Is the Spear of Destiny? — GotQuestions.org</div>
+            <div class="res-subtitle">GotQuestions.org · Evangelical assessment of the legend</div>
+            <p class="res-desc">GotQuestions's article on the "Spear of Destiny" clearly identifies the legend as non-Biblical, traces its development through medieval and modern occult tradition, and explains why evangelical Christians do not accept claims of supernatural power attached to physical relics. Accessible and factually sound.</p>
+            <div>
+              <span class="res-tag tag-biblical">Biblical View</span>
+              <span class="res-tag tag-overview">Legend Critique</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-gold"></div></div></div>
+            <div><a href="https://www.gotquestions.org/spear-of-destiny.html" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ gotquestions.org</a></div>
+          </div>
+        </a>
+
+        <a href="https://www.catholic.org/saints/saint.php?saint_id=319" target="_blank" rel="noopener" class="res-card" data-keywords="catholic saints longinus saint march 15">
+          <div class="res-card-marker" style="background:rgba(40,120,80,0.1);border-color:rgba(40,120,80,0.35);color:#3a7a5a;">⛪</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Saint Longinus — Catholic.org</div>
+            <div class="res-subtitle">Catholic.org Saints Encyclopedia · Feast Day March 15</div>
+            <p class="res-desc">The Catholic devotional perspective on Saint Longinus — his feast day, patronage (armourers, butchers, and those with eye complaints), and the devotional tradition of his conversion. Presents the hagiographic narrative as devotional history; appropriately consulted for understanding Catholic veneration rather than as historical scholarship.</p>
+            <div>
+              <span class="res-tag tag-biblical">Catholic Tradition</span>
+              <span class="res-tag tag-overview">Hagiography</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-gold"></div><div class="rel-dot filled-amber"></div><div class="rel-dot filled-amber"></div></div></div>
+            <div><a href="https://www.catholic.org/saints/saint.php?saint_id=319" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ catholic.org</a></div>
+          </div>
+        </a>
+
+        <a href="https://www.oxfordreference.com/display/10.1093/oi/authority.20110803100112358" target="_blank" rel="noopener" class="res-card" data-keywords="oxford reference longinus saints christian tradition">
+          <div class="res-card-marker" style="background:rgba(40,120,80,0.1);border-color:rgba(40,120,80,0.35);color:#3a7a5a;">🏛</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Longinus — Oxford Reference</div>
+            <div class="res-subtitle">Oxford Reference · Dictionary of Saints</div>
+            <p class="res-desc">Oxford Reference's entry on Longinus in the Dictionary of Saints is among the most concise and academically sound summaries available, clearly distinguishing scriptural fact from legendary development. The Oxford Dictionary of Saints (David Farmer) is a standard scholarly reference in hagiographic studies. Subscription may be required; check institutional access.</p>
+            <div>
+              <span class="res-tag tag-scholarly">Academic Reference</span>
+              <span class="res-tag tag-biblical">Hagiography</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div></div>
+            <div><a href="https://www.oxfordreference.com" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ oxfordreference.com</a></div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════
+         SECTION 4 — MUSEUMS
+    ══════════════════════════════════════ -->
+    <section id="sec-museums" class="res-group reveal" data-category="museums" style="margin-top:2.5rem;">
+      <div class="res-section-header">
+        <div class="res-section-icon">🏛️</div>
+        <div>
+          <div class="res-section-title">Museums &amp; Institutions</div>
+          <div class="res-section-count">4 resources · Relic locations with visiting information</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3 reveal-children">
+
+        <a href="https://www.khm.at/en/visit/collections/treasury/" target="_blank" rel="noopener" class="res-card" data-keywords="kunsthistorisches museum vienna hofburg spear vienna secular treasury">
+          <div class="res-card-marker" style="background:rgba(160,100,20,0.1);border-color:rgba(160,100,20,0.35);color:#8a6020;">🏛</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Kunsthistorisches Museum — Secular Treasury (Weltliche Schatzkammer)</div>
+            <div class="res-subtitle">Kunsthistorisches Museum Wien · Vienna, Austria · khm.at</div>
+            <p class="res-desc">The Vienna (Hofburg) Spear is held in the Secular Treasury (Room XI) of the KHM — the most-studied Holy Lance claimant. Metallurgical analysis in 2003 dated the blade to c. 7th century AD at earliest. The museum's own collection description and the scientific report summary are available online. The lance is on permanent public display.</p>
+            <div>
+              <span class="res-tag tag-museum">✦ Primary Relic Site</span>
+              <span class="res-tag tag-scholarly">Scientific Analysis</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div></div>
+            <div><a href="https://www.khm.at/en/visit/collections/treasury/" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ khm.at</a></div>
+          </div>
+        </a>
+
+        <a href="https://www.vaticanstate.va/en/monuments/museum-historical-artistic-treasures.html" target="_blank" rel="noopener" class="res-card" data-keywords="vatican st peters basilica rome spear longinus bernini">
+          <div class="res-card-marker" style="background:rgba(160,100,20,0.1);border-color:rgba(160,100,20,0.35);color:#8a6020;">🏛</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Vatican — St. Peter's Basilica &amp; Treasury</div>
+            <div class="res-subtitle">Vatican State · Rome, Italy · vaticanstate.va</div>
+            <p class="res-desc">The Vatican Spear is kept within a pier of St. Peter's Basilica, beneath Bernini's 1638 marble statue of Saint Longinus. Gifted to Pope Innocent VIII by Ottoman Sultan Bayezid II in 1492. The Vatican has not permitted metallurgical testing. The Fabbrica di San Pietro (the administrative body managing St. Peter's) provides visiting information and information on the crossing pier relics.</p>
+            <div>
+              <span class="res-tag tag-museum">Relic Site</span>
+              <span class="res-tag tag-biblical">Catholic Tradition</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-gold"></div><div class="rel-dot filled-gold"></div></div></div>
+            <div><a href="https://www.vaticanstate.va" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ vaticanstate.va</a></div>
+          </div>
+        </a>
+
+        <a href="https://wawel.krakow.pl/en/" target="_blank" rel="noopener" class="res-card" data-keywords="wawel cathedral krakow poland spear copy jagiellonian">
+          <div class="res-card-marker" style="background:rgba(160,100,20,0.1);border-color:rgba(160,100,20,0.35);color:#8a6020;">🏰</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Wawel Cathedral Treasury — Kraków</div>
+            <div class="res-subtitle">Wawel Royal Castle · Kraków, Poland · wawel.krakow.pl</div>
+            <p class="res-desc">The Wawel Cathedral holds the Kraków spear — a 14th-century copy of the Vienna spear, gifted by Holy Roman Emperor Charles IV around 1350. Acknowledged as a copy, not claimed as the original. The Treasury and Crown Rooms (Skarbiec) are open to the public. The Wawel website provides collection information and visiting details.</p>
+            <div>
+              <span class="res-tag tag-museum">Relic Site</span>
+              <span class="res-tag tag-overview">14th-c. Copy</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-gold"></div></div></div>
+            <div><a href="https://wawel.krakow.pl/en/" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ wawel.krakow.pl</a></div>
+          </div>
+        </a>
+
+        <a href="https://www.holy-etchmiadzin.am/en/" target="_blank" rel="noopener" class="res-card" data-keywords="etchmiadzin armenia spear geghard lance armenian apostolic church">
+          <div class="res-card-marker" style="background:rgba(160,100,20,0.1);border-color:rgba(160,100,20,0.35);color:#8a6020;">⛪</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Holy Etchmiadzin — Armenia</div>
+            <div class="res-subtitle">Mother See of Holy Etchmiadzin · Vagharshapat, Armenia</div>
+            <p class="res-desc">The Armenian Apostolic Church venerates the Etchmiadzin Spear (also called the Geghard, or "Spear") as a Passion relic. The Mother See of Holy Etchmiadzin — the oldest state church in the world — holds the relic in its treasury. The monastery of Geghard (a UNESCO World Heritage Site) takes its name from this relic's association. First documented in Armenian sources in the 13th century.</p>
+            <div>
+              <span class="res-tag tag-museum">Relic Site</span>
+              <span class="res-tag tag-biblical">Armenian Apostolic</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-gold"></div><div class="rel-dot filled-gold"></div><div class="rel-dot filled-amber"></div></div></div>
+            <div><a href="https://www.holy-etchmiadzin.am/en/" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ holy-etchmiadzin.am</a></div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════
+         SECTION 5 — PUBLIC DOMAIN IMAGES
+    ══════════════════════════════════════ -->
+    <section id="sec-images" class="res-group reveal" data-category="images" style="margin-top:2.5rem;">
+      <div class="res-section-header">
+        <div class="res-section-icon">🖼</div>
+        <div>
+          <div class="res-section-title">Public Domain Image Sources</div>
+          <div class="res-section-count">4 resources · Wikimedia Commons and museum digital collections</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3 reveal-children">
+
+        <a href="https://commons.wikimedia.org/w/index.php?search=longinus&title=Special:MediaSearch&go=Go&type=image" target="_blank" rel="noopener" class="res-card" data-keywords="wikimedia commons longinus images public domain">
+          <div class="res-card-marker" style="background:rgba(100,50,140,0.1);border-color:rgba(100,50,140,0.3);color:#6a3a8a;">🖼</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Wikimedia Commons — "Longinus" Image Search</div>
+            <div class="res-subtitle">commons.wikimedia.org · Free public domain image repository</div>
+            <p class="res-desc">Direct search for "Longinus" on Wikimedia Commons returns hundreds of public domain artworks, manuscript illustrations, sculptures, and photographs related to the soldier and the spear. All images marked as public domain or Creative Commons licensed may be used freely. Filter by media type, licence, and date. The source of all gallery images on this site.</p>
+            <div>
+              <span class="res-tag tag-images">Public Domain</span>
+              <span class="res-tag tag-images">Art &amp; Manuscripts</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Image Quality</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div></div>
+            <div><a href="https://commons.wikimedia.org/w/index.php?search=longinus" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ commons.wikimedia.org</a></div>
+          </div>
+        </a>
+
+        <a href="https://commons.wikimedia.org/w/index.php?search=holy+lance&title=Special:MediaSearch&go=Go&type=image" target="_blank" rel="noopener" class="res-card" data-keywords="wikimedia commons holy lance spear destiny images">
+          <div class="res-card-marker" style="background:rgba(100,50,140,0.1);border-color:rgba(100,50,140,0.3);color:#6a3a8a;">🖼</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Wikimedia Commons — "Holy Lance" Image Search</div>
+            <div class="res-subtitle">commons.wikimedia.org · Spear, relics, and historical depictions</div>
+            <p class="res-desc">Searches for the Holy Lance specifically — including photographs of the Vienna Spear, the Etchmiadzin lance, historical engravings, Crusade-era manuscripts, and museum display images. Includes the Rabula Gospels Crucifixion miniature (free high-resolution download available), Bernini's Saint Longinus, and Rubens's <em>Le Coup de Lance</em>.</p>
+            <div>
+              <span class="res-tag tag-images">Public Domain</span>
+              <span class="res-tag tag-museum">Relic Photographs</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Image Quality</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div></div>
+            <div><a href="https://commons.wikimedia.org/w/index.php?search=holy+lance" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ commons.wikimedia.org</a></div>
+          </div>
+        </a>
+
+        <a href="https://www.europeana.eu/en/search?query=longinus&qf=TYPE%3A%22IMAGE%22" target="_blank" rel="noopener" class="res-card" data-keywords="europeana longinus digital heritage europe museum images">
+          <div class="res-card-marker" style="background:rgba(100,50,140,0.1);border-color:rgba(100,50,140,0.3);color:#6a3a8a;">🌐</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Europeana — "Longinus" Digital Collections</div>
+            <div class="res-subtitle">europeana.eu · European cultural heritage digital platform</div>
+            <p class="res-desc">Europeana aggregates digitised collections from over 3,000 European museums, libraries, archives, and galleries. A search for "Longinus" returns medieval illuminated manuscripts, tapestries, altarpieces, coins, and sculpture from institutions across Europe — including items not available on Wikimedia. Licensing varies by institution; check each item.</p>
+            <div>
+              <span class="res-tag tag-images">Digitised Heritage</span>
+              <span class="res-tag tag-scholarly">Multi-institution</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Image Quality</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-gold"></div></div></div>
+            <div><a href="https://www.europeana.eu/en/search?query=longinus" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ europeana.eu</a></div>
+          </div>
+        </a>
+
+        <a href="https://www.metmuseum.org/search-results#!/search?q=longinus" target="_blank" rel="noopener" class="res-card" data-keywords="metropolitan museum art new york crucifixion longinus paintings">
+          <div class="res-card-marker" style="background:rgba(100,50,140,0.1);border-color:rgba(100,50,140,0.3);color:#6a3a8a;">🏛</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">The Metropolitan Museum of Art — Longinus Search</div>
+            <div class="res-subtitle">metmuseum.org · Open Access collection (CC0 licence)</div>
+            <p class="res-desc">The Met's Open Access program makes over 400,000 public domain artworks freely downloadable at full resolution under a CC0 licence — no permission required. Their collection includes numerous Crucifixion paintings and medieval objects depicting Longinus. High-resolution downloads available for all Open Access works.</p>
+            <div>
+              <span class="res-tag tag-images">CC0 Licence</span>
+              <span class="res-tag tag-museum">Free Download</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Image Quality</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div></div>
+            <div><a href="https://www.metmuseum.org/search-results#!/search?q=longinus" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ metmuseum.org</a></div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════
+         SECTION 6 — BOOKS
+    ══════════════════════════════════════ -->
+    <section id="sec-books" class="res-group reveal" data-category="books" style="margin-top:2.5rem;">
+      <div class="res-section-header">
+        <div class="res-section-icon">📚</div>
+        <div>
+          <div class="res-section-title">Books &amp; Academic Reading</div>
+          <div class="res-section-count">4 resources · Scholarly monographs and reference works</div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3 reveal-children">
+
+        <div class="res-card" data-keywords="d a carson gospel john commentary pillar new testament">
+          <div class="res-card-marker" style="background:rgba(60,130,40,0.1);border-color:rgba(60,130,40,0.4);color:#4a9a3a;">📗</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">The Gospel According to John — D. A. Carson</div>
+            <div class="res-subtitle">Pillar New Testament Commentary · Eerdmans, 1991 · ISBN 978-0-8028-3683-8</div>
+            <p class="res-desc">Carson's commentary on John is among the most respected scholarly evangelical commentaries on the Fourth Gospel. The treatment of John 19:28–37 covers the blood and water detail, the prophetic fulfilments, and the eyewitness claim with exegetical thoroughness. Accessible to non-specialists while engaging the Greek text directly.</p>
+            <div>
+              <span class="res-tag tag-scholarly">Peer-reviewed Commentary</span>
+              <span class="res-tag tag-biblical">New Testament</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div></div>
+            <div><a href="https://www.google.com/search?q=D+A+Carson+Gospel+of+John+Pillar+Commentary" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ Find via Google Books</a></div>
+          </div>
+        </div>
+
+        <div class="res-card" data-keywords="nicholas goodrick-clarke occult roots nazism black sun">
+          <div class="res-card-marker" style="background:rgba(40,100,140,0.1);border-color:rgba(40,100,140,0.35);color:#3a6a8a;">📘</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">The Occult Roots of Nazism — Nicholas Goodrick-Clarke</div>
+            <div class="res-subtitle">New York University Press, 1992 · ISBN 978-0-8147-3060-3</div>
+            <p class="res-desc">Goodrick-Clarke is the foremost academic historian of esoteric Nazism and occult Aryanism. This rigorous scholarly work documents what National Socialist ideology actually incorporated from occult sources — and importantly, what it did not. Essential for understanding the gap between the documented history of Nazi occult interest and the mythologised version in popular works like Ravenscroft's <em>Spear of Destiny</em>.</p>
+            <div>
+              <span class="res-tag tag-scholarly">Academic History</span>
+              <span class="res-tag tag-overview">Nazi Occultism</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div></div>
+            <div><a href="https://www.google.com/search?q=Goodrick-Clarke+Occult+Roots+of+Nazism" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ Find via Google Books</a></div>
+          </div>
+        </div>
+
+        <div class="res-card" data-keywords="david farmer oxford dictionary saints longinus hagiography">
+          <div class="res-card-marker" style="background:rgba(40,100,140,0.1);border-color:rgba(40,100,140,0.35);color:#3a6a8a;">📘</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">The Oxford Dictionary of Saints — David Farmer</div>
+            <div class="res-subtitle">Oxford University Press, 5th ed. 2011 · ISBN 978-0-19-959660-7</div>
+            <p class="res-desc">The standard scholarly reference for British and Western European hagiography. Farmer's entry on Longinus is concise, accurate, and clearly separates documented tradition from legend. The Dictionary is peer-reviewed by Oxford University Press and draws on primary hagiographic sources. Available at most university libraries and via Oxford Reference Online.</p>
+            <div>
+              <span class="res-tag tag-scholarly">Academic Reference</span>
+              <span class="res-tag tag-biblical">Hagiography</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div></div></div>
+            <div><a href="https://www.google.com/search?q=Oxford+Dictionary+of+Saints+David+Farmer" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ Find via Google Books</a></div>
+          </div>
+        </div>
+
+        <div class="res-card" data-keywords="steven runciman history crusades antioch first crusade primary">
+          <div class="res-card-marker" style="background:rgba(40,100,140,0.1);border-color:rgba(40,100,140,0.35);color:#3a6a8a;">📘</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">A History of the Crusades (Vol. I) — Steven Runciman</div>
+            <div class="res-subtitle">Cambridge University Press, 1951 · Standard scholarly reference on the First Crusade</div>
+            <p class="res-desc">Runciman's three-volume history remains the most readable major scholarly treatment of the Crusades in English. Volume I covers the First Crusade in detail, including the siege of Antioch, the Peter Bartholomew lance episode, and the subsequent fall of Jerusalem. Runciman is appropriately sceptical about the Antioch lance while documenting the episode's psychological and military significance.</p>
+            <div>
+              <span class="res-tag tag-scholarly">Medieval History</span>
+              <span class="res-tag tag-overview">Crusades</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-green"></div><div class="rel-dot filled-green"></div><div class="rel-dot filled-gold"></div></div></div>
+            <div><a href="https://www.google.com/search?q=Runciman+History+of+the+Crusades+Volume+1" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ Find via Google Books</a></div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════
+         SECTION 7 — USE WITH CAUTION
+    ══════════════════════════════════════ -->
+    <section id="sec-caution" class="res-group reveal" data-category="caution" style="margin-top:2.5rem;">
+      <div class="res-section-header" style="border-color:rgba(180,60,60,0.3);">
+        <div class="res-section-icon" style="border-color:rgba(180,60,60,0.4);background:rgba(180,60,60,0.08);">⚠</div>
+        <div>
+          <div class="res-section-title" style="color:var(--crimson);">Use With Caution — Popular &amp; Speculative Sources</div>
+          <div class="res-section-count">3 resources · Documented but unreliable or speculative</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(140,30,30,0.07);border:1px solid rgba(140,30,30,0.2);border-left:3px solid rgba(160,40,40,0.5);border-radius:2px;padding:0.9rem 1.2rem;margin-bottom:1rem;">
+        <p style="font-family:'EB Garamond',serif;font-size:0.97rem;color:#7a4030;line-height:1.7;font-style:italic;">The following sources are listed because they are widely encountered when researching the Holy Lance. They are included here so readers can understand their limitations — not as recommendations. Each is annotated with specific scholarly critiques.</p>
+      </div>
+
+      <div class="flex flex-col gap-3 reveal-children">
+
+        <div class="res-card" data-keywords="ravenscroft spear destiny 1973 occult speculative book">
+          <div class="res-card-marker" style="background:rgba(140,30,30,0.1);border-color:rgba(140,30,30,0.35);color:#8b3a3a;">⚠</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">The Spear of Destiny — Trevor Ravenscroft (1973)</div>
+            <div class="res-subtitle">Trevor Ravenscroft · Samuel Weiser Inc., 1973 · Popular occult history</div>
+            <p class="res-desc">Ravenscroft's book claims that Hitler's obsession with the Vienna Spear's occult power drove his political career, and that its capture by American forces on April 30, 1945 triggered his death. The book was an international bestseller and remains widely cited in popular media.</p>
+            <p class="res-desc" style="margin-top:0.5rem;color:#8a4030;"><strong style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:#c06060;">Scholarly Critique:</strong> Ravenscroft claimed key sections were based on conversations with Walter Johannes Stein — who had died 16 years before the book's publication. Historians Nicholas Goodrick-Clarke and James Webb have documented its fabricated sourcing. No Nazi primary document corroborates Hitler's specific occult fixation on the Vienna lance. <em>Not a reliable historical source.</em></p>
+            <div>
+              <span class="res-tag tag-caution">⚠ Use With Caution</span>
+              <span class="res-tag tag-caution">Fabricated Citations</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-amber"></div><div class="rel-dot"></div><div class="rel-dot"></div></div></div>
+          </div>
+        </div>
+
+        <div class="res-card" data-keywords="wikipedia spear destiny speculation overview legend">
+          <div class="res-card-marker" style="background:rgba(140,30,30,0.1);border-color:rgba(140,30,30,0.35);color:#8b3a3a;">⚠</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Spear of Destiny — Wikipedia Article</div>
+            <div class="res-subtitle">Wikipedia · en.wikipedia.org/wiki/Spear_of_Destiny</div>
+            <p class="res-desc">Wikipedia's "Spear of Destiny" article covers the legend's development from medieval Carolingian myth through 20th-century occultism. It is a reasonable overview of the legend's history, but readers should be aware that the article mixes documented historical facts with popular legend claims. The Wikipedia "Holy Lance" article (separate) is more reliable for the actual history of the relic.</p>
+            <p class="res-desc" style="margin-top:0.5rem;color:#8a4030;"><strong style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:#c06060;">Caution:</strong> The article title itself conflates the scriptural event with the medieval legend. Use for understanding the legend's development; cross-check all historical claims against primary sources.</p>
+            <div>
+              <span class="res-tag tag-caution">⚠ Legend Overview</span>
+              <span class="res-tag tag-overview">Not History</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Reliability</span><div class="rel-dots"><div class="rel-dot filled-gold"></div><div class="rel-dot filled-amber"></div><div class="rel-dot"></div></div></div>
+            <div><a href="https://en.wikipedia.org/wiki/Spear_of_Destiny" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ en.wikipedia.org/wiki/Spear_of_Destiny</a></div>
+          </div>
+        </div>
+
+        <div class="res-card" data-keywords="acts of pilate gospel of nicodemus apocryphal longinus name">
+          <div class="res-card-marker" style="background:rgba(140,30,30,0.1);border-color:rgba(140,30,30,0.35);color:#8b3a3a;">📜</div>
+          <div class="relative z-10 flex-1">
+            <div class="res-title">Acts of Pilate (Gospel of Nicodemus) — c. 4th Century AD</div>
+            <div class="res-subtitle">Apocryphal text · Available via Early Christian Writings (earlychristianwritings.com)</div>
+            <p class="res-desc">The earliest text to name the spear-bearer "Longinus." Non-canonical and not accepted as scripture by any major Christian tradition. Historically significant as a document of 4th-century Christian piety and the origins of the Longinus tradition — not as a historical source for 1st-century events. The text is available in English translation at Early Christian Writings (earlychristianwritings.com).</p>
+            <p class="res-desc" style="margin-top:0.5rem;color:#8a4030;"><strong style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:#c06060;">Status:</strong> Apocryphal. Not canonical scripture. Its historical value lies in documenting when and how the Longinus tradition developed — not in its claims about 1st-century events.</p>
+            <div>
+              <span class="res-tag tag-caution">⚠ Apocryphal</span>
+              <span class="res-tag tag-overview">Non-canonical</span>
+            </div>
+            <div class="rel-meter"><span class="rel-label">Historical Value</span><div class="rel-dots"><div class="rel-dot filled-gold"></div><div class="rel-dot filled-gold"></div><div class="rel-dot"></div></div></div>
+            <div><a href="http://www.earlychristianwritings.com/actsofpilate.html" target="_blank" rel="noopener" class="res-url" onclick="event.stopPropagation()">↗ earlychristianwritings.com</a></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Total count note -->
+    <div class="reveal mt-10 text-center" style="padding-top:1.5rem;border-top:1px solid rgba(160,120,16,0.2);">
+      <p style="font-family:'EB Garamond',serif;font-size:1rem;color:#7a5a3a;line-height:1.8;font-style:italic;max-width:580px;margin:0 auto;">
+        All resources listed are freely accessible online unless otherwise noted. For deeper academic research, most university library systems provide access to JSTOR, Oxford Academic, and Cambridge Core — the major repositories of peer-reviewed articles on Biblical studies, medieval history, and hagiography.
+      </p>
+    </div>
+
+  </main>
+</div>
+</div>
+</div>
+
+
+<!-- ══════════════════════ PAGE NAV ══════════════════════════════════════ -->
+<section style="background:linear-gradient(180deg,#f0e0b8 0%,#f5e8c7 100%);" class="py-12 px-6 md:px-12">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-col sm:flex-row items-stretch gap-4 reveal">
+      <a href="maps.html" class="page-nav-card">
+        <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.2em;color:#9a7a5a;text-transform:uppercase;margin-bottom:0.3rem;">← Previous</div>
+        <div style="font-family:'Cinzel',serif;font-size:0.82rem;color:var(--leather);font-weight:700;">Maps &amp; Journeys</div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;font-style:italic;margin-top:0.1rem;">The Relic's Odyssey Across Continents</div>
+      </a>
+      <a href="index.html" class="page-nav-card" style="text-align:right;">
+        <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.2em;color:#9a7a5a;text-transform:uppercase;margin-bottom:0.3rem;">Return →</div>
+        <div style="font-family:'Cinzel',serif;font-size:0.82rem;color:var(--leather);font-weight:700;">Home</div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;font-style:italic;margin-top:0.1rem;">The Spear of Destiny</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer class="grain relative" style="background:linear-gradient(0deg,#1a1008 0%,#2e2020 40%,#3c2f2f 100%);box-shadow:0 -4px 30px rgba(0,0,0,0.6);">
+  <div style="height:2px;background:linear-gradient(90deg,transparent,#4a3010,#d4a017,#4a3010,transparent);opacity:0.5;"></div>
+  <div class="gold-rule mx-6 md:mx-12 opacity-30 mt-0"></div>
+  <div class="relative z-10 px-6 md:px-12 pt-10 pb-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+          <svg width="18" height="34" viewBox="0 0 28 54" fill="none" class="relic-glow">
+            <polygon points="14,0 20,18 14,22 8,18" fill="#d4a017" opacity="0.85"/>
+            <polygon points="14,0 14,22 8,18" fill="#a07810" opacity="0.7"/>
+            <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#6a4a1e"/>
+            <rect x="6" y="34" width="16" height="2.5" rx="1" fill="#c09010"/>
+            <ellipse cx="14" cy="50" rx="4" ry="2.5" fill="#a07810"/>
+          </svg>
+          <span style="font-family:'Cinzel Decorative',serif;font-size:0.95rem;font-weight:700;color:#d4a017;">LONGINUS</span>
+        </div>
+        <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#8a6a4a;line-height:1.75;font-style:italic;">Tracing the path of the most powerful relic in history — from Golgotha to the vaults of the unknown.</p>
+        <div style="border:1px solid rgba(212,160,23,0.3);padding:0.5rem 1rem;border-radius:2px;background:rgba(212,160,23,0.06);display:inline-block;">
+          <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;">✦ Explore the Mystery ✦</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:0.5rem;">Chapters</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+          <li><a href="index.html"   style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Home</a></li>
+          <li><a href="longinus.html" style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ The Soldier</a></li>
+          <li><a href="the-spear.html" style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ The Spear</a></li>
+          <li><a href="artifacts.html" style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Art &amp; Depictions</a></li>
+          <li><a href="history.html"  style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Through the Ages</a></li>
+          <li><a href="maps.html"     style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Maps &amp; Journeys</a></li>
+          <li><a href="resources.html" style="font-family:'Cinzel',serif;font-size:0.68rem;color:#d4a017;letter-spacing:0.1em;text-decoration:none;">⟶ Resources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:0.5rem;">Resource Categories</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.45rem;">
+          <li><a href="#sec-bible"         style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">📖 Bible Texts</a></li>
+          <li><a href="#sec-scholarly"     style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">🎓 Scholarship</a></li>
+          <li><a href="#sec-biblical-view" style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">✝ Biblical View</a></li>
+          <li><a href="#sec-museums"       style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">🏛️ Museums</a></li>
+          <li><a href="#sec-images"        style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">🖼 Public Domain Images</a></li>
+          <li><a href="#sec-books"         style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">📚 Books</a></li>
+          <li><a href="#sec-caution"       style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">⚠ Use With Caution</a></li>
+        </ul>
+        <div class="flex items-center gap-4 mt-5">
+          <span class="relic-glow" style="font-size:1.2rem;">📚</span>
+          <span class="relic-glow" style="font-size:1.2rem;color:#d4a017;">⚔</span>
+          <span class="relic-glow flicker" style="font-size:1.2rem;color:#d4a017;">🕯</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-ornament text-center mb-4">✦ ✦ ✦</div>
+    <div class="gold-rule opacity-25 mb-5"></div>
+    <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+      <span style="font-family:'EB Garamond',serif;font-size:0.75rem;color:#5a4030;font-style:italic;">&copy; <span id="footer-year"></span> Longinus — Tip of the Spear. All rights reserved.</span>
+      <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.22em;color:#6a4a2a;text-transform:uppercase;">Forged in History &nbsp;·&nbsp; Sealed in Mystery</span>
+      <div class="flex items-center gap-3">
+        <a href="privacy.html"  style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Privacy</a>
+        <span style="color:#4a3020;">·</span>
+        <a href="sitemap.html"  style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Sitemap</a>
+        <span style="color:#4a3020;">·</span>
+        <a href="contact.html"  style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div style="height:3px;background:linear-gradient(90deg,transparent,#6a4a1a,#d4a017,#e8b820,#d4a017,#6a4a1a,transparent);"></div>
+</footer>
+
+
+<!-- ═══════════════════════════════ SCRIPTS ════════════════════════════════ -->
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  // Mobile menu
+  const toggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  toggle.addEventListener('click', () => {
+    const open = !mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden', open);
+    toggle.classList.toggle('open', !open);
+  });
+
+  // Sticky header shadow
+  const hdr = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    hdr.style.boxShadow = window.scrollY > 10
+      ? '0 6px 40px rgba(0,0,0,0.9),0 2px 12px rgba(212,160,23,0.1)'
+      : '0 4px 30px rgba(0,0,0,0.7)';
+  }, { passive: true });
+
+  // Scroll reveal
+  const revEls = document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-children');
+  const revObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); } });
+  }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+  revEls.forEach(el => revObs.observe(el));
+
+  // ── Sticky TOC active tracking ──
+  const tocLinks = document.querySelectorAll('.toc-link');
+  const sections = document.querySelectorAll('section[id]');
+  const tocObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocLinks.forEach(l => l.classList.toggle('toc-active', l.getAttribute('href') === `#${id}`));
+      }
+    });
+  }, { rootMargin: '-15% 0px -65% 0px' });
+  sections.forEach(s => tocObs.observe(s));
+
+  // ── Filter chips ──
+  const chips    = document.querySelectorAll('.filter-chip');
+  const groups   = document.querySelectorAll('.res-group');
+  const countEl  = document.getElementById('count-num');
+  const searchEl = document.getElementById('res-search');
+
+  function countVisible() {
+    return document.querySelectorAll('.res-card:not([style*="display: none"])').length;
+  }
+
+  function applyFilter(filter) {
+    groups.forEach(g => {
+      const cat = g.dataset.category;
+      const show = filter === 'all' || cat === filter;
+      g.style.display = show ? '' : 'none';
+    });
+    countEl.textContent = countVisible();
+  }
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      searchEl.value = '';
+      applyFilter(chip.dataset.filter);
+    });
+  });
+
+  // ── Live search ──
+  searchEl.addEventListener('input', () => {
+    const q = searchEl.value.toLowerCase().trim();
+    chips.forEach(c => c.classList.remove('active'));
+    document.querySelector('[data-filter="all"]').classList.add('active');
+
+    if (!q) { applyFilter('all'); return; }
+
+    groups.forEach(g => { g.style.display = ''; });
+
+    document.querySelectorAll('.res-card').forEach(card => {
+      const kw = (card.dataset.keywords || '').toLowerCase();
+      const text = (card.textContent || '').toLowerCase();
+      const match = kw.includes(q) || text.includes(q);
+      card.style.display = match ? '' : 'none';
+    });
+
+    // Hide empty groups
+    groups.forEach(g => {
+      const visibleCards = g.querySelectorAll('.res-card:not([style*="display: none"])');
+      g.style.display = visibleCards.length > 0 ? '' : 'none';
+    });
+
+    countEl.textContent = countVisible();
+  });
+</script>
+
+</body>
+</html>

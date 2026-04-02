@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Through the Ages — History of the Holy Lance | Longinus · Tip of the Spear</title>
+  <meta name="description" content="The Holy Lance through history — from 6th-century Jerusalem pilgrims to medieval emperors, the First Crusade, modern relic science, and the 20th-century legend of the Spear of Destiny." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --parchment:      #f5e8c7;
+      --parchment-dark: #e8d5a3;
+      --leather:        #3c2f2f;
+      --gold:           #d4a017;
+      --gold-light:     #e8b820;
+      --gold-dim:       #a07810;
+      --shadow:         #1a1008;
+      --ink:            #2a1f1f;
+      --crimson:        #8b1a1a;
+      --forest:         #1a3a1a;
+      --navy:           #0e1a2e;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--parchment);
+      color: var(--ink);
+      font-family: 'EB Garamond', Georgia, serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    .grain::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1;
+    }
+
+    .gold-rule { border: none; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); opacity: 0.55; }
+
+    /* ── Nav ── */
+    .nav-link { position: relative; text-decoration: none; color: #c8a878; font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2em 0; transition: color 0.25s; }
+    .nav-link::after { content: ''; position: absolute; left: 50%; right: 50%; bottom: -3px; height: 1px; background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), var(--gold-dim)); transition: left 0.3s, right 0.3s; }
+    .nav-link:hover { color: var(--gold-light); }
+    .nav-link:hover::after { left: 0; right: 0; }
+    .nav-link.active { color: var(--gold); }
+    .nav-link.active::after { left: 0; right: 0; }
+    .spear-sep { display: inline-block; color: #6a4a2a; opacity: 0.5; font-size: 0.65rem; margin: 0 0.4rem; user-select: none; }
+
+    @keyframes border-shimmer { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+    .logo-shimmer { background: linear-gradient(90deg, transparent, rgba(212,160,23,0.5), transparent); background-size: 200% 100%; animation: border-shimmer 4s linear infinite; }
+
+    .relic-glow { transition: filter 0.35s, transform 0.35s; cursor: pointer; }
+    .relic-glow:hover { filter: drop-shadow(0 0 6px rgba(212,160,23,0.85)) drop-shadow(0 0 14px rgba(212,160,23,0.45)); transform: scale(1.1); }
+    .torch-icon { display: inline-block; transition: filter 0.3s, transform 0.3s; }
+    .torch-icon:hover { filter: drop-shadow(0 0 8px rgba(212,160,23,0.9)); transform: scale(1.15) rotate(-5deg); }
+
+    .hamburger span { display: block; width: 22px; height: 2px; background: #f5e8c7; margin: 5px 0; transition: all 0.3s; transform-origin: center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── PAGE HERO ── */
+    #page-hero { position: relative; min-height: 52vh; display: flex; align-items: center; overflow: hidden; }
+    #page-hero-bg { position: absolute; inset: 0; background-image: url('history-hero-placeholder.jpg'); background-size: cover; background-position: center 30%; filter: sepia(0.65) brightness(0.28) contrast(1.2); transform: scale(1.04); }
+    #page-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(105deg, rgba(26,16,8,0.97) 0%, rgba(26,16,8,0.55) 55%, rgba(26,16,8,0.18) 100%); }
+    #page-hero-bot { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(26,16,8,0.88) 0%, transparent 38%); }
+
+    .section-eyebrow { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.32em; color: var(--gold-dim); text-transform: uppercase; display: block; margin-bottom: 0.55rem; }
+    .breadcrumb { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em; color: #7a5a3a; text-transform: uppercase; }
+    .breadcrumb a { color: #9a7a5a; text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--gold); }
+
+    /* ── RELIABILITY BADGES ── */
+    .badge { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Cinzel', serif; font-size: 0.56rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.26rem 0.7rem; border-radius: 2px; border: 1px solid; white-space: nowrap; }
+    .badge-record    { color: #4a8a3a; border-color: rgba(60,130,40,0.4);  background: rgba(60,130,40,0.07); }
+    .badge-tradition { color: #8a6020; border-color: rgba(160,100,20,0.4); background: rgba(160,100,20,0.07); }
+    .badge-debate    { color: #3a6a8a; border-color: rgba(40,100,140,0.35); background: rgba(40,100,140,0.06); }
+    .badge-legend    { color: #8a3a3a; border-color: rgba(140,40,40,0.35); background: rgba(140,40,40,0.06); }
+
+    /* ════════════════════════════════════════
+       VERTICAL TIMELINE
+    ════════════════════════════════════════ */
+    .timeline-container { position: relative; padding: 0 0 2rem 0; }
+
+    /* Central spine */
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, transparent 0%, rgba(212,160,23,0.4) 5%, rgba(212,160,23,0.35) 90%, transparent 100%);
+      transform: translateX(-50%);
+    }
+    @media (max-width: 768px) {
+      .timeline-container::before { left: 28px; transform: none; }
+    }
+
+    /* Individual entry */
+    .tl-entry {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      gap: 0;
+      margin-bottom: 3rem;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .tl-entry { grid-template-columns: 60px 1fr; gap: 0 1rem; }
+    }
+
+    /* Dot on the spine */
+    .tl-dot {
+      position: relative;
+      display: flex; align-items: flex-start; justify-content: center;
+      padding-top: 0.3rem;
+      z-index: 2;
+    }
+    .tl-dot-inner {
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 2px solid;
+      background: var(--parchment);
+      flex-shrink: 0;
+      transition: box-shadow 0.3s;
+    }
+    .tl-entry:hover .tl-dot-inner {
+      box-shadow: 0 0 12px 4px rgba(212,160,23,0.4);
+    }
+    .dot-record    { border-color: #4a9a3a; }
+    .dot-tradition { border-color: var(--gold-dim); }
+    .dot-debate    { border-color: #3a70aa; }
+    .dot-legend    { border-color: #aa3a3a; }
+    .dot-science   { border-color: #7a7aaa; }
+
+    /* Left content (even entries — date on right side on desktop) */
+    .tl-left {
+      text-align: right;
+      padding-right: 2rem;
+      padding-top: 0.1rem;
+    }
+    @media (max-width: 768px) {
+      .tl-left { display: none; }
+    }
+
+    /* Right content */
+    .tl-right {
+      padding-left: 2rem;
+      padding-top: 0.1rem;
+    }
+    @media (max-width: 768px) {
+      .tl-right { padding-left: 0; }
+    }
+
+    /* For alternating layout: odd entries have content left, even right */
+    .tl-entry.left-entry .tl-left  { order: 1; }
+    .tl-entry.left-entry .tl-dot   { order: 2; }
+    .tl-entry.left-entry .tl-right { order: 3; opacity: 0; pointer-events: none; } /* spacer */
+
+    .tl-entry.right-entry .tl-left  { order: 1; opacity: 0; pointer-events: none; }
+    .tl-entry.right-entry .tl-dot   { order: 2; }
+    .tl-entry.right-entry .tl-right { order: 3; }
+
+    @media (max-width: 768px) {
+      .tl-entry.left-entry,
+      .tl-entry.right-entry { grid-template-columns: 60px 1fr; }
+      .tl-entry.left-entry .tl-left  { display: none; }
+      .tl-entry.left-entry .tl-right { display: block; opacity: 1; pointer-events: all; order: 2; padding-left: 0; }
+      .tl-entry.left-entry .tl-dot   { order: 1; }
+      .tl-entry.right-entry .tl-left { display: none; }
+      .tl-entry.right-entry .tl-right { order: 2; padding-left: 0; }
+      .tl-entry.right-entry .tl-dot  { order: 1; }
+    }
+
+    /* Timeline card */
+    .tl-card {
+      background: linear-gradient(145deg, #f0e4c4 0%, #e8d8ac 100%);
+      border: 1px solid rgba(160,120,16,0.25);
+      border-radius: 3px;
+      padding: 1.2rem 1.4rem;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s;
+    }
+    .tl-card:hover {
+      box-shadow: 0 8px 30px rgba(26,16,8,0.2);
+      border-color: rgba(212,160,23,0.45);
+      transform: translateY(-2px);
+    }
+    .tl-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* Dark card variant for legend/debate entries */
+    .tl-card-dark {
+      background: linear-gradient(145deg, #2a1a0e 0%, #3a2810 100%);
+      border-color: rgba(212,160,23,0.2);
+    }
+    .tl-card-dark:hover { border-color: rgba(212,160,23,0.4); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .tl-card-crimson {
+      background: linear-gradient(145deg, #2a1010 0%, #3a1818 100%);
+      border-color: rgba(140,40,40,0.3);
+    }
+    .tl-card-crimson:hover { border-color: rgba(160,50,50,0.5); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+
+    /* Card top accent line */
+    .tl-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    }
+    .tl-accent-record    { }
+    .tl-accent-tradition::after { background: linear-gradient(90deg, transparent, rgba(212,160,23,0.6), transparent); }
+    .tl-accent-record::after    { background: linear-gradient(90deg, transparent, rgba(80,160,50,0.6), transparent); }
+    .tl-accent-debate::after    { background: linear-gradient(90deg, transparent, rgba(50,110,180,0.6), transparent); }
+    .tl-accent-legend::after    { background: linear-gradient(90deg, transparent, rgba(180,50,50,0.7), transparent); }
+    .tl-accent-science::after   { background: linear-gradient(90deg, transparent, rgba(100,100,180,0.6), transparent); }
+
+    .tl-date {
+      font-family: 'Cinzel Decorative', serif; font-size: clamp(1rem, 2.2vw, 1.35rem);
+      line-height: 1.15; margin-bottom: 0.5rem;
+    }
+    .tl-date-light { color: var(--gold); }
+    .tl-date-dark  { color: var(--ink); }
+
+    .tl-heading {
+      font-family: 'Cinzel', serif; font-size: 0.88rem; letter-spacing: 0.06em;
+      font-weight: 700; line-height: 1.3; margin-bottom: 0.5rem;
+    }
+    .tl-heading-light { color: #c8a060; }
+    .tl-heading-dark  { color: var(--leather); }
+
+    .tl-body { font-family: 'EB Garamond', serif; font-size: 1rem; line-height: 1.78; }
+    .tl-body-light { color: #a88848; }
+    .tl-body-dark  { color: #4a3020; }
+
+    .tl-note {
+      font-family: 'EB Garamond', serif; font-size: 0.88rem; line-height: 1.65;
+      font-style: italic; margin-top: 0.5rem; padding-top: 0.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .tl-note-light { color: #8a7040; border-color: rgba(0,0,0,0.08); }
+    .tl-note-dark  { color: #8a6848; }
+    .tl-note-crimson { color: #b07070; border-color: rgba(255,255,255,0.06); }
+
+    /* Date label (on opposite side of card) */
+    .tl-side-date {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+      color: var(--gold-dim); opacity: 0.7;
+      line-height: 1.2; padding-top: 0.4rem;
+    }
+    .tl-side-badge { padding-top: 0.6rem; }
+
+    /* ── SECTION DIVIDER ── */
+    .era-divider {
+      display: flex; align-items: center; gap: 1.5rem;
+      margin: 3.5rem 0 2.5rem; position: relative; z-index: 5;
+    }
+    .era-divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(160,120,16,0.5)); }
+    .era-divider-line.r { background: linear-gradient(270deg, transparent, rgba(160,120,16,0.5)); }
+    .era-divider-label {
+      font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--gold-dim);
+      background: var(--parchment); padding: 0 0.8rem;
+      white-space: nowrap;
+    }
+
+    /* ── RELIC TABLE ── */
+    .relic-table { width: 100%; border-collapse: collapse; }
+    .relic-table th { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-dim); padding: 0.7rem 1rem; text-align: left; border-bottom: 1px solid rgba(212,160,23,0.2); background: rgba(212,160,23,0.05); }
+    .relic-table td { font-family: 'EB Garamond', serif; font-size: 0.97rem; color: #c8a878; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(212,160,23,0.08); line-height: 1.55; vertical-align: top; }
+    .relic-table tr:last-child td { border-bottom: none; }
+    .relic-table tr:hover td { background: rgba(212,160,23,0.04); }
+    .relic-table td:first-child { font-family: 'Cinzel', serif; font-size: 0.78rem; color: #e0c070; font-weight: 700; letter-spacing: 0.04em; }
+    .relic-date-chip { font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.18rem 0.5rem; border-radius: 2px; display: inline-block; margin-top: 0.2rem; }
+    .chip-verified   { color: #5aaa40; background: rgba(60,140,40,0.12); border: 1px solid rgba(60,140,40,0.3); }
+    .chip-unverified { color: #c07040; background: rgba(180,100,30,0.1);  border: 1px solid rgba(180,100,30,0.3); }
+    .chip-copy       { color: #6090c0; background: rgba(50,100,160,0.1);  border: 1px solid rgba(50,100,160,0.3); }
+    .chip-lost       { color: #a05050; background: rgba(160,50,50,0.1);   border: 1px solid rgba(160,50,50,0.3); }
+
+    /* ── LEGEND BOX ── */
+    .legend-box { background: linear-gradient(135deg, #2a1010, #3a1818); border: 1px solid rgba(140,40,40,0.35); border-radius: 2px; padding: 1.8rem 2rem; position: relative; overflow: hidden; }
+    .legend-box::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, rgba(180,40,40,0.7), var(--crimson), rgba(180,40,40,0.7), transparent); }
+    .legend-item { display: flex; gap: 1rem; align-items: flex-start; padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .legend-item:first-child { padding-top: 0; }
+    .legend-item:last-child  { border-bottom: none; padding-bottom: 0; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal       { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left  { opacity: 0; transform: translateX(-20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right { opacity: 0; transform: translateX(20px);  transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible, .reveal-left.visible, .reveal-right.visible { opacity: 1; transform: none; }
+
+    /* Timeline entries animate from their respective sides */
+    .tl-entry { opacity: 0; transform: translateY(18px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .tl-entry.visible { opacity: 1; transform: none; }
+
+    @keyframes fade-up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+    .load-1{animation:fade-up 1s ease 0.2s both}
+    .load-2{animation:fade-up 1s ease 0.5s both}
+    .load-3{animation:fade-up 1s ease 0.8s both}
+    .load-4{animation:fade-up 1s ease 1.1s both}
+
+    @keyframes flicker{0%,100%{opacity:1}48%{opacity:0.9}50%{opacity:0.72}52%{opacity:0.95}75%{opacity:0.85}}
+    .flicker{animation:flicker 5s ease-in-out infinite}
+
+    .page-nav-card { flex: 1; background: rgba(60,47,47,0.06); border: 1px solid rgba(60,47,47,0.15); border-radius: 2px; padding: 1.2rem 1.4rem; text-decoration: none; transition: background 0.25s, border-color 0.25s; }
+    .page-nav-card:hover { border-color: rgba(212,160,23,0.4); background: rgba(212,160,23,0.05); }
+    .footer-ornament { letter-spacing: 1.2em; color: var(--gold-dim); opacity: 0.6; font-size: 0.7rem; }
+
+    /* ── STICKY TOC ── */
+    .toc-panel { position: sticky; top: 120px; }
+    @media (max-width: 1024px) { .toc-panel { display: none; } }
+    .toc-link { font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: #7a5a3a; text-decoration: none; display: block; padding: 0.35rem 0; border-left: 2px solid transparent; padding-left: 0.8rem; transition: color 0.2s, border-color 0.2s; }
+    .toc-link:hover { color: var(--gold-dim); border-left-color: rgba(212,160,23,0.4); }
+    .toc-link.toc-active { color: var(--gold); border-left-color: var(--gold-dim); }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HEADER ════════════════════════════════ -->
+<header class="grain relative" id="site-header"
+  style="position:sticky;top:0;z-index:100;background:linear-gradient(180deg,#2a1a0e 0%,#3c2f2f 60%,#2e2020 100%);box-shadow:0 4px 30px rgba(0,0,0,0.7);">
+  <div style="height:3px;background:linear-gradient(90deg,transparent,#6a4a1a,#d4a017,#e8b820,#d4a017,#6a4a1a,transparent);"></div>
+  <div class="relative z-10 px-6 md:px-10 py-4 flex items-center justify-between gap-6">
+    <a href="index.html" class="flex items-start gap-3 no-underline flex-shrink-0">
+      <div class="relic-glow mt-1">
+        <svg width="24" height="46" viewBox="0 0 28 54" fill="none">
+          <polygon points="14,0 20,18 14,22 8,18" fill="#d4a017" opacity="0.95"/>
+          <polygon points="14,0 14,22 8,18" fill="#a07810" opacity="0.8"/>
+          <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#7a5c2e"/>
+          <rect x="13.2" y="21" width="1.5" height="26" rx=".75" fill="#9a7a3e" opacity="0.6"/>
+          <rect x="6" y="34" width="16" height="2.5" rx="1" fill="#c09010"/>
+          <ellipse cx="14" cy="50" rx="4" ry="2.5" fill="#a07810"/>
+          <ellipse cx="14" cy="50" rx="2" ry="1.5" fill="#d4a017" opacity="0.5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="flex items-baseline gap-2">
+          <span style="font-family:'Cinzel Decorative',serif;font-size:1.05rem;font-weight:700;color:#d4a017;text-shadow:0 0 20px rgba(212,160,23,0.5);">LONGINUS</span>
+          <span style="color:#6a4a2a;font-size:0.85rem;">|</span>
+          <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.22em;color:#c8a878;text-transform:uppercase;font-weight:600;">TIP OF THE SPEAR</span>
+        </div>
+        <div class="logo-shimmer" style="height:1px;margin-top:5px;border-radius:2px;"></div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.58rem;color:#8a6a4a;letter-spacing:0.18em;margin-top:3px;font-style:italic;">The Spear of Destiny</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 flex-wrap justify-end">
+      <a href="index.html"            class="nav-link px-3 py-2">Home</a>
+      <span class="spear-sep">⟡</span>
+      <a href="longinus.html"         class="nav-link px-3 py-2">The Soldier</a>
+      <span class="spear-sep">⟡</span>
+      <a href="the-spear.html"        class="nav-link px-3 py-2">The Spear</a>
+      <span class="spear-sep">⟡</span>
+      <a href="artifacts.html"        class="nav-link px-3 py-2">Art &amp; Depictions</a>
+      <span class="spear-sep">⟡</span>
+      <a href="history.html"          class="nav-link active px-3 py-2">Through the Ages</a>
+      <span class="spear-sep">⟡</span>
+      <a href="maps-journeys.html"    class="nav-link px-3 py-2">Maps &amp; Journeys</a>
+      <span class="spear-sep">⟡</span>
+      <a href="resources.html"        class="nav-link px-3 py-2">Resources</a>
+    </nav>
+    <button class="hamburger lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded focus:outline-none"
+      id="menu-toggle" aria-label="Toggle menu"
+      style="background:rgba(212,160,23,0.08);border:1px solid rgba(212,160,23,0.2);">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="gold-rule mx-6 md:mx-10 opacity-40"></div>
+  <div class="relative z-10 px-6 md:px-10 py-1.5 hidden md:flex items-center justify-between">
+    <span style="font-family:'EB Garamond',serif;font-size:0.65rem;color:#7a5a3a;letter-spacing:0.2em;font-style:italic;">"He who holds the Spear holds the destiny of the world."</span>
+    <div class="flex items-center gap-4">
+      <span class="relic-glow torch-icon" style="color:#d4a017;font-size:0.95rem;">🔦</span>
+      <span class="relic-glow torch-icon" style="color:#d4a017;font-size:0.95rem;">⚔️</span>
+      <span class="relic-glow torch-icon" style="color:#d4a017;font-size:0.95rem;">📜</span>
+    </div>
+  </div>
+  <div style="height:2px;background:linear-gradient(90deg,transparent,#4a3010,#d4a017,#4a3010,transparent);opacity:0.5;"></div>
+  <div id="mobile-menu" class="hidden lg:hidden" style="background:linear-gradient(180deg,#2e2020,#3c2f2f);border-top:1px solid rgba(212,160,23,0.2);">
+    <nav class="flex flex-col py-2">
+      <a href="index.html"            class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Home</a>
+      <a href="longinus.html"         class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">The Soldier</a>
+      <a href="the-spear.html"        class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">The Spear</a>
+      <a href="artifacts.html"        class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Art &amp; Depictions</a>
+      <a href="history.html"          class="nav-link active px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Through the Ages</a>
+      <a href="maps-journeys.html"    class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Maps &amp; Journeys</a>
+      <a href="resources.html"        class="nav-link px-6 py-3">Resources</a>
+    </nav>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════ PAGE HERO ════════════════════════════════ -->
+<section id="page-hero" aria-label="Through the Ages — hero">
+  <div id="page-hero-bg" role="img" aria-label="Medieval illumination or map — placeholder"></div>
+  <div id="page-hero-bot"></div>
+  <div style="position:absolute;inset:0;box-shadow:inset 0 0 120px rgba(0,0,0,0.65);z-index:3;pointer-events:none;"></div>
+
+  <div class="relative z-10 px-8 md:px-14 pb-16 pt-16 max-w-4xl w-full">
+    <div class="load-1">
+      <nav class="breadcrumb mb-5" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span style="margin:0 0.6rem;opacity:0.4;">⟶</span>
+        <span style="color:#7a5a3a;">Through the Ages</span>
+      </nav>
+    </div>
+    <div class="load-2">
+      <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.38em;color:#8a6030;text-transform:uppercase;display:inline-block;border:1px solid rgba(212,160,23,0.18);padding:0.3rem 0.9rem;margin-bottom:1.4rem;background:rgba(212,160,23,0.04);">
+        ✦ &nbsp; Chapter IV &nbsp; ✦
+      </span>
+    </div>
+    <h1 class="load-3" style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,5.5vw,3.4rem);font-weight:900;color:#f0dfa8;line-height:1.12;text-shadow:0 4px 30px rgba(0,0,0,0.9);margin-bottom:1rem;">
+      Through the Ages<br/>
+      <span style="color:var(--gold);font-size:0.72em;letter-spacing:0.04em;text-shadow:0 0 40px rgba(212,160,23,0.4);">Emperors, Crusaders &amp; Legend</span>
+    </h1>
+    <p class="load-4" style="font-family:'EB Garamond',serif;font-size:clamp(1rem,2vw,1.2rem);color:#b8946a;line-height:1.75;max-width:600px;font-style:italic;">
+      From the first pilgrim's report in Jerusalem to the vaults of the Vienna Kunsthistorisches Museum — fifteen centuries of veneration, politics, conquest, and myth, mapped against the historical record.
+    </p>
+
+    <!-- Legend key -->
+    <div class="load-4 flex flex-wrap gap-2 mt-7" aria-label="Timeline legend">
+      <span class="badge badge-record">✦ Historical Record</span>
+      <span class="badge badge-tradition">◈ Ownership Tradition</span>
+      <span class="badge badge-debate">◎ Scholarly Debate</span>
+      <span class="badge badge-legend">✧ Legend / Speculation</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ MAIN CONTENT + SIDEBAR ═══════════════════════ -->
+<div style="background:linear-gradient(180deg,#f5e8c7 0%,#eed9b0 100%);">
+<div class="max-w-7xl mx-auto px-5 md:px-10 py-14">
+<div class="flex gap-12 items-start">
+
+  <!-- ── STICKY TOC SIDEBAR ── -->
+  <aside class="w-52 flex-shrink-0 toc-panel" aria-label="Table of contents">
+    <p style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.22em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.8rem;">Contents</p>
+    <nav>
+      <a class="toc-link" href="#early-veneration">Early Veneration</a>
+      <a class="toc-link" href="#late-antiquity">Late Antiquity</a>
+      <a class="toc-link" href="#imperial-era">Imperial Era</a>
+      <a class="toc-link" href="#crusades">The Crusades</a>
+      <a class="toc-link" href="#medieval-empire">Medieval Empire</a>
+      <a class="toc-link" href="#relics-today">Relics Today</a>
+      <a class="toc-link" href="#legends">Legends &amp; Speculation</a>
+    </nav>
+    <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(160,120,16,0.2);">
+      <p style="font-family:'EB Garamond',serif;font-size:0.82rem;color:#8a6a4a;line-height:1.6;font-style:italic;">Timeline spans c. 570 AD to the present day.</p>
+    </div>
+  </aside>
+
+  <!-- ── MAIN COLUMN ── -->
+  <main style="flex:1;min-width:0;">
+
+    <!-- ═══ INTRO NOTE ═══ -->
+    <div class="reveal mb-10" style="background:rgba(60,47,47,0.07);border:1px solid rgba(60,47,47,0.14);border-left:3px solid rgba(212,160,23,0.45);border-radius:2px;padding:1.1rem 1.4rem;">
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#5a4030;line-height:1.8;font-style:italic;">
+        <strong style="font-style:normal;font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.14em;color:var(--gold-dim);text-transform:uppercase;">Editorial note:</strong>
+        &nbsp;This page distinguishes between entries that are documented by contemporary historical sources, those that rest on later tradition or chronicle, those that are subject to active scholarly debate, and those that are legend or modern speculation. The colour-coded badge on each timeline entry indicates its evidential status.
+      </p>
+    </div>
+
+    <!-- ═══════════════════════════════
+         SECTION 1 — EARLY VENERATION
+    ═══════════════════════════════ -->
+    <section id="early-veneration">
+      <div class="era-divider reveal">
+        <div class="era-divider-line"></div>
+        <span class="era-divider-label">✦ Early Veneration · 6th Century</span>
+        <div class="era-divider-line r"></div>
+      </div>
+
+      <div class="timeline-container">
+
+        <!-- c. 570 AD — Pilgrim of Piacenza -->
+        <div class="tl-entry left-entry" data-side="left">
+          <div class="tl-left">
+            <div class="tl-side-date">c. 570 AD</div>
+            <div class="tl-side-badge"><span class="badge badge-record">✦ Historical Record</span></div>
+          </div>
+          <div class="tl-dot">
+            <div class="tl-dot-inner dot-record"></div>
+          </div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-record" style="background:linear-gradient(145deg,#f0e4c4,#e8d8ac);">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-dark">c. 570 AD</div>
+                <div class="tl-heading tl-heading-dark">The Pilgrim of Piacenza — First Written Record</div>
+                <p class="tl-body tl-body-dark">The oldest surviving written report of a physical Holy Lance relic comes from an anonymous traveller known as the <em>Pilgrim of Piacenza</em> (Antoninus of Piacenza). In his account of a pilgrimage to Jerusalem, he describes seeing in the Church of the Holy Sepulchre "the lance of Our Lord Jesus Christ, with which he was struck while on the cross."</p>
+                <p class="tl-note tl-note-light">This is the earliest documented claim of a physical relic. The pilgrim does not describe its appearance in detail or make claims about its power. The account predates the Arab conquest of Jerusalem by roughly 67 years.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 586 AD — Rabula Gospels -->
+        <div class="tl-entry right-entry">
+          <div class="tl-left">
+            <div class="tl-side-date" style="text-align:right;">586 AD</div>
+            <div class="tl-side-badge" style="text-align:right;"><span class="badge badge-record">✦ Historical Record</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-record"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-record" style="background:linear-gradient(145deg,#f0e4c4,#e8d8ac);">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-dark">586 AD</div>
+                <div class="tl-heading tl-heading-dark">Rabula Gospels — First Named Depiction</div>
+                <p class="tl-body tl-body-dark">The Syriac Rabula Gospels, produced at the Monastery of St. John of Zagba in Mesopotamia, contain the first surviving image in which the spear-bearer at the Crucifixion is labelled "Longinus" by name. The manuscript establishes the iconographic and nominative tradition that all subsequent Christian art would follow.</p>
+                <p class="tl-note tl-note-light">The manuscript is preserved at the Biblioteca Medicea Laurenziana, Florence, and is available in full digital facsimile.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 614 AD — Persian conquest -->
+        <div class="tl-entry left-entry">
+          <div class="tl-left">
+            <div class="tl-side-date">614 AD</div>
+            <div class="tl-side-badge"><span class="badge badge-tradition">◈ Tradition</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-tradition"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-tradition" style="background:linear-gradient(145deg,#f0e4c4,#e8d8ac);">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-dark">614 AD</div>
+                <div class="tl-heading tl-heading-dark">Persian Conquest of Jerusalem — Relic Lost or Dispersed</div>
+                <p class="tl-body tl-body-dark">The Sassanid Persian army under Khosrow II captured Jerusalem in 614, removing the True Cross and many relics. The subsequent fate of the Jerusalem lance is not documented. Later sources claim the relic was either hidden, destroyed, or transferred — but no contemporaneous account records what became of the specific lance seen by the Pilgrim of Piacenza.</p>
+                <p class="tl-note tl-note-light">After 614, the lance's historical trail goes effectively cold for over a century. All subsequent relic claims require separate evaluation of their own provenance chains.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════
+         SECTION 2 — LATE ANTIQUITY & EARLY CHRISTIAN EMPIRE
+    ═══════════════════════════════ -->
+    <section id="late-antiquity">
+      <div class="era-divider reveal">
+        <div class="era-divider-line"></div>
+        <span class="era-divider-label">◈ Late Antiquity &amp; Early Empire · 4th–7th Century</span>
+        <div class="era-divider-line r"></div>
+      </div>
+
+      <div class="timeline-container">
+
+        <!-- Constantine the Great -->
+        <div class="tl-entry right-entry">
+          <div class="tl-left" style="text-align:right;">
+            <div class="tl-side-date">c. 306–337 AD</div>
+            <div class="tl-side-badge" style="text-align:right;"><span class="badge badge-tradition">◈ Tradition</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-tradition"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-tradition tl-card-dark">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-light">c. 306–337 AD</div>
+                <div class="tl-heading tl-heading-light">Constantine the Great — Early Tradition</div>
+                <p class="tl-body tl-body-light">Later medieval chronicles claim that the Emperor Constantine had possession of, or reverenced, the Holy Lance. Eusebius of Caesarea — the principal biographer of Constantine — mentions the emperor's collection of Christian relics, but does not specifically identify a lance of the Passion among them. The connection between Constantine and the lance is a retrospective tradition, not a contemporaneous record.</p>
+                <p class="tl-note tl-note-dark">The absence of any 4th-century source explicitly linking Constantine to a Holy Lance is significant. The tradition may reflect the later desire of Carolingian rulers to ground their claims in imperial precedent.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Justinian I — Constantinople -->
+        <div class="tl-entry left-entry">
+          <div class="tl-left">
+            <div class="tl-side-date">c. 570 AD</div>
+            <div class="tl-side-badge"><span class="badge badge-debate">◎ Scholarly Debate</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-debate"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-debate tl-card-dark">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-light">Parallel Tradition · Constantinople</div>
+                <div class="tl-heading tl-heading-light">A Second Relic in Constantinople?</div>
+                <p class="tl-body tl-body-light">Several Byzantine sources from the 6th–7th centuries reference a lance relic kept in Constantinople, distinct from the Jerusalem lance mentioned by the Pilgrim of Piacenza. Cassiodorus, writing in the 6th century, mentions a spear in Byzantine imperial possession. Whether this refers to the same object, a fragment, or an entirely separate relic is debated by scholars. The existence of two competing relics simultaneously is itself historically attested.</p>
+                <p class="tl-note tl-note-dark">The multiplication of competing relic claims is a recurring pattern throughout the Holy Lance's history and is itself historically informative — reflecting the political and devotional value placed on the object.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════
+         SECTION 3 — IMPERIAL ERA
+    ═══════════════════════════════ -->
+    <section id="imperial-era">
+      <div class="era-divider reveal">
+        <div class="era-divider-line"></div>
+        <span class="era-divider-label">◈ The Imperial Era · 8th–10th Century</span>
+        <div class="era-divider-line r"></div>
+      </div>
+
+      <div class="timeline-container">
+
+        <!-- Charlemagne -->
+        <div class="tl-entry right-entry">
+          <div class="tl-left" style="text-align:right;">
+            <div class="tl-side-date">768–814 AD</div>
+            <div class="tl-side-badge" style="text-align:right;"><span class="badge badge-tradition">◈ Ownership Tradition</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-tradition"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-tradition tl-card-dark">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-light">768–814 AD</div>
+                <div class="tl-heading tl-heading-light">Charlemagne — The Lance as Imperial Talisman</div>
+                <p class="tl-body tl-body-light">Carolingian court tradition holds that Charlemagne possessed and carried the Holy Lance on campaign, attributing his military successes partly to its presence. The <em>Vita Karoli</em> by Einhard, the most authoritative contemporary biography, mentions the emperor's reverence for relics but does not name the lance specifically. The identification of the lance as a Carolingian imperial possession — and its supposed talisman role in battle — is primarily attested in chronicles written one or two generations after Charlemagne's death.</p>
+                <p class="tl-note tl-note-dark">The legend that Charlemagne won 47 battles while holding the Lance — and died when he dropped it — is a later embellishment. No 8th-century source records this claim.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Otto I — Holy Roman Empire -->
+        <div class="tl-entry left-entry">
+          <div class="tl-left">
+            <div class="tl-side-date">c. 925–962 AD</div>
+            <div class="tl-side-badge"><span class="badge badge-tradition">◈ Ownership Tradition</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-tradition"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-tradition" style="background:linear-gradient(145deg,#f0e4c4,#e8d8ac);">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-dark">c. 925–962 AD</div>
+                <div class="tl-heading tl-heading-dark">The Holy Lance Enters the German Imperial Treasury</div>
+                <p class="tl-body tl-body-dark">Around 925 AD, the Holy Lance appears in documented historical sources as part of a political transaction: King Henry I of East Francia (Henry the Fowler) reportedly received it from Rudolph II of Burgundy in exchange for territorial concessions. From this point, the lance entered the possession of the East Frankish — later Holy Roman — emperors. The Annales Sangallenses Maiores, a contemporaneous chronicle, records this transfer. Henry's son Otto I (later Otto the Great) carried the lance at the Battle of Lechfeld against the Magyars in 955, according to near-contemporaneous sources.</p>
+                <p class="tl-note tl-note-light">The 925 transfer is the first historically documented change of possession for any object identified as the Holy Lance. All prior ownership claims lack this level of contemporaneous sourcing.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Henry IV -->
+        <div class="tl-entry right-entry">
+          <div class="tl-left" style="text-align:right;">
+            <div class="tl-side-date">c. 1084 AD</div>
+            <div class="tl-side-badge" style="text-align:right;"><span class="badge badge-tradition">◈ Ownership Tradition</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-tradition"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-tradition tl-card-dark">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-light">c. 1084 AD</div>
+                <div class="tl-heading tl-heading-light">Nail Embedded — Henry IV's Modification</div>
+                <p class="tl-body tl-body-light">Holy Roman Emperor Henry IV had a nail embedded into the blade of the lance, bound with gold wire, with the claim that this nail was from the True Cross — thereby compounding the relic's sacred significance. This modification is physically verifiable: the embedded nail can be seen in the extant Vienna spear today. Henry's action transformed the lance from a Passion relic into a composite imperial emblem of maximum sacred authority.</p>
+                <p class="tl-note tl-note-dark">The nail's independent dating and origin have never been scientifically verified. It may be contemporaneous with Henry IV's reign (late 11th century) rather than from the 1st century.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════
+         SECTION 4 — THE CRUSADES
+    ═══════════════════════════════ -->
+    <section id="crusades">
+      <div class="era-divider reveal">
+        <div class="era-divider-line"></div>
+        <span class="era-divider-label">◎ The Crusades · 1095–1200</span>
+        <div class="era-divider-line r"></div>
+      </div>
+
+      <div class="timeline-container">
+
+        <!-- Antioch Discovery -->
+        <div class="tl-entry left-entry">
+          <div class="tl-left">
+            <div class="tl-side-date">June 1098</div>
+            <div class="tl-side-badge"><span class="badge badge-debate">◎ Scholarly Debate</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-debate"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-debate" style="background:linear-gradient(145deg,#f0e4c4,#e8d8ac);">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-dark">June 1098</div>
+                <div class="tl-heading tl-heading-dark">The "Discovery" of the Holy Lance at Antioch</div>
+                <p class="tl-body tl-body-dark">During the First Crusade, the Crusader army was besieged at Antioch by a Turkish force — their position desperate. A Provençal peasant named Peter Bartholomew claimed to have received visions of Saint Andrew directing him to dig beneath the floor of the Cathedral of Saint Peter. On June 14–15, after excavating, a lance-shaped object was reportedly found. The discovery transformed Crusader morale and they broke the siege.</p>
+                <p class="tl-body tl-body-dark" style="margin-top:0.6rem;">The scholarly debate around this event is substantial. The legate of Pope Urban II, Bishop Adhemar of Le Puy — an experienced and respected ecclesiastic — was openly and on record sceptical of Peter Bartholomew's visions and the find. The Norman contingent under Bohemond shared his doubts. The Provençal faction, led by Raymond of Toulouse, championed the relic.</p>
+
+                <!-- Debate callout -->
+                <div style="background:rgba(40,100,160,0.08);border:1px solid rgba(50,110,180,0.25);border-left:2px solid rgba(60,120,200,0.5);border-radius:2px;padding:0.85rem 1.1rem;margin-top:0.8rem;">
+                  <p style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.16em;color:#5080b0;text-transform:uppercase;margin-bottom:0.4rem;">The Trial by Ordeal</p>
+                  <p style="font-family:'EB Garamond',serif;font-size:0.97rem;color:#4a5a3a;line-height:1.7;">To settle the dispute over authenticity, Peter Bartholomew voluntarily underwent trial by ordeal — walking through fire while holding the lance. He did not survive the ordeal and died twelve days later of his burns, April 20, 1099. The Norman and clerical factions took this as proof of fraud. The Raymond faction argued the ordeal was invalid. The lance itself was subsequently lost to history; no relic claiming to be the Antioch lance survives.</p>
+                </div>
+                <p class="tl-note tl-note-light">Most contemporary historians treat the Antioch lance as a probable fabrication produced under extreme psychological pressure — though the question of deliberate fraud versus sincere delusion on Peter Bartholomew's part remains open. The political utility of the "discovery" to Raymond of Toulouse is well documented.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Constantinople Sack 1204 -->
+        <div class="tl-entry right-entry">
+          <div class="tl-left" style="text-align:right;">
+            <div class="tl-side-date">1204 AD</div>
+            <div class="tl-side-badge" style="text-align:right;"><span class="badge badge-record">✦ Historical Record</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-record"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-record tl-card-dark">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-light">1204 AD</div>
+                <div class="tl-heading tl-heading-light">Fourth Crusade — Sack of Constantinople</div>
+                <p class="tl-body tl-body-light">The Fourth Crusade's diversion to and sack of Constantinople in 1204 resulted in the looting of the imperial treasury and reliquary — including whatever lance relic Constantinople had held since at least the 6th century. Robert de Clari's chronicle records the presence of a holy lance among the relics in the Pharos Chapel of the imperial palace. After 1204, the relic's fate again becomes uncertain — likely distributed among the Crusader leadership or taken to Western Europe.</p>
+                <p class="tl-note tl-note-dark">The sack of Constantinople was one of the most significant losses of late antique and Byzantine material culture and religious relics. Many objects with competing Western and Eastern provenance claims originate in this dispersal.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Louis IX — Paris -->
+        <div class="tl-entry left-entry">
+          <div class="tl-left">
+            <div class="tl-side-date">1241 AD</div>
+            <div class="tl-side-badge"><span class="badge badge-tradition">◈ Tradition</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-tradition"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-tradition" style="background:linear-gradient(145deg,#f0e4c4,#e8d8ac);">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-dark">1241 AD</div>
+                <div class="tl-heading tl-heading-dark">Louis IX Acquires the Constantinople Relics — Sainte-Chapelle</div>
+                <p class="tl-body tl-body-dark">King Louis IX of France (Saint Louis) purchased what was claimed to be the Crown of Thorns and associated Passion relics from the Latin Emperor Baldwin II of Constantinople. The collection may have included a lance fragment or tip. For these relics, Louis built the Sainte-Chapelle in Paris (completed 1248), considered one of the finest examples of Gothic architecture. The relics were dispersed during the French Revolution; their subsequent fate is only partially documented.</p>
+                <p class="tl-note tl-note-light">The Crown of Thorns survives at Notre-Dame de Paris. A lance fragment, if ever present, is not among the catalogued surviving relics from Sainte-Chapelle.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════
+         SECTION 5 — MEDIEVAL EMPIRE
+    ═══════════════════════════════ -->
+    <section id="medieval-empire">
+      <div class="era-divider reveal">
+        <div class="era-divider-line"></div>
+        <span class="era-divider-label">◈ The Holy Roman Empire &amp; Later History · 13th–19th Century</span>
+        <div class="era-divider-line r"></div>
+      </div>
+
+      <div class="timeline-container">
+
+        <!-- Frederick Barbarossa -->
+        <div class="tl-entry right-entry">
+          <div class="tl-left" style="text-align:right;">
+            <div class="tl-side-date">1155–1190 AD</div>
+            <div class="tl-side-badge" style="text-align:right;"><span class="badge badge-tradition">◈ Ownership Tradition</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-tradition"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-tradition tl-card-dark">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-light">1155–1190 AD</div>
+                <div class="tl-heading tl-heading-light">Frederick I (Barbarossa) — Imperial Lance Tradition</div>
+                <p class="tl-body tl-body-light">Frederick Barbarossa, Holy Roman Emperor, is documented as carrying and venerating the imperial lance — by his reign identified as a composite relic incorporating the supposed nail of the True Cross (added by Henry IV). Frederick had a silver sleeve added to the blade. The lance featured prominently in imperial coronation ceremonies and Barbarossa deployed it as a symbol of divinely-sanctioned rulership throughout his campaigns in Italy and the East.</p>
+                <p class="tl-note tl-note-dark">The legend that Barbarossa died at the moment he dropped the lance while crossing the Saleph river in 1190 is almost certainly a later elaboration — though his drowning in that river is itself historical fact.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nuremberg — Lance moved -->
+        <div class="tl-entry left-entry">
+          <div class="tl-left">
+            <div class="tl-side-date">1424 AD</div>
+            <div class="tl-side-badge"><span class="badge badge-record">✦ Historical Record</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-record"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-record" style="background:linear-gradient(145deg,#f0e4c4,#e8d8ac);">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-dark">1424 AD</div>
+                <div class="tl-heading tl-heading-dark">Holy Roman Crown Jewels Transferred to Nuremberg</div>
+                <p class="tl-body tl-body-dark">Emperor Sigismund ordered the Reichskleinodien — the Holy Roman Imperial Regalia, including the lance — permanently housed in Nuremberg as the "eternal" seat of the imperial treasures. The lance remained in Nuremberg for nearly four centuries, displayed and venerated as a central element of the imperial mystique. This is the first thoroughly documented institutional custody of the object.</p>
+                <p class="tl-note tl-note-light">The Nuremberg custody is the best-documented period in the lance's history, with detailed inventories, public display records, and surviving civic documentation. The lance was publicly displayed each year at the Heiltumsweisung (Exhibition of Relics).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Napoleon -->
+        <div class="tl-entry right-entry">
+          <div class="tl-left" style="text-align:right;">
+            <div class="tl-side-date">1796 AD</div>
+            <div class="tl-side-badge" style="text-align:right;"><span class="badge badge-record">✦ Historical Record</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-record"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-record tl-card-dark">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-light">1796 AD</div>
+                <div class="tl-heading tl-heading-light">Evacuated Before Napoleon — Vienna</div>
+                <p class="tl-body tl-body-light">As Napoleon's armies advanced into southern Germany in 1796, the Nuremberg city council arranged the evacuation of the Imperial Regalia — including the lance — to Vienna for safekeeping. When Napoleon finally dissolved the Holy Roman Empire in 1806, the regalia remained in Habsburg custody in Vienna, where they have been held ever since, now displayed in the Weltliche Schatzkammer (Secular Treasury) of the Kunsthistorisches Museum.</p>
+                <p class="tl-note tl-note-dark">The story that Napoleon sought specifically to acquire the lance for its magical properties has no primary source basis. The evacuation was a practical act of preservation, not a response to Napoleonic occult interest.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════
+         SECTION 6 — RELICS TODAY
+    ═══════════════════════════════ -->
+    <section id="relics-today">
+      <div class="era-divider reveal">
+        <div class="era-divider-line"></div>
+        <span class="era-divider-label">◎ Relics Today — Modern Scholarly Assessment</span>
+        <div class="era-divider-line r"></div>
+      </div>
+
+      <div class="reveal" style="background:linear-gradient(160deg,#2a1a0e,#3a2a14);border:1px solid rgba(212,160,23,0.2);border-radius:3px;overflow:hidden;margin-bottom:2rem;">
+        <div style="padding:1.4rem 1.6rem 0;position:relative;z-index:1;">
+          <p style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.22em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.5rem;">Current Relic Claimants — Summary Table</p>
+          <p style="font-family:'EB Garamond',serif;font-size:0.95rem;color:#8a6a4a;line-height:1.65;font-style:italic;margin-bottom:1.2rem;">Four objects currently claim to be, or to contain a fragment of, the Holy Lance. Scientific dating evidence, where available, is noted.</p>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="relic-table">
+            <thead>
+              <tr>
+                <th>Relic / Location</th>
+                <th>Earliest Documented Record</th>
+                <th>Scientific Dating</th>
+                <th>Assessment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Vienna (Hofburg) Spear<br/>
+                  <span style="font-family:'EB Garamond',serif;font-size:0.88rem;color:#7a5a3a;font-weight:400;">Kunsthistorisches Museum, Vienna</span>
+                  <div><span class="relic-date-chip chip-unverified">Most Studied</span></div>
+                </td>
+                <td>c. 925 AD (transfer to Henry I, documented in Annales Sangallenses Maiores)</td>
+                <td>Metallurgical analysis (2003, Dr. Robert Feather) dated the iron blade to <strong style="color:#e0c070;">c. 7th century AD at earliest</strong>. Likely Carolingian (8th–9th c.) manufacture. The embedded nail is of indeterminate age; no 1st-century manufacture confirmed.</td>
+                <td>Historically the most significant object — the continuous imperial lance from c. 925 to the present. Scientifically, almost certainly not a 1st-century Roman weapon. Its importance is historical and symbolic, not as a verified Passion relic.</td>
+              </tr>
+              <tr>
+                <td>
+                  Vatican Spear<br/>
+                  <span style="font-family:'EB Garamond',serif;font-size:0.88rem;color:#7a5a3a;font-weight:400;">St. Peter's Basilica, Rome</span>
+                  <div><span class="relic-date-chip chip-unverified">No Analysis</span></div>
+                </td>
+                <td>1492 (gift of Sultan Bayezid II to Pope Innocent VIII)</td>
+                <td>No published metallurgical or carbon dating analysis. Provenance before Byzantine Constantinople is undocumented. The Vatican has not permitted destructive testing.</td>
+                <td>Traceable only to Byzantine Constantinople. No analysis permits any dating conclusion. Kept in a pier of St. Peter's Basilica beneath Bernini's statue of Saint Longinus.</td>
+              </tr>
+              <tr>
+                <td>
+                  Kraków Spear<br/>
+                  <span style="font-family:'EB Garamond',serif;font-size:0.88rem;color:#7a5a3a;font-weight:400;">Wawel Cathedral Treasury, Poland</span>
+                  <div><span class="relic-date-chip chip-copy">Acknowledged Copy</span></div>
+                </td>
+                <td>c. 1350 (gift of Holy Roman Emperor Charles IV)</td>
+                <td>Not required — acknowledged by the cathedral itself as a copy of the Vienna spear made in the 14th century.</td>
+                <td>Not claimed as the original lance. Its significance is as a symbol of Polish imperial prestige and its connection to the Jagiellonian dynasty.</td>
+              </tr>
+              <tr>
+                <td>
+                  Etchmiadzin Spear (Geghard)<br/>
+                  <span style="font-family:'EB Garamond',serif;font-size:0.88rem;color:#7a5a3a;font-weight:400;">Vagharshapat, Armenia</span>
+                  <div><span class="relic-date-chip chip-unverified">Unverified</span></div>
+                </td>
+                <td>13th century AD (first documented mention in Armenian sources)</td>
+                <td>No scientific analysis available in published literature. The Armenian Apostolic Church venerates it as an authentic relic of the Passion.</td>
+                <td>Held at the Etchmiadzin Treasury (Mother See of Holy Etchmiadzin). The monastery of Geghard — "the Monastery of the Lance" — takes its name from this relic's early association with the site.</td>
+              </tr>
+              <tr>
+                <td>
+                  Antioch Lance<br/>
+                  <span style="font-family:'EB Garamond',serif;font-size:0.88rem;color:#7a5a3a;font-weight:400;font-style:italic;">Lost — 1099</span>
+                  <div><span class="relic-date-chip chip-lost">Lost</span></div>
+                </td>
+                <td>June 1098 (discovered during First Crusade siege)</td>
+                <td>Not testable — object no longer exists. Peter Bartholomew died in ordeal; relic subsequently lost to record.</td>
+                <td>Widely considered by contemporary and modern historians to be either a fabrication or a misidentified ancient object. Its principal historical significance is as evidence of Crusader psychology and political dynamics.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════
+         SECTION 7 — LEGENDS & SPECULATION
+    ═══════════════════════════════ -->
+    <section id="legends">
+      <div class="era-divider reveal">
+        <div class="era-divider-line"></div>
+        <span class="era-divider-label">✧ Legends &amp; Speculation — Clearly Labelled</span>
+        <div class="era-divider-line r"></div>
+      </div>
+
+      <!-- Warning box -->
+      <div class="reveal legend-box mb-8">
+        <div class="relative z-10 flex gap-3 items-start">
+          <div style="font-size:1.5rem;flex-shrink:0;margin-top:0.1rem;" aria-hidden="true">⚠</div>
+          <div>
+            <h3 style="font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:0.1em;color:#e08888;font-weight:700;margin-bottom:0.5rem;text-transform:uppercase;">Editorial Notice</h3>
+            <p style="font-family:'EB Garamond',serif;font-size:1.02rem;color:#c07878;line-height:1.8;">The following section covers claims and narratives that are <strong style="color:#e09090;">not supported by primary historical sources</strong> — including the "invincibility prophecy," the occult significance attributed to the spear in modern esoteric literature, and the 20th-century claim of Hitler's obsession with the Vienna spear. These are presented <strong style="color:#e09090;">factually and neutrally</strong> for completeness, clearly separated from documented historical record above.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legend timeline entries -->
+      <div class="timeline-container">
+
+        <!-- Invincibility prophecy -->
+        <div class="tl-entry right-entry">
+          <div class="tl-left" style="text-align:right;">
+            <div class="tl-side-date">Medieval<br/>Tradition</div>
+            <div class="tl-side-badge" style="text-align:right;"><span class="badge badge-legend">✧ Legend</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-legend"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-legend tl-card-crimson">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-light" style="color:#d08888;">The "Spear of Destiny" Prophecy</div>
+                <div class="tl-heading" style="color:#e09090;">Invincibility Claim — Medieval Origin, No Biblical Basis</div>
+                <p class="tl-body" style="color:#b07878;line-height:1.78;">The belief that whoever possesses the Holy Lance holds the destiny of the world and cannot be defeated in battle — the core of the modern "Spear of Destiny" legend — developed gradually through Carolingian and Holy Roman imperial court mythology between approximately the 8th and 13th centuries. It is not found in any canonical scripture, nor in any 1st-century or patristic text. The claim served the political interests of emperors who wished to present their rule as divinely guaranteed.</p>
+                <p class="tl-note tl-note-crimson">Rulers associated with the lance (Charlemagne, Otto I, Barbarossa) did experience military success — but also military failure. The legend selectively emphasises victories. No contemporaneous primary source records a ruler explicitly crediting battlefield success to the lance's supernatural protection.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ravenscroft -->
+        <div class="tl-entry left-entry">
+          <div class="tl-left">
+            <div class="tl-side-date">1973</div>
+            <div class="tl-side-badge"><span class="badge badge-legend">✧ Speculation</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-legend"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-legend tl-card-crimson">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-light" style="color:#d08888;">1973</div>
+                <div class="tl-heading" style="color:#e09090;">Ravenscroft's "Spear of Destiny" — Popular Legend, Poor Scholarship</div>
+                <p class="tl-body" style="color:#b07878;line-height:1.78;">Trevor Ravenscroft's 1973 book <em>The Spear of Destiny</em> synthesised occult tradition, Wagnerian myth, and Theosophy into a narrative claiming that Adolf Hitler became obsessed with the Vienna Spear's supernatural power after seeing it as a young man in Vienna, and that his entire political career was driven by a desire to possess it. The book was an international bestseller.</p>
+                <p class="tl-body" style="color:#b07878;line-height:1.78;margin-top:0.6rem;">Historians have extensively critiqued the book's methodology. Ravenscroft claimed to base key details on conversations with Walter Johannes Stein — but Stein died in 1957, sixteen years before the book's publication, and could not be consulted by Ravenscroft as claimed. Scholars including James Webb and Nicholas Goodrick-Clarke have noted the book's fabricated citations and unverifiable claims.</p>
+                <p class="tl-note tl-note-crimson">The book is not a work of history. It is a work of esoteric speculation that presents itself as history. It should not be treated as a source for either Hitler's psychology or the lance's actual history.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hitler & WWII -->
+        <div class="tl-entry right-entry">
+          <div class="tl-left" style="text-align:right;">
+            <div class="tl-side-date">1938–1945</div>
+            <div class="tl-side-badge" style="text-align:right;"><span class="badge badge-record">✦ Historical Record</span><br/><span class="badge badge-legend" style="margin-top:0.3rem;">✧ Embellished by Legend</span></div>
+          </div>
+          <div class="tl-dot"><div class="tl-dot-inner dot-legend"></div></div>
+          <div class="tl-right">
+            <div class="tl-card tl-accent-legend tl-card-dark">
+              <div class="relative z-10">
+                <div class="tl-date tl-date-light">1938–1945</div>
+                <div class="tl-heading tl-heading-light">The Vienna Spear &amp; World War II — What Is Documented</div>
+                <p class="tl-body tl-body-light">After the Anschluss (annexation of Austria) in March 1938, the entire Habsburg Imperial Regalia — including the Vienna spear — was transferred to Nuremberg on Hitler's orders. This is documented. The transfer was part of a broader appropriation of Austrian state treasures. The regalia were stored in the Historisches Museum Nürnberg and later, as Allied bombing intensified, moved to a specially built underground bunker beneath the city.</p>
+                <p class="tl-body tl-body-light" style="margin-top:0.6rem;">On April 30, 1945 — the day Hitler died by suicide in Berlin — soldiers of the US 7th Army's 45th Infantry Division entered Nuremberg and located the bunker. The Imperial Regalia were found and secured. The lance was among the objects recovered.</p>
+
+                <div style="background:rgba(212,160,23,0.07);border:1px solid rgba(212,160,23,0.2);border-radius:2px;padding:0.9rem 1.1rem;margin-top:0.8rem;">
+                  <p style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.16em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.4rem;">Fact / Legend Separation</p>
+                  <div style="display:flex;gap:0.8rem;align-items:flex-start;margin-bottom:0.5rem;">
+                    <span style="font-family:'Cinzel',serif;font-size:0.55rem;color:#5aaa40;letter-spacing:0.1em;flex-shrink:0;padding-top:0.2rem;">FACT</span>
+                    <p style="font-family:'EB Garamond',serif;font-size:0.95rem;color:#8a9870;line-height:1.65;">Hitler ordered the regalia transferred to Nuremberg in 1938. US forces recovered the lance on April 30, 1945. Hitler died the same day.</p>
+                  </div>
+                  <div style="display:flex;gap:0.8rem;align-items:flex-start;">
+                    <span style="font-family:'Cinzel',serif;font-size:0.55rem;color:#c07070;letter-spacing:0.1em;flex-shrink:0;padding-top:0.2rem;">LEGEND</span>
+                    <p style="font-family:'EB Garamond',serif;font-size:0.95rem;color:#9a7878;line-height:1.65;">That Hitler was driven by occult belief in the lance's supernatural power, that he personally handled or obsessed over it, or that his death was causally connected to losing possession of it. These claims derive from Ravenscroft (1973) and are not corroborated by any Nazi primary source or contemporaneous testimony.</p>
+                  </div>
+                </div>
+                <p class="tl-note tl-note-dark">The lance was returned to Vienna in January 1946 and has been on public display at the Kunsthistorisches Museum ever since.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /timeline-container -->
+    </section>
+
+  </main>
+</div>
+</div>
+</div><!-- /bg wrapper -->
+
+
+<!-- ═══════════════ CLOSING SUMMARY ═════════════════════════════════════ -->
+<section style="background:linear-gradient(135deg,#2a1a0e 0%,#3c2f2f 50%,#2a1a0e 100%);padding:4.5rem 2rem;text-align:center;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(212,160,23,0.06) 0%,transparent 65%);pointer-events:none;"></div>
+  <div style="height:1px;background:linear-gradient(90deg,transparent,#d4a017,transparent);opacity:0.3;margin-bottom:3rem;"></div>
+  <div class="reveal" style="max-width:680px;margin:0 auto;position:relative;z-index:1;">
+    <span class="section-eyebrow">Fifteen Centuries</span>
+    <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,2.8vw,1.7rem);color:#f0dfa8;margin-bottom:1rem;">A Relic That Outlasted Empires</h2>
+    <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(212,160,23,0.4),transparent);margin-bottom:1.5rem;"></div>
+    <p style="font-family:'EB Garamond',serif;font-size:1.1rem;color:#c8a878;line-height:1.85;font-style:italic;">
+      The Holy Lance has been carried by Carolingian kings, displayed at imperial coronations, fought over by Crusaders, evacuated before Napoleon, seized by the Third Reich, and recovered by American soldiers — all before being returned to a glass case in Vienna where it can be viewed today for the price of a museum ticket. Whether or not it is the spear of John 19:34, it is unquestionably one of the most consequential objects in Western political and religious history.
+    </p>
+  </div>
+  <div style="height:1px;background:linear-gradient(90deg,transparent,#d4a017,transparent);opacity:0.3;margin-top:3rem;"></div>
+</section>
+
+
+<!-- ══════════════════════ PAGE NAV ══════════════════════════════════════ -->
+<section style="background:linear-gradient(180deg,#f0e0b8 0%,#f5e8c7 100%);" class="py-12 px-6 md:px-12">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-col sm:flex-row items-stretch gap-4 reveal">
+      <a href="artifacts.html" class="page-nav-card">
+        <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.2em;color:#9a7a5a;text-transform:uppercase;margin-bottom:0.3rem;">← Previous</div>
+        <div style="font-family:'Cinzel',serif;font-size:0.82rem;color:var(--leather);font-weight:700;">Art &amp; Depictions</div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;font-style:italic;">Two Thousand Years of Sacred Imagery</div>
+      </a>
+      <a href="maps-journeys.html" class="page-nav-card" style="text-align:right;">
+        <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.2em;color:#9a7a5a;text-transform:uppercase;margin-bottom:0.3rem;">Next →</div>
+        <div style="font-family:'Cinzel',serif;font-size:0.82rem;color:var(--leather);font-weight:700;">Maps &amp; Journeys</div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;font-style:italic;">The Relic's Odyssey Across Continents</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer class="grain relative" style="background:linear-gradient(0deg,#1a1008 0%,#2e2020 40%,#3c2f2f 100%);box-shadow:0 -4px 30px rgba(0,0,0,0.6);">
+  <div style="height:2px;background:linear-gradient(90deg,transparent,#4a3010,#d4a017,#4a3010,transparent);opacity:0.5;"></div>
+  <div class="gold-rule mx-6 md:mx-12 opacity-30 mt-0"></div>
+  <div class="relative z-10 px-6 md:px-12 pt-10 pb-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+          <svg width="18" height="34" viewBox="0 0 28 54" fill="none" class="relic-glow">
+            <polygon points="14,0 20,18 14,22 8,18" fill="#d4a017" opacity="0.85"/>
+            <polygon points="14,0 14,22 8,18" fill="#a07810" opacity="0.7"/>
+            <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#6a4a1e"/>
+            <rect x="6" y="34" width="16" height="2.5" rx="1" fill="#c09010"/>
+            <ellipse cx="14" cy="50" rx="4" ry="2.5" fill="#a07810"/>
+          </svg>
+          <span style="font-family:'Cinzel Decorative',serif;font-size:0.95rem;font-weight:700;color:#d4a017;">LONGINUS</span>
+        </div>
+        <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#8a6a4a;line-height:1.75;font-style:italic;">Tracing the path of the most powerful relic in history — from Golgotha to the vaults of the unknown.</p>
+        <div style="border:1px solid rgba(212,160,23,0.3);padding:0.5rem 1rem;border-radius:2px;background:rgba(212,160,23,0.06);display:inline-block;">
+          <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;">✦ Explore the Mystery ✦</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:0.5rem;">Chapters</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+          <li><a href="index.html"            style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Home</a></li>
+          <li><a href="longinus.html"         style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ The Soldier</a></li>
+          <li><a href="the-spear.html"        style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ The Spear</a></li>
+          <li><a href="artifacts.html"        style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Art &amp; Depictions</a></li>
+          <li><a href="history.html"          style="font-family:'Cinzel',serif;font-size:0.68rem;color:#d4a017;letter-spacing:0.1em;text-decoration:none;">⟶ Through the Ages</a></li>
+          <li><a href="maps-journeys.html"    style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Maps &amp; Journeys</a></li>
+          <li><a href="resources.html"        style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Resources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:0.5rem;">On This Page</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.45rem;">
+          <li><a href="#early-veneration"  style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">Early Veneration · 570 AD</a></li>
+          <li><a href="#late-antiquity"    style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">Late Antiquity &amp; Empire</a></li>
+          <li><a href="#imperial-era"      style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">Imperial Era · Charlemagne</a></li>
+          <li><a href="#crusades"          style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">The Crusades · Antioch 1098</a></li>
+          <li><a href="#medieval-empire"   style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">Medieval Empire · Nuremberg</a></li>
+          <li><a href="#relics-today"      style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">Relics Today — Science</a></li>
+          <li><a href="#legends"           style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">Legends &amp; Speculation</a></li>
+        </ul>
+        <div class="flex items-center gap-4 mt-5">
+          <span class="relic-glow" style="font-size:1.2rem;color:#d4a017;">⚔</span>
+          <span class="relic-glow" style="font-size:1.2rem;">📜</span>
+          <span class="relic-glow flicker" style="font-size:1.2rem;color:#d4a017;">🕯</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-ornament text-center mb-4">✦ ✦ ✦</div>
+    <div class="gold-rule opacity-25 mb-5"></div>
+    <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+      <span style="font-family:'EB Garamond',serif;font-size:0.75rem;color:#5a4030;font-style:italic;">&copy; <span id="footer-year"></span> Longinus — Tip of the Spear. All rights reserved.</span>
+      <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.22em;color:#6a4a2a;text-transform:uppercase;">Forged in History &nbsp;·&nbsp; Sealed in Mystery</span>
+      <div class="flex items-center gap-3">
+        <a href="privacy.html"  style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Privacy</a>
+        <span style="color:#4a3020;">·</span>
+        <a href="sitemap.html"  style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Sitemap</a>
+        <span style="color:#4a3020;">·</span>
+        <a href="contact.html"  style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div style="height:3px;background:linear-gradient(90deg,transparent,#6a4a1a,#d4a017,#e8b820,#d4a017,#6a4a1a,transparent);"></div>
+</footer>
+
+
+<!-- ═══════════════════════════════ SCRIPTS ════════════════════════════════ -->
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  // Mobile menu
+  const toggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  toggle.addEventListener('click', () => {
+    const open = !mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden', open);
+    toggle.classList.toggle('open', !open);
+  });
+
+  // Sticky header shadow
+  const hdr = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    hdr.style.boxShadow = window.scrollY > 10
+      ? '0 6px 40px rgba(0,0,0,0.9),0 2px 12px rgba(212,160,23,0.1)'
+      : '0 4px 30px rgba(0,0,0,0.7)';
+  }, { passive: true });
+
+  // ── Scroll reveal: sections ──
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const revObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  revealEls.forEach(el => revObs.observe(el));
+
+  // ── Timeline entries: staggered reveal ──
+  const tlEntries = document.querySelectorAll('.tl-entry');
+  let tlDelay = 0;
+  const tlObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = `${tlDelay * 0.12}s`;
+        e.target.classList.add('visible');
+        tlObs.unobserve(e.target);
+        tlDelay++;
+        // Reset delay counter per viewport batch
+        setTimeout(() => { tlDelay = 0; }, 1200);
+      }
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+  tlEntries.forEach(el => tlObs.observe(el));
+
+  // ── Sticky TOC: active link tracking ──
+  const tocLinks = document.querySelectorAll('.toc-link');
+  const sections = document.querySelectorAll('section[id]');
+
+  const tocObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocLinks.forEach(link => {
+          link.classList.toggle('toc-active', link.getAttribute('href') === `#${id}`);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+
+  sections.forEach(s => tocObs.observe(s));
+</script>
+
+</body>
+</html>

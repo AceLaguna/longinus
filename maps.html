@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maps &amp; Journeys — Journeys of the Lance | Longinus · Tip of the Spear</title>
+  <meta name="description" content="Interactive historical maps tracing the Holy Lance — from 1st-century Jerusalem through Constantinople, the Crusades, and into the heart of Europe." />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Leaflet CSS + JS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --parchment:      #f5e8c7;
+      --parchment-dark: #e8d5a3;
+      --leather:        #3c2f2f;
+      --gold:           #d4a017;
+      --gold-light:     #e8b820;
+      --gold-dim:       #a07810;
+      --shadow:         #1a1008;
+      --ink:            #2a1f1f;
+      --crimson:        #8b1a1a;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--parchment);
+      color: var(--ink);
+      font-family: 'EB Garamond', Georgia, serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    .grain::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1;
+    }
+
+    .gold-rule { border: none; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent); opacity: 0.55; }
+
+    /* ── Nav ── */
+    .nav-link { position: relative; text-decoration: none; color: #c8a878; font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2em 0; transition: color 0.25s; }
+    .nav-link::after { content: ''; position: absolute; left: 50%; right: 50%; bottom: -3px; height: 1px; background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), var(--gold-dim)); transition: left 0.3s, right 0.3s; }
+    .nav-link:hover { color: var(--gold-light); }
+    .nav-link:hover::after { left: 0; right: 0; }
+    .nav-link.active { color: var(--gold); }
+    .nav-link.active::after { left: 0; right: 0; }
+    .spear-sep { display: inline-block; color: #6a4a2a; opacity: 0.5; font-size: 0.65rem; margin: 0 0.4rem; user-select: none; }
+
+    @keyframes border-shimmer { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+    .logo-shimmer { background: linear-gradient(90deg, transparent, rgba(212,160,23,0.5), transparent); background-size: 200% 100%; animation: border-shimmer 4s linear infinite; }
+
+    .relic-glow { transition: filter 0.35s, transform 0.35s; cursor: pointer; }
+    .relic-glow:hover { filter: drop-shadow(0 0 6px rgba(212,160,23,0.85)) drop-shadow(0 0 14px rgba(212,160,23,0.45)); transform: scale(1.1); }
+    .torch-icon { display: inline-block; transition: filter 0.3s, transform 0.3s; }
+    .torch-icon:hover { filter: drop-shadow(0 0 8px rgba(212,160,23,0.9)); transform: scale(1.15) rotate(-5deg); }
+
+    .hamburger span { display: block; width: 22px; height: 2px; background: #f5e8c7; margin: 5px 0; transition: all 0.3s; transform-origin: center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── PAGE HERO ── */
+    #page-hero { position: relative; min-height: 46vh; display: flex; align-items: center; overflow: hidden; }
+    #page-hero-bg { position: absolute; inset: 0; background-image: url('map-hero-placeholder.jpg'); background-size: cover; background-position: center 40%; filter: sepia(0.7) brightness(0.26) contrast(1.25); transform: scale(1.04); }
+    #page-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(105deg, rgba(26,16,8,0.97) 0%, rgba(26,16,8,0.55) 55%, rgba(26,16,8,0.18) 100%); }
+    #page-hero-bot { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(26,16,8,0.88) 0%, transparent 38%); }
+
+    .section-eyebrow { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.32em; color: var(--gold-dim); text-transform: uppercase; display: block; margin-bottom: 0.55rem; }
+    .breadcrumb { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em; color: #7a5a3a; text-transform: uppercase; }
+    .breadcrumb a { color: #9a7a5a; text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--gold); }
+
+    /* ── MAP CONTAINER WRAPPER ── */
+    .map-section {
+      background: linear-gradient(180deg, #f5e8c7 0%, #eed9b0 100%);
+      padding: 4rem 1.5rem;
+    }
+    .map-section.dark {
+      background: linear-gradient(180deg, #eed9b0 0%, #e8d5a3 100%);
+    }
+
+    .map-frame {
+      border: 1px solid rgba(160,120,16,0.3);
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(26,16,8,0.25), inset 0 0 0 4px rgba(212,160,23,0.06);
+      position: relative;
+    }
+
+    /* Leaflet map sizing */
+    .leaflet-map {
+      width: 100%;
+      height: 520px;
+      background: #c8b88a;
+    }
+    @media (max-width: 640px) { .leaflet-map { height: 360px; } }
+
+    /* Override Leaflet popup styling */
+    .leaflet-popup-content-wrapper {
+      background: linear-gradient(160deg, #2a1a0e, #3a2810) !important;
+      border: 1px solid rgba(212,160,23,0.35) !important;
+      border-radius: 3px !important;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6) !important;
+      color: #c8a878 !important;
+      font-family: 'EB Garamond', serif !important;
+      max-width: 280px;
+    }
+    .leaflet-popup-content { margin: 14px 16px !important; line-height: 1.6 !important; }
+    .leaflet-popup-tip { background: #3a2810 !important; }
+    .leaflet-popup-close-button { color: #a07810 !important; font-size: 1.1rem !important; right: 8px !important; top: 6px !important; }
+    .leaflet-popup-close-button:hover { color: #d4a017 !important; }
+
+    .popup-title { font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.08em; color: #e8c860; font-weight: 700; margin-bottom: 0.3rem; }
+    .popup-date  { font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.16em; color: #a07810; text-transform: uppercase; display: block; margin-bottom: 0.4rem; }
+    .popup-body  { font-family: 'EB Garamond', serif; font-size: 0.97rem; color: #c8a878; line-height: 1.65; }
+    .popup-badge { display: inline-block; font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.18rem 0.5rem; border-radius: 2px; margin-top: 0.5rem; }
+    .pb-record    { color: #5aaa40; background: rgba(60,140,40,0.15); border: 1px solid rgba(60,140,40,0.35); }
+    .pb-tradition { color: #d4a017; background: rgba(180,130,20,0.12); border: 1px solid rgba(180,130,20,0.35); }
+    .pb-debate    { color: #70a0d8; background: rgba(50,100,160,0.12); border: 1px solid rgba(50,100,160,0.35); }
+    .pb-legend    { color: #d07070; background: rgba(160,50,50,0.12); border: 1px solid rgba(160,50,50,0.3); }
+
+    /* ── MAP CONTROLS (tab switcher) ── */
+    .map-tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.9rem 1rem;
+      background: linear-gradient(90deg, #2a1a0e, #3c2a14, #2a1a0e);
+      border-bottom: 1px solid rgba(212,160,23,0.2);
+    }
+    .map-tab {
+      font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.35rem 0.9rem; border-radius: 2px; border: 1px solid rgba(212,160,23,0.2);
+      background: rgba(212,160,23,0.05); color: #8a6a3a; cursor: pointer;
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
+      user-select: none;
+    }
+    .map-tab:hover { background: rgba(212,160,23,0.1); color: var(--gold-dim); border-color: rgba(212,160,23,0.4); }
+    .map-tab.active { background: rgba(212,160,23,0.16); color: var(--gold); border-color: rgba(212,160,23,0.55); }
+
+    /* ── MAP LEGEND PANEL ── */
+    .map-legend {
+      padding: 0.9rem 1rem;
+      background: linear-gradient(90deg, #2e2010, #3c2a14, #2e2010);
+      border-top: 1px solid rgba(212,160,23,0.15);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.6rem;
+      align-items: center;
+    }
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; }
+    .legend-dot  { width: 12px; height: 12px; border-radius: 50%; border: 2px solid; flex-shrink: 0; }
+    .legend-line { width: 24px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+    .legend-label { font-family: 'Cinzel', serif; font-size: 0.54rem; letter-spacing: 0.14em; color: #8a6a3a; text-transform: uppercase; }
+
+    /* ── MAP CAPTION ── */
+    .map-caption {
+      padding: 1.1rem 1.4rem;
+      background: linear-gradient(90deg, #f5e8c7, #eed9b0, #f5e8c7);
+      border-top: 1px solid rgba(160,120,16,0.2);
+    }
+
+    /* ── STATIC OVERLAY CARD (for mobile fallback / supplementary maps) ── */
+    .static-map-card {
+      position: relative;
+      background: linear-gradient(160deg, #2a1a0e, #3a2810);
+      border: 1px solid rgba(212,160,23,0.2);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+    .static-map-card:hover { box-shadow: 0 10px 40px rgba(26,16,8,0.4); }
+    .static-map-card img { width: 100%; display: block; object-fit: cover; filter: sepia(0.3) brightness(0.72) contrast(1.1); transition: filter 0.4s; }
+    .static-map-card:hover img { filter: sepia(0.15) brightness(0.82); }
+    .static-map-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(0deg, rgba(26,16,8,0.95) 0%, transparent 100%);
+      padding: 1.6rem 1.2rem 1rem;
+    }
+
+    /* ── ROUTE WAYPOINT LIST ── */
+    .waypoint-list { counter-reset: waypoint; }
+    .waypoint-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 0.9rem 0; border-bottom: 1px solid rgba(212,160,23,0.1);
+      counter-increment: waypoint;
+    }
+    .waypoint-item:last-child { border-bottom: none; }
+    .waypoint-num {
+      flex-shrink: 0; width: 2rem; height: 2rem;
+      border: 1px solid rgba(212,160,23,0.4); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cinzel', serif; font-size: 0.6rem; color: var(--gold);
+      background: rgba(212,160,23,0.07); margin-top: 0.1rem;
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal       { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left  { opacity: 0; transform: translateX(-20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right { opacity: 0; transform: translateX(20px);  transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible, .reveal-left.visible, .reveal-right.visible { opacity: 1; transform: none; }
+
+    @keyframes fade-up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+    .load-1{animation:fade-up 1s ease 0.2s both}
+    .load-2{animation:fade-up 1s ease 0.5s both}
+    .load-3{animation:fade-up 1s ease 0.8s both}
+    .load-4{animation:fade-up 1s ease 1.1s both}
+
+    @keyframes flicker{0%,100%{opacity:1}48%{opacity:0.9}50%{opacity:0.72}52%{opacity:0.95}75%{opacity:0.85}}
+    .flicker{animation:flicker 5s ease-in-out infinite}
+
+    .page-nav-card { flex:1; background:rgba(60,47,47,0.06); border:1px solid rgba(60,47,47,0.15); border-radius:2px; padding:1.2rem 1.4rem; text-decoration:none; transition:background 0.25s,border-color 0.25s; }
+    .page-nav-card:hover { border-color:rgba(212,160,23,0.4); background:rgba(212,160,23,0.05); }
+    .footer-ornament { letter-spacing: 1.2em; color: var(--gold-dim); opacity: 0.6; font-size: 0.7rem; }
+
+    /* ── Parchment tile pattern for map bg ── */
+    .parchment-tile {
+      background-color: #c8b270;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(180,140,60,0.08) 30px, rgba(180,140,60,0.08) 31px),
+        repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(180,140,60,0.06) 30px, rgba(180,140,60,0.06) 31px);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HEADER ════════════════════════════════ -->
+<header class="grain relative" id="site-header"
+  style="position:sticky;top:0;z-index:200;background:linear-gradient(180deg,#2a1a0e 0%,#3c2f2f 60%,#2e2020 100%);box-shadow:0 4px 30px rgba(0,0,0,0.7);">
+  <div style="height:3px;background:linear-gradient(90deg,transparent,#6a4a1a,#d4a017,#e8b820,#d4a017,#6a4a1a,transparent);"></div>
+  <div class="relative z-10 px-6 md:px-10 py-4 flex items-center justify-between gap-6">
+    <a href="index.html" class="flex items-start gap-3 no-underline flex-shrink-0">
+      <div class="relic-glow mt-1">
+        <svg width="24" height="46" viewBox="0 0 28 54" fill="none">
+          <polygon points="14,0 20,18 14,22 8,18" fill="#d4a017" opacity="0.95"/>
+          <polygon points="14,0 14,22 8,18" fill="#a07810" opacity="0.8"/>
+          <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#7a5c2e"/>
+          <rect x="13.2" y="21" width="1.5" height="26" rx=".75" fill="#9a7a3e" opacity="0.6"/>
+          <rect x="6" y="34" width="16" height="2.5" rx="1" fill="#c09010"/>
+          <ellipse cx="14" cy="50" rx="4" ry="2.5" fill="#a07810"/>
+          <ellipse cx="14" cy="50" rx="2" ry="1.5" fill="#d4a017" opacity="0.5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="flex items-baseline gap-2">
+          <span style="font-family:'Cinzel Decorative',serif;font-size:1.05rem;font-weight:700;color:#d4a017;text-shadow:0 0 20px rgba(212,160,23,0.5);">LONGINUS</span>
+          <span style="color:#6a4a2a;font-size:0.85rem;">|</span>
+          <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.22em;color:#c8a878;text-transform:uppercase;font-weight:600;">TIP OF THE SPEAR</span>
+        </div>
+        <div class="logo-shimmer" style="height:1px;margin-top:5px;border-radius:2px;"></div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.58rem;color:#8a6a4a;letter-spacing:0.18em;margin-top:3px;font-style:italic;">The Spear of Destiny</div>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-1 flex-wrap justify-end">
+      <a href="index.html"            class="nav-link px-3 py-2">Home</a>
+      <span class="spear-sep">⟡</span>
+      <a href="longinus.html"         class="nav-link px-3 py-2">The Soldier</a>
+      <span class="spear-sep">⟡</span>
+      <a href="the-spear.html"        class="nav-link px-3 py-2">The Spear</a>
+      <span class="spear-sep">⟡</span>
+      <a href="artifacts.html"        class="nav-link px-3 py-2">Art &amp; Depictions</a>
+      <span class="spear-sep">⟡</span>
+      <a href="history.html"          class="nav-link px-3 py-2">Through the Ages</a>
+      <span class="spear-sep">⟡</span>
+      <a href="maps.html"             class="nav-link active px-3 py-2">Maps &amp; Journeys</a>
+      <span class="spear-sep">⟡</span>
+      <a href="resources.html"        class="nav-link px-3 py-2">Resources</a>
+    </nav>
+    <button class="hamburger lg:hidden flex flex-col justify-center items-center w-9 h-9 rounded focus:outline-none"
+      id="menu-toggle" aria-label="Toggle menu"
+      style="background:rgba(212,160,23,0.08);border:1px solid rgba(212,160,23,0.2);">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="gold-rule mx-6 md:px-10 opacity-40"></div>
+  <div class="relative z-10 px-6 md:px-10 py-1.5 hidden md:flex items-center justify-between">
+    <span style="font-family:'EB Garamond',serif;font-size:0.65rem;color:#7a5a3a;letter-spacing:0.2em;font-style:italic;">"He who holds the Spear holds the destiny of the world."</span>
+    <div class="flex items-center gap-4">
+      <span class="relic-glow torch-icon" style="color:#d4a017;font-size:0.95rem;">🔦</span>
+      <span class="relic-glow torch-icon" style="color:#d4a017;font-size:0.95rem;">⚔️</span>
+      <span class="relic-glow torch-icon" style="color:#d4a017;font-size:0.95rem;">📜</span>
+    </div>
+  </div>
+  <div style="height:2px;background:linear-gradient(90deg,transparent,#4a3010,#d4a017,#4a3010,transparent);opacity:0.5;"></div>
+  <div id="mobile-menu" class="hidden lg:hidden" style="background:linear-gradient(180deg,#2e2020,#3c2f2f);border-top:1px solid rgba(212,160,23,0.2);">
+    <nav class="flex flex-col py-2">
+      <a href="index.html"            class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Home</a>
+      <a href="longinus.html"         class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">The Soldier</a>
+      <a href="the-spear.html"        class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">The Spear</a>
+      <a href="artifacts.html"        class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Art &amp; Depictions</a>
+      <a href="history.html"          class="nav-link px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Through the Ages</a>
+      <a href="maps.html"             class="nav-link active px-6 py-3 border-b" style="border-color:rgba(212,160,23,0.12);">Maps &amp; Journeys</a>
+      <a href="resources.html"        class="nav-link px-6 py-3">Resources</a>
+    </nav>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════ PAGE HERO ════════════════════════════════ -->
+<section id="page-hero" aria-label="Maps and Journeys — hero">
+  <div id="page-hero-bg" role="img" aria-label="Ancient map or manuscript — placeholder"></div>
+  <div id="page-hero-bot"></div>
+  <div style="position:absolute;inset:0;box-shadow:inset 0 0 120px rgba(0,0,0,0.65);z-index:3;pointer-events:none;"></div>
+
+  <div class="relative z-10 px-8 md:px-14 pb-16 pt-16 max-w-5xl w-full">
+    <div class="load-1">
+      <nav class="breadcrumb mb-5" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span style="margin:0 0.6rem;opacity:0.4;">⟶</span>
+        <span style="color:#7a5a3a;">Maps &amp; Journeys</span>
+      </nav>
+    </div>
+    <div class="load-2">
+      <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.38em;color:#8a6030;text-transform:uppercase;display:inline-block;border:1px solid rgba(212,160,23,0.18);padding:0.3rem 0.9rem;margin-bottom:1.4rem;background:rgba(212,160,23,0.04);">
+        ✦ &nbsp; Chapter V &nbsp; ✦
+      </span>
+    </div>
+    <h1 class="load-3" style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.8rem,5.5vw,3.4rem);font-weight:900;color:#f0dfa8;line-height:1.12;text-shadow:0 4px 30px rgba(0,0,0,0.9);margin-bottom:1rem;">
+      Journeys<br/>
+      <span style="color:var(--gold);font-size:0.72em;letter-spacing:0.04em;text-shadow:0 0 40px rgba(212,160,23,0.4);">of the Lance</span>
+    </h1>
+    <p class="load-4" style="font-family:'EB Garamond',serif;font-size:clamp(1rem,2vw,1.2rem);color:#b8946a;line-height:1.75;max-width:600px;font-style:italic;">
+      Interactive maps tracing the Holy Lance across fifteen centuries — from the hill of Golgotha outside Jerusalem to the treasury of the Kunsthistorisches Museum in Vienna.
+    </p>
+    <div class="load-4 flex flex-wrap gap-3 mt-6">
+      <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.14em;color:#8a6a3a;text-transform:uppercase;background:rgba(212,160,23,0.07);border:1px solid rgba(212,160,23,0.18);padding:0.3rem 0.8rem;border-radius:2px;">Interactive · Leaflet.js</span>
+      <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.14em;color:#8a6a3a;text-transform:uppercase;background:rgba(212,160,23,0.07);border:1px solid rgba(212,160,23,0.18);padding:0.3rem 0.8rem;border-radius:2px;">OpenStreetMap Tiles</span>
+      <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.14em;color:#8a6a3a;text-transform:uppercase;background:rgba(212,160,23,0.07);border:1px solid rgba(212,160,23,0.18);padding:0.3rem 0.8rem;border-radius:2px;">Click Markers for Details</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     MAP 1 — JERUSALEM 1ST CENTURY
+══════════════════════════════════════════ -->
+<section class="map-section" id="map-jerusalem">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-8 reveal">
+      <span class="section-eyebrow">Map I · c. 30 AD</span>
+      <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,2.8vw,1.7rem);color:var(--leather);line-height:1.3;margin-bottom:0.4rem;">Jerusalem — The Site of the Piercing</h2>
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#6a4a2a;font-style:italic;max-width:560px;margin:0 auto;">The hill of Golgotha, the city walls, and the key sites of the Passion narrative in first-century Jerusalem.</p>
+      <div class="gold-rule" style="max-width:280px;margin:0.8rem auto 0;"></div>
+    </div>
+
+    <div class="map-frame reveal">
+      <!-- Tab bar -->
+      <div class="map-tab-bar">
+        <span style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.14em;color:#6a4a2a;text-transform:uppercase;margin-right:0.5rem;padding-top:0.3rem;">Layer:</span>
+        <button class="map-tab active" onclick="setTile(map1,'osm');this.closest('.map-tab-bar').querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Standard</button>
+        <button class="map-tab" onclick="setTile(map1,'topo');this.closest('.map-tab-bar').querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Terrain</button>
+        <button class="map-tab" onclick="setTile(map1,'stamen');this.closest('.map-tab-bar').querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Watercolour</button>
+      </div>
+
+      <!-- Map container -->
+      <div id="map1" class="leaflet-map parchment-tile" aria-label="Interactive map of Jerusalem showing key 1st-century sites"></div>
+
+      <!-- Legend -->
+      <div class="map-legend">
+        <span style="font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.14em;color:#6a4a2a;text-transform:uppercase;">Legend:</span>
+        <div class="legend-item"><div class="legend-dot" style="background:#8b1a1a;border-color:#c03030;"></div><span class="legend-label">Passion Sites</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1a4a8a;border-color:#2060b0;"></div><span class="legend-label">Historical Jerusalem</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#4a8a1a;border-color:#60b020;"></div><span class="legend-label">Religious Sites</span></div>
+        <div class="legend-item" style="margin-left:auto;"><span style="font-family:'EB Garamond',serif;font-size:0.8rem;color:#7a5a3a;font-style:italic;">Click any marker for details</span></div>
+      </div>
+
+      <!-- Caption -->
+      <div class="map-caption">
+        <p style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.18em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.3rem;">Map I · Jerusalem, c. 30 AD</p>
+        <p style="font-family:'EB Garamond',serif;font-size:0.97rem;color:#5a4030;line-height:1.7;">Modern Jerusalem overlaid with the approximate locations of first-century sites. Golgotha (the Place of the Skull) was a rocky outcrop just outside the city walls — the site of the Crucifixion and the piercing recorded in John 19:34. The Church of the Holy Sepulchre, built by Constantine in c. 326 AD, now covers both Golgotha and the traditional tomb site.</p>
+        <p style="font-family:'EB Garamond',serif;font-size:0.88rem;color:#8a6040;margin-top:0.4rem;font-style:italic;">Map tiles © OpenStreetMap contributors. Site locations are scholarly approximations based on current archaeological consensus.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     MAP 2 — RELIC JOURNEY: JERUSALEM TO EUROPE
+══════════════════════════════════════════ -->
+<section class="map-section dark" id="map-journey">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-8 reveal">
+      <span class="section-eyebrow">Map II · 570–1806 AD</span>
+      <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,2.8vw,1.7rem);color:var(--leather);line-height:1.3;margin-bottom:0.4rem;">The Relic's Journey — Jerusalem to Vienna</h2>
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#6a4a2a;font-style:italic;max-width:600px;margin:0 auto;">The documented and traditional path of the Holy Lance across fifteen centuries of custodians, conquests, and transfers.</p>
+      <div class="gold-rule" style="max-width:280px;margin:0.8rem auto 0;"></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+      <!-- Map -->
+      <div class="lg:col-span-2">
+        <div class="map-frame reveal-left">
+          <div class="map-tab-bar">
+            <span style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.14em;color:#6a4a2a;text-transform:uppercase;margin-right:0.5rem;padding-top:0.3rem;">Layer:</span>
+            <button class="map-tab active" onclick="setTile(map2,'osm');this.closest('.map-tab-bar').querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Standard</button>
+            <button class="map-tab" onclick="setTile(map2,'topo');this.closest('.map-tab-bar').querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Terrain</button>
+            <button class="map-tab" onclick="setTile(map2,'stamen');this.closest('.map-tab-bar').querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Watercolour</button>
+          </div>
+          <div id="map2" class="leaflet-map parchment-tile" style="height:480px;" aria-label="Interactive map showing the Holy Lance journey from Jerusalem to Vienna"></div>
+          <div class="map-legend">
+            <span style="font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.14em;color:#6a4a2a;text-transform:uppercase;">Routes:</span>
+            <div class="legend-item"><div class="legend-line" style="background:#8b1a1a;"></div><span class="legend-label">Documented transfer</span></div>
+            <div class="legend-item"><div class="legend-line" style="background:#a07810;border-top:2px dashed #a07810;background:none;height:0;border-bottom:none;"></div><span class="legend-label">Traditional / disputed</span></div>
+            <div class="legend-item"><div class="legend-dot" style="width:10px;height:10px;background:#d4a017;border-color:#e8b820;"></div><span class="legend-label">Custody waypoint</span></div>
+          </div>
+          <div class="map-caption">
+            <p style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.18em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.3rem;">Map II · The Lance's Journey · 570–1806 AD</p>
+            <p style="font-family:'EB Garamond',serif;font-size:0.97rem;color:#5a4030;line-height:1.7;">Numbered waypoints show the lance's documented and traditional custodial chain. Solid red lines indicate historically documented transfers; dashed gold lines show traditional or disputed routes. Click each marker for source information and reliability assessment.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Waypoint list sidebar -->
+      <div class="reveal-right">
+        <div style="background:linear-gradient(160deg,#2a1a0e,#3a2810);border:1px solid rgba(212,160,23,0.2);border-radius:3px;padding:1.4rem 1.6rem;">
+          <p style="font-family:'Cinzel',serif;font-size:0.62rem;letter-spacing:0.22em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,0.15);padding-bottom:0.6rem;">Custody Waypoints</p>
+          <div class="waypoint-list">
+            <div class="waypoint-item">
+              <div class="waypoint-num">1</div>
+              <div>
+                <p style="font-family:'Cinzel',serif;font-size:0.68rem;color:#e8c860;letter-spacing:0.06em;font-weight:700;">Jerusalem</p>
+                <p style="font-family:'Cinzel',serif;font-size:0.52rem;color:var(--gold-dim);letter-spacing:0.12em;text-transform:uppercase;margin:0.1rem 0;">c. 30 – 570 AD</p>
+                <p style="font-family:'EB Garamond',serif;font-size:0.92rem;color:#a88848;line-height:1.6;">Pilgrim of Piacenza records a lance relic in the Church of the Holy Sepulchre (c. 570).</p>
+              </div>
+            </div>
+            <div class="waypoint-item">
+              <div class="waypoint-num">2</div>
+              <div>
+                <p style="font-family:'Cinzel',serif;font-size:0.68rem;color:#e8c860;letter-spacing:0.06em;font-weight:700;">Constantinople</p>
+                <p style="font-family:'Cinzel',serif;font-size:0.52rem;color:var(--gold-dim);letter-spacing:0.12em;text-transform:uppercase;margin:0.1rem 0;">c. 614 – 1204 AD</p>
+                <p style="font-family:'EB Garamond',serif;font-size:0.92rem;color:#a88848;line-height:1.6;">Byzantine imperial relic. Sacked in 1204 by the Fourth Crusade; relics dispersed to the West.</p>
+              </div>
+            </div>
+            <div class="waypoint-item">
+              <div class="waypoint-num">3</div>
+              <div>
+                <p style="font-family:'Cinzel',serif;font-size:0.68rem;color:#e8c860;letter-spacing:0.06em;font-weight:700;">Antioch (Disputed)</p>
+                <p style="font-family:'Cinzel',serif;font-size:0.52rem;color:var(--gold-dim);letter-spacing:0.12em;text-transform:uppercase;margin:0.1rem 0;">1098 AD · Lost</p>
+                <p style="font-family:'EB Garamond',serif;font-size:0.92rem;color:#a88848;line-height:1.6;">First Crusade "discovery" — widely contested, lost after Peter Bartholomew's death.</p>
+              </div>
+            </div>
+            <div class="waypoint-item">
+              <div class="waypoint-num">4</div>
+              <div>
+                <p style="font-family:'Cinzel',serif;font-size:0.68rem;color:#e8c860;letter-spacing:0.06em;font-weight:700;">East Francia (Germany)</p>
+                <p style="font-family:'Cinzel',serif;font-size:0.52rem;color:var(--gold-dim);letter-spacing:0.12em;text-transform:uppercase;margin:0.1rem 0;">c. 925 – 1424 AD</p>
+                <p style="font-family:'EB Garamond',serif;font-size:0.92rem;color:#a88848;line-height:1.6;">Henry I acquires lance from Rudolph II. Otto I carries it at Lechfeld. Becomes Holy Roman imperial relic.</p>
+              </div>
+            </div>
+            <div class="waypoint-item">
+              <div class="waypoint-num">5</div>
+              <div>
+                <p style="font-family:'Cinzel',serif;font-size:0.68rem;color:#e8c860;letter-spacing:0.06em;font-weight:700;">Nuremberg</p>
+                <p style="font-family:'Cinzel',serif;font-size:0.52rem;color:var(--gold-dim);letter-spacing:0.12em;text-transform:uppercase;margin:0.1rem 0;">1424 – 1796 AD</p>
+                <p style="font-family:'EB Garamond',serif;font-size:0.92rem;color:#a88848;line-height:1.6;">Sigismund orders regalia permanently housed in Nuremberg. Displayed annually at the Heiltumsweisung.</p>
+              </div>
+            </div>
+            <div class="waypoint-item">
+              <div class="waypoint-num">6</div>
+              <div>
+                <p style="font-family:'Cinzel',serif;font-size:0.68rem;color:#e8c860;letter-spacing:0.06em;font-weight:700;">Vienna</p>
+                <p style="font-family:'Cinzel',serif;font-size:0.52rem;color:var(--gold-dim);letter-spacing:0.12em;text-transform:uppercase;margin:0.1rem 0;">1796 – Present</p>
+                <p style="font-family:'EB Garamond',serif;font-size:0.92rem;color:#a88848;line-height:1.6;">Evacuated before Napoleon. Held at the Kunsthistorisches Museum since 1806. Briefly moved to Nuremberg 1938–1946.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     MAP 3 — FIRST CRUSADE ROUTES
+══════════════════════════════════════════ -->
+<section class="map-section" id="map-crusades">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-8 reveal">
+      <span class="section-eyebrow">Map III · 1096–1099 AD</span>
+      <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,2.8vw,1.7rem);color:var(--leather);line-height:1.3;margin-bottom:0.4rem;">The First Crusade — Route to Antioch &amp; Jerusalem</h2>
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#6a4a2a;font-style:italic;max-width:580px;margin:0 auto;">The march of the Crusading armies from Western Europe, converging on Antioch (site of the disputed lance discovery in 1098) and Jerusalem.</p>
+      <div class="gold-rule" style="max-width:280px;margin:0.8rem auto 0;"></div>
+    </div>
+
+    <div class="map-frame reveal">
+      <div class="map-tab-bar">
+        <span style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.14em;color:#6a4a2a;text-transform:uppercase;margin-right:0.5rem;padding-top:0.3rem;">Layer:</span>
+        <button class="map-tab active" onclick="setTile(map3,'osm');this.closest('.map-tab-bar').querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Standard</button>
+        <button class="map-tab" onclick="setTile(map3,'topo');this.closest('.map-tab-bar').querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Terrain</button>
+        <button class="map-tab" onclick="setTile(map3,'stamen');this.closest('.map-tab-bar').querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Watercolour</button>
+      </div>
+      <div id="map3" class="leaflet-map parchment-tile" style="height:500px;" aria-label="Interactive map showing First Crusade routes from Europe to Jerusalem"></div>
+      <div class="map-legend">
+        <span style="font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.14em;color:#6a4a2a;text-transform:uppercase;">Routes:</span>
+        <div class="legend-item"><div class="legend-line" style="background:#8b1a1a;height:3px;"></div><span class="legend-label">French / Norman route</span></div>
+        <div class="legend-item"><div class="legend-line" style="background:#1a4a8a;height:3px;"></div><span class="legend-label">Southern Italian route</span></div>
+        <div class="legend-item"><div class="legend-line" style="background:#1a6a2a;height:3px;"></div><span class="legend-label">Rhineland / German route</span></div>
+        <div class="legend-item"><div class="legend-dot" style="width:10px;height:10px;background:#d4a017;border-color:#e8b820;"></div><span class="legend-label">Key site</span></div>
+      </div>
+      <div class="map-caption">
+        <p style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.18em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.3rem;">Map III · First Crusade Routes · 1096–1099 AD</p>
+        <p style="font-family:'EB Garamond',serif;font-size:0.97rem;color:#5a4030;line-height:1.7;">The primary Crusading contingents converged on Constantinople before marching south through Anatolia. The siege of Antioch (October 1097 – June 1098) was where Peter Bartholomew claimed to discover the Holy Lance beneath the Cathedral of Saint Peter. Click Antioch for the full scholarly debate entry. Jerusalem fell on July 15, 1099.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     MAP 4 — MODERN RELIC LOCATIONS
+══════════════════════════════════════════ -->
+<section class="map-section dark" id="map-relics">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-8 reveal">
+      <span class="section-eyebrow">Map IV · Present Day</span>
+      <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,2.8vw,1.7rem);color:var(--leather);line-height:1.3;margin-bottom:0.4rem;">Where the Relics Are Today</h2>
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#6a4a2a;font-style:italic;max-width:560px;margin:0 auto;">The current locations of the four surviving Holy Lance claimants — and the Nuremberg bunker where the Vienna spear was hidden during World War II.</p>
+      <div class="gold-rule" style="max-width:280px;margin:0.8rem auto 0;"></div>
+    </div>
+
+    <div class="map-frame reveal">
+      <div class="map-tab-bar">
+        <span style="font-family:'Cinzel',serif;font-size:0.55rem;letter-spacing:0.14em;color:#6a4a2a;text-transform:uppercase;margin-right:0.5rem;padding-top:0.3rem;">Layer:</span>
+        <button class="map-tab active" onclick="setTile(map4,'osm');this.closest('.map-tab-bar').querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Standard</button>
+        <button class="map-tab" onclick="setTile(map4,'topo');this.closest('.map-tab-bar').querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Terrain</button>
+        <button class="map-tab" onclick="setTile(map4,'stamen');this.closest('.map-tab-bar').querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));this.classList.add('active')">Watercolour</button>
+      </div>
+      <div id="map4" class="leaflet-map parchment-tile" style="height:480px;" aria-label="Interactive map showing current locations of Holy Lance relics"></div>
+      <div class="map-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#d4a017;border-color:#e8b820;"></div><span class="legend-label">Active relic site</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#6a6a6a;border-color:#9a9a9a;"></div><span class="legend-label">WWII storage site</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#8b1a1a;border-color:#c03030;"></div><span class="legend-label">Lost / historical site</span></div>
+      </div>
+      <div class="map-caption">
+        <p style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.18em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.3rem;">Map IV · Relic Locations · Present Day</p>
+        <p style="font-family:'EB Garamond',serif;font-size:0.97rem;color:#5a4030;line-height:1.7;">Gold markers indicate publicly accessible relic sites. Click each for visiting information. The Vienna spear (Kunsthistorisches Museum) is the only relic to have undergone published metallurgical dating; its blade was dated to c. 7th century AD — Carolingian rather than 1st-century Roman manufacture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     STATIC MAP CARDS — HISTORICAL CONTEXT
+══════════════════════════════════════════ -->
+<section style="background:linear-gradient(180deg,#e8d5a3 0%,#f0e0b8 100%);" class="py-14 px-5 md:px-10">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-10 reveal">
+      <span class="section-eyebrow">Historical Context Maps</span>
+      <h2 style="font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,2.8vw,1.7rem);color:var(--leather);line-height:1.3;">Public Domain Historical Maps</h2>
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:#6a4a2a;font-style:italic;max-width:500px;margin:0.4rem auto 0;">Supplementary historical maps from Wikimedia Commons, illustrating the broader geographical context of the lance's journey.</p>
+      <div class="gold-rule" style="max-width:280px;margin:0.8rem auto 0;"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Card 1 — Roman Empire -->
+      <div class="static-map-card reveal" style="min-height:300px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Roman_Empire_125.png/1280px-Roman_Empire_125.png"
+             alt="Map of the Roman Empire at its greatest extent, c. 125 AD — showing Judaea"
+             loading="lazy" style="height:240px;" />
+        <div class="static-map-caption">
+          <p style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.16em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.3rem;">Roman Empire · c. 125 AD</p>
+          <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#c8a878;line-height:1.5;font-style:italic;">The empire within which the Crucifixion occurred. Judaea is visible at the eastern Mediterranean — a frontier province under Roman administration from 6 AD.</p>
+          <a href="https://commons.wikimedia.org/wiki/File:Roman_Empire_125.png" target="_blank" rel="noopener"
+             style="font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.14em;color:var(--gold-dim);text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem;margin-top:0.6rem;transition:color 0.2s;"
+             onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--gold-dim)'">
+            ↗ Wikimedia Commons
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 2 — Byzantine Empire -->
+      <div class="static-map-card reveal" style="min-height:300px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Byzantine_Empire_1025.png/1280px-Byzantine_Empire_1025.png"
+             alt="Map of the Byzantine Empire in 1025 AD — Constantinople and the lance's custodial era"
+             loading="lazy" style="height:240px;" />
+        <div class="static-map-caption">
+          <p style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.16em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.3rem;">Byzantine Empire · 1025 AD</p>
+          <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#c8a878;line-height:1.5;font-style:italic;">Constantinople — the probable home of the Byzantine lance relic from c. 614 until the Fourth Crusade sack of 1204. The empire at the height of its medieval power under Basil II.</p>
+          <a href="https://commons.wikimedia.org/wiki/File:Byzantine_Empire_1025.png" target="_blank" rel="noopener"
+             style="font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.14em;color:var(--gold-dim);text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem;margin-top:0.6rem;transition:color 0.2s;"
+             onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--gold-dim)'">
+            ↗ Wikimedia Commons
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 3 — Holy Roman Empire -->
+      <div class="static-map-card reveal" style="min-height:300px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Holy_Roman_Empire_Map_1500.png/1024px-Holy_Roman_Empire_Map_1500.png"
+             alt="Map of the Holy Roman Empire c. 1500 — showing Nuremberg where the lance was held"
+             loading="lazy" style="height:240px;" />
+        <div class="static-map-caption">
+          <p style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.16em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:0.3rem;">Holy Roman Empire · c. 1500</p>
+          <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#c8a878;line-height:1.5;font-style:italic;">The empire within which the lance was held from c. 925 AD. Nuremberg — the lance's home 1424–1796 — is visible near the empire's geographic centre.</p>
+          <a href="https://commons.wikimedia.org/wiki/File:Holy_Roman_Empire_Map_1500.png" target="_blank" rel="noopener"
+             style="font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.14em;color:var(--gold-dim);text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem;margin-top:0.6rem;transition:color 0.2s;"
+             onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--gold-dim)'">
+            ↗ Wikimedia Commons
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attribution -->
+    <div class="reveal mt-8 text-center">
+      <p style="font-family:'EB Garamond',serif;font-size:0.88rem;color:#7a5a3a;line-height:1.7;font-style:italic;">All static maps sourced from <strong style="font-style:normal;">Wikimedia Commons</strong> under Creative Commons or public domain licenses. Interactive maps use <strong style="font-style:normal;">OpenStreetMap</strong> tiles (© OpenStreetMap contributors, ODbL) via Leaflet.js.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════ QUOTE INTERLUDE ═══════════════════════════════ -->
+<section aria-hidden="true" style="background:linear-gradient(135deg,#2a1a0e 0%,#3c2f2f 50%,#2a1a0e 100%);padding:4rem 2rem;text-align:center;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(212,160,23,0.06) 0%,transparent 65%);pointer-events:none;"></div>
+  <div style="height:1px;background:linear-gradient(90deg,transparent,#d4a017,transparent);opacity:0.3;margin-bottom:2.5rem;"></div>
+  <div class="reveal" style="max-width:640px;margin:0 auto;position:relative;z-index:1;">
+    <span style="font-family:'EB Garamond',serif;font-size:3.5rem;color:#d4a017;opacity:0.12;line-height:0.5;display:block;margin-bottom:-0.2rem;">"</span>
+    <blockquote style="font-family:'EB Garamond',serif;font-size:clamp(1.05rem,2.2vw,1.4rem);color:#c8a878;line-height:1.85;font-style:italic;">
+      The spear did not stay in one place. Empires rose and fell around it. Armies carried it to battle and returned it to vaults. Every hand that held it believed itself to be holding something larger than iron.
+    </blockquote>
+    <cite style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.25em;color:#7a5a3a;text-transform:uppercase;display:block;margin-top:1rem;">— Editorial reflection</cite>
+  </div>
+  <div style="height:1px;background:linear-gradient(90deg,transparent,#d4a017,transparent);opacity:0.3;margin-top:2.5rem;"></div>
+</section>
+
+
+<!-- ══════════════════════ PAGE NAV ══════════════════════════════════════ -->
+<section style="background:linear-gradient(180deg,#f0e0b8 0%,#f5e8c7 100%);" class="py-12 px-6 md:px-12">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-col sm:flex-row items-stretch gap-4 reveal">
+      <a href="history.html" class="page-nav-card">
+        <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.2em;color:#9a7a5a;text-transform:uppercase;margin-bottom:0.3rem;">← Previous</div>
+        <div style="font-family:'Cinzel',serif;font-size:0.82rem;color:var(--leather);font-weight:700;">Through the Ages</div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;font-style:italic;margin-top:0.1rem;">Emperors, Crusaders &amp; the Third Reich</div>
+      </a>
+      <a href="resources.html" class="page-nav-card" style="text-align:right;">
+        <div style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.2em;color:#9a7a5a;text-transform:uppercase;margin-bottom:0.3rem;">Next →</div>
+        <div style="font-family:'Cinzel',serif;font-size:0.82rem;color:var(--leather);font-weight:700;">Resources</div>
+        <div style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;font-style:italic;margin-top:0.1rem;">Sources, Scholarship &amp; Further Reading</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer class="grain relative" style="background:linear-gradient(0deg,#1a1008 0%,#2e2020 40%,#3c2f2f 100%);box-shadow:0 -4px 30px rgba(0,0,0,0.6);">
+  <div style="height:2px;background:linear-gradient(90deg,transparent,#4a3010,#d4a017,#4a3010,transparent);opacity:0.5;"></div>
+  <div class="gold-rule mx-6 md:mx-12 opacity-30 mt-0"></div>
+  <div class="relative z-10 px-6 md:px-12 pt-10 pb-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+          <svg width="18" height="34" viewBox="0 0 28 54" fill="none" class="relic-glow">
+            <polygon points="14,0 20,18 14,22 8,18" fill="#d4a017" opacity="0.85"/>
+            <polygon points="14,0 14,22 8,18" fill="#a07810" opacity="0.7"/>
+            <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#6a4a1e"/>
+            <rect x="6" y="34" width="16" height="2.5" rx="1" fill="#c09010"/>
+            <ellipse cx="14" cy="50" rx="4" ry="2.5" fill="#a07810"/>
+          </svg>
+          <span style="font-family:'Cinzel Decorative',serif;font-size:0.95rem;font-weight:700;color:#d4a017;">LONGINUS</span>
+        </div>
+        <p style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#8a6a4a;line-height:1.75;font-style:italic;">Tracing the path of the most powerful relic in history — from Golgotha to the vaults of the unknown.</p>
+        <div style="border:1px solid rgba(212,160,23,0.3);padding:0.5rem 1rem;border-radius:2px;background:rgba(212,160,23,0.06);display:inline-block;">
+          <span style="font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;">✦ Explore the Mystery ✦</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:0.5rem;">Chapters</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+          <li><a href="index.html"            style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Home</a></li>
+          <li><a href="longinus.html"         style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ The Soldier</a></li>
+          <li><a href="the-spear.html"        style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ The Spear</a></li>
+          <li><a href="artifacts.html"        style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Art &amp; Depictions</a></li>
+          <li><a href="history.html"          style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Through the Ages</a></li>
+          <li><a href="maps.html"             style="font-family:'Cinzel',serif;font-size:0.68rem;color:#d4a017;letter-spacing:0.1em;text-decoration:none;">⟶ Maps &amp; Journeys</a></li>
+          <li><a href="resources.html"        style="font-family:'Cinzel',serif;font-size:0.68rem;color:#9a7a5a;letter-spacing:0.1em;text-decoration:none;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#9a7a5a'">⟶ Resources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-family:'Cinzel',serif;font-size:0.68rem;letter-spacing:0.25em;color:#d4a017;text-transform:uppercase;margin-bottom:1rem;border-bottom:1px solid rgba(212,160,23,0.2);padding-bottom:0.5rem;">On This Page</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.45rem;">
+          <li><a href="#map-jerusalem" style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">Map I · Jerusalem 1st c.</a></li>
+          <li><a href="#map-journey"   style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">Map II · Jerusalem to Vienna</a></li>
+          <li><a href="#map-crusades"  style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">Map III · First Crusade</a></li>
+          <li><a href="#map-relics"    style="font-family:'EB Garamond',serif;font-size:0.9rem;color:#7a5a3a;text-decoration:none;font-style:italic;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#7a5a3a'">Map IV · Relics Today</a></li>
+        </ul>
+        <div class="flex items-center gap-4 mt-5">
+          <span class="relic-glow" style="font-size:1.2rem;">🗺</span>
+          <span class="relic-glow" style="font-size:1.2rem;color:#d4a017;">⚔</span>
+          <span class="relic-glow flicker" style="font-size:1.2rem;color:#d4a017;">🕯</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-ornament text-center mb-4">✦ ✦ ✦</div>
+    <div class="gold-rule opacity-25 mb-5"></div>
+    <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+      <span style="font-family:'EB Garamond',serif;font-size:0.75rem;color:#5a4030;font-style:italic;">&copy; <span id="footer-year"></span> Longinus — Tip of the Spear. All rights reserved.</span>
+      <span style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.22em;color:#6a4a2a;text-transform:uppercase;">Forged in History &nbsp;·&nbsp; Sealed in Mystery</span>
+      <div class="flex items-center gap-3">
+        <a href="privacy.html"  style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Privacy</a>
+        <span style="color:#4a3020;">·</span>
+        <a href="sitemap.html"  style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Sitemap</a>
+        <span style="color:#4a3020;">·</span>
+        <a href="contact.html"  style="font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.12em;color:#5a4030;text-decoration:none;text-transform:uppercase;" onmouseover="this.style.color='#d4a017'" onmouseout="this.style.color='#5a4030'">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div style="height:3px;background:linear-gradient(90deg,transparent,#6a4a1a,#d4a017,#e8b820,#d4a017,#6a4a1a,transparent);"></div>
+</footer>
+
+
+<!-- ═══════════════════════════════ SCRIPTS ════════════════════════════════ -->
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  // Mobile menu
+  const toggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  toggle.addEventListener('click', () => {
+    const open = !mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden', open);
+    toggle.classList.toggle('open', !open);
+  });
+
+  // Sticky header shadow
+  const hdr = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    hdr.style.boxShadow = window.scrollY > 10
+      ? '0 6px 40px rgba(0,0,0,0.9),0 2px 12px rgba(212,160,23,0.1)'
+      : '0 4px 30px rgba(0,0,0,0.7)';
+  }, { passive: true });
+
+  // Scroll reveal
+  const revEls = document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+  const revObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); } });
+  }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+  revEls.forEach(el => revObs.observe(el));
+
+  // ════════════════════════════════════════
+  //  TILE LAYER DEFINITIONS
+  // ════════════════════════════════════════
+  const tiles = {
+    osm: {
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      attr: '© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+    },
+    topo: {
+      url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+      attr: '© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors, © <a href="https://opentopomap.org">OpenTopoMap</a>'
+    },
+    stamen: {
+      url: 'https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg',
+      attr: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data © <a href="https://openstreetmap.org">OpenStreetMap</a>'
+    }
+  };
+
+  // Shared tile-swap function
+  let tileLayers = {};
+  function setTile(map, key) {
+    const mapId = map.getContainer().id;
+    if (tileLayers[mapId]) map.removeLayer(tileLayers[mapId]);
+    tileLayers[mapId] = L.tileLayer(tiles[key].url, { attribution: tiles[key].attr, maxZoom: 18 }).addTo(map);
+  }
+
+  // ── Custom marker icon factory ──
+  function makeIcon(color, size) {
+    size = size || 28;
+    return L.divIcon({
+      className: '',
+      html: `<svg width="${size}" height="${size+8}" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="14" cy="14" r="11" fill="${color}" stroke="#1a1008" stroke-width="2" opacity="0.92"/>
+        <circle cx="14" cy="14" r="6" fill="rgba(255,255,255,0.18)"/>
+        <line x1="14" y1="25" x2="14" y2="36" stroke="${color}" stroke-width="2" opacity="0.7"/>
+      </svg>`,
+      iconSize: [size, size+8],
+      iconAnchor: [size/2, size+8],
+      popupAnchor: [0, -(size+8)]
+    });
+  }
+
+  function spearIcon(color) {
+    return L.divIcon({
+      className: '',
+      html: `<svg width="32" height="44" viewBox="0 0 28 54" fill="none">
+        <polygon points="14,0 20,18 14,22 8,18" fill="${color}" opacity="0.95"/>
+        <polygon points="14,0 14,22 8,18" fill="rgba(0,0,0,0.3)" opacity="0.8"/>
+        <rect x="12.5" y="21" width="3" height="26" rx="1" fill="#7a5c2e"/>
+        <rect x="6" y="34" width="16" height="2.5" rx="1" fill="${color}"/>
+        <ellipse cx="14" cy="50" rx="4" ry="2.5" fill="rgba(0,0,0,0.3)"/>
+      </svg>`,
+      iconSize: [32, 44],
+      iconAnchor: [16, 44],
+      popupAnchor: [0, -44]
+    });
+  }
+
+  function popup(title, date, body, badge, badgeClass) {
+    return `<div class="popup-title">${title}</div>
+            <span class="popup-date">${date}</span>
+            <div class="popup-body">${body}</div>
+            <div><span class="popup-badge ${badgeClass}">${badge}</span></div>`;
+  }
+
+  // ════════════════════════════════════════
+  //  MAP 1 — JERUSALEM
+  // ════════════════════════════════════════
+  const map1 = L.map('map1', { center: [31.778, 35.234], zoom: 14, zoomControl: true, scrollWheelZoom: false });
+  setTile(map1, 'osm');
+
+  const jSites = [
+    { latlng: [31.7784, 35.2298], color: '#8b1a1a', title: 'Golgotha / Calvary', date: 'c. 30 AD', body: 'The "Place of the Skull" — the rocky outcrop just outside Jerusalem\'s northern walls where the Crucifixion occurred. John 19:17 specifies the site\'s Hebrew name. Now enclosed within the Church of the Holy Sepulchre.', badge: '✦ Historical Record', cls: 'pb-record' },
+    { latlng: [31.7785, 35.2299], color: '#c03030', title: 'Church of the Holy Sepulchre', date: 'Built c. 326 AD', body: 'Constantine\'s basilica enclosing Golgotha and the tomb. The Pilgrim of Piacenza (c. 570 AD) records seeing a lance relic here — the earliest surviving written account of a Holy Lance relic.', badge: '✦ Historical Record', cls: 'pb-record' },
+    { latlng: [31.7767, 35.2354], color: '#1a4a8a', title: 'Temple Mount (Haram al-Sharif)', date: '1st century AD', body: 'The Second Temple — destroyed by Rome in 70 AD — dominated first-century Jerusalem. Roman soldiers assigned to Judaea served under the governor Pontius Pilate (26–36 AD).', badge: '◈ Historical Context', cls: 'pb-tradition' },
+    { latlng: [31.7730, 35.2297], color: '#1a4a8a', title: 'Praetorium (Antonia Fortress)', date: '1st century AD', body: 'The likely location of Jesus\'s trial before Pilate. Roman soldiers stationed here would have included those detailed to executions. Via Dolorosa begins near this site.', badge: '◈ Scholarly Tradition', cls: 'pb-tradition' },
+    { latlng: [31.7714, 35.2290], color: '#4a8a1a', title: 'Upper Room (Cenacle)', date: '1st century AD', body: 'Traditional site of the Last Supper and the Pentecost. Where the disciples gathered after the Crucifixion. Located on Mount Zion, south of the old city walls.', badge: '◈ Tradition', cls: 'pb-tradition' },
+    { latlng: [31.7742, 35.2351], color: '#8b6a1a', title: 'Pool of Siloam / City of David', date: '1st century AD', body: 'The Lower City of Jerusalem in the time of Jesus. Densely populated, sloping south from the Temple Mount to the Hinnom Valley. Archaeological excavations here continue to illuminate 1st-century urban life.', badge: '◎ Archaeological Site', cls: 'pb-debate' },
+  ];
+  jSites.forEach(s => {
+    L.marker(s.latlng, { icon: makeIcon(s.color) })
+      .addTo(map1)
+      .bindPopup(popup(s.title, s.date, s.body, s.badge, s.cls));
+  });
+
+  // ════════════════════════════════════════
+  //  MAP 2 — JOURNEY: JERUSALEM → VIENNA
+  // ════════════════════════════════════════
+  const map2 = L.map('map2', { center: [42, 28], zoom: 4, scrollWheelZoom: false });
+  setTile(map2, 'osm');
+
+  const waypoints = [
+    { latlng: [31.778, 35.234], color: '#8b1a1a', num: '1', title: 'Jerusalem', date: 'c. 30 – 614 AD', body: 'Site of the Crucifixion. Pilgrim of Piacenza (c. 570 AD) first records a lance relic in the Church of the Holy Sepulchre. Relic trail goes cold after the Persian conquest of 614 AD.', badge: '✦ Historical Record', cls: 'pb-record' },
+    { latlng: [41.0082, 28.9784], color: '#d4a017', num: '2', title: 'Constantinople', date: 'c. 614 – 1204 AD', body: 'Byzantine capital. A lance relic is attested here from at least the 6th century. Sacked by the Fourth Crusade in 1204; relics dispersed to the Latin West.', badge: '◈ Ownership Tradition', cls: 'pb-tradition' },
+    { latlng: [36.2021, 36.1609], color: '#3a70aa', num: '3', title: 'Antioch', date: 'June 1098 AD', body: 'First Crusade: Peter Bartholomew claims to discover a lance beneath the Cathedral of St. Peter. Widely contested; Peter Bartholomew dies in ordeal. Relic subsequently lost.', badge: '◎ Scholarly Debate', cls: 'pb-debate' },
+    { latlng: [51.3, 10.5], color: '#d4a017', num: '4', title: 'East Francia / Germany', date: 'c. 925 – 1424 AD', body: 'The lance enters the Holy Roman imperial treasury c. 925 when Henry I receives it from Rudolph II of Burgundy. Used by Otto I at the Battle of Lechfeld, 955. Becomes central imperial relic.', badge: '✦ Historical Record (925–)', cls: 'pb-record' },
+    { latlng: [49.4521, 11.0767], color: '#c09010', num: '5', title: 'Nuremberg', date: '1424 – 1796 AD', body: 'Emperor Sigismund orders the Imperial Regalia permanently housed in Nuremberg (1424). The lance is displayed annually at the Heiltumsweisung. Evacuated to Vienna before Napoleon\'s advance in 1796. Also briefly here 1938–1945.', badge: '✦ Historical Record', cls: 'pb-record' },
+    { latlng: [48.2082, 16.3738], color: '#d4a017', num: '6', title: 'Vienna', date: '1796 – Present', body: 'Evacuated 1796. After 1806 dissolution of the HRE, the lance remains in Habsburg Vienna. Now displayed in the Kunsthistorisches Museum (Weltliche Schatzkammer). Returned here January 1946 after WWII recovery.', badge: '✦ Current Location', cls: 'pb-record' },
+  ];
+
+  waypoints.forEach(w => {
+    L.marker(w.latlng, { icon: spearIcon(w.color) })
+      .addTo(map2)
+      .bindPopup(popup(`${w.num}. ${w.title}`, w.date, w.body, w.badge, w.cls));
+  });
+
+  // Documented route: Jerusalem → Constantinople
+  L.polyline([[31.778, 35.234], [41.008, 28.978]], { color: '#8b1a1a', weight: 2.5, opacity: 0.7, dashArray: null }).addTo(map2);
+  // Traditional: Constantinople → Germany
+  L.polyline([[41.008, 28.978], [51.3, 10.5]], { color: '#a07810', weight: 2, opacity: 0.6, dashArray: '8,6' }).addTo(map2);
+  // Documented: Germany → Nuremberg
+  L.polyline([[51.3, 10.5], [49.452, 11.077]], { color: '#8b1a1a', weight: 2.5, opacity: 0.7 }).addTo(map2);
+  // Documented: Nuremberg → Vienna
+  L.polyline([[49.452, 11.077], [48.208, 16.374]], { color: '#8b1a1a', weight: 2.5, opacity: 0.7 }).addTo(map2);
+  // Disputed: Antioch branch
+  L.polyline([[41.008, 28.978], [36.202, 36.161]], { color: '#3a70aa', weight: 2, opacity: 0.55, dashArray: '6,5' }).addTo(map2);
+
+  // ════════════════════════════════════════
+  //  MAP 3 — FIRST CRUSADE
+  // ════════════════════════════════════════
+  const map3 = L.map('map3', { center: [42, 22], zoom: 4, scrollWheelZoom: false });
+  setTile(map3, 'osm');
+
+  // Key sites
+  const crusadeSites = [
+    { latlng: [48.85, 2.35], color: '#8b1a1a', title: 'Paris / France', date: '1096', body: 'Raymond of Toulouse\'s contingent departs from southern France. Peter the Hermit\'s "People\'s Crusade" departs earlier from this region, reaching disaster in Anatolia before the main armies.' },
+    { latlng: [48.78, 9.18], color: '#8b1a1a', title: 'Southern Germany', date: '1096', body: 'Gottfried von Bouillon and his brothers depart from the Rhineland. Rhineland pogroms against Jewish communities mark this contingent\'s departure — a dark chapter of the Crusade\'s opening.' },
+    { latlng: [41.01, 28.98], color: '#d4a017', title: 'Constantinople', date: '1096–1097', body: 'All major Crusading contingents converged on Constantinople. Byzantine Emperor Alexios I Komnenos secured oaths of fealty from Crusade leaders before allowing passage into Anatolia.' },
+    { latlng: [37.87, 32.49], color: '#8b1a1a', title: 'Konya / Iconium', date: '1097', body: 'The Crusaders marched south through Anatolia after the siege of Nicaea. The crossing of the Anatolian plateau in summer heat caused severe hardship and casualties.' },
+    { latlng: [36.20, 36.16], color: '#c03030', title: 'Antioch', date: 'Oct 1097 – June 1098', body: 'SIEGE OF ANTIOCH: The Crusaders besieged the city for seven months. After taking it, they were immediately besieged in turn by a Turkish relief force. Peter Bartholomew\'s discovery of the "Holy Lance" on June 14–15, 1098 transformed Crusader morale. They broke the siege on June 28.', badge: '◎ Lance Discovery', cls: 'pb-debate' },
+    { latlng: [31.778, 35.234], color: '#8b1a1a', title: 'Jerusalem', date: 'July 15, 1099', body: 'Jerusalem falls to the Crusaders on July 15, 1099. The massacre of the city\'s population — Muslim, Jewish, and some Christian — was extensive. The First Crusade achieves its stated objective.' },
+    { latlng: [36.72, 37.13], color: '#3a70aa', title: 'Edessa', date: '1098', body: 'Baldwin of Boulogne splits from the main army and establishes the County of Edessa — the first Crusader state, founded before Jerusalem\'s capture.' },
+    { latlng: [33.51, 36.29], color: '#1a6a2a', title: 'Damascus', date: 'Route marker', body: 'Not captured during the First Crusade; remained a Muslim-controlled city. The Crusader advance turned west to the Mediterranean coast and south toward Jerusalem.' },
+  ];
+
+  crusadeSites.forEach(s => {
+    L.marker(s.latlng, { icon: makeIcon(s.color, s.title === 'Antioch' ? 36 : 26) })
+      .addTo(map3)
+      .bindPopup(popup(s.title, s.date, s.body, s.badge || '◈ Crusade Site', s.cls || 'pb-tradition'));
+  });
+
+  // Route lines — simplified main crusade route
+  const mainRoute = [
+    [48.85, 2.35], [48.78, 9.18], [47.0, 15.0], [41.01, 28.98],
+    [40.49, 29.06], [39.92, 32.85], [37.87, 32.49], [37.02, 35.32],
+    [36.20, 36.16], [35.52, 35.78], [33.26, 35.20], [32.51, 34.9], [31.778, 35.234]
+  ];
+  L.polyline(mainRoute, { color: '#8b1a1a', weight: 2.5, opacity: 0.65 }).addTo(map3);
+
+  // Italian (Bohemond) route
+  const italianRoute = [[40.85, 14.27], [41.33, 19.83], [41.01, 28.98]];
+  L.polyline(italianRoute, { color: '#1a4a8a', weight: 2, opacity: 0.6 }).addTo(map3);
+
+  // Antioch → Jerusalem segment highlight
+  L.polyline([[36.20, 36.16], [31.778, 35.234]], { color: '#c03030', weight: 3, opacity: 0.75, dashArray: '10,4' }).addTo(map3);
+
+  // ════════════════════════════════════════
+  //  MAP 4 — MODERN RELIC LOCATIONS
+  // ════════════════════════════════════════
+  const map4 = L.map('map4', { center: [46, 18], zoom: 4, scrollWheelZoom: false });
+  setTile(map4, 'osm');
+
+  const relicSites = [
+    { latlng: [48.2035, 16.3663], color: '#d4a017', title: 'Vienna — The Hofburg Spear', date: 'Kunsthistorisches Museum · Present', body: 'The Vienna (Hofburg) Spear — the most-studied lance claimant. Held in the Secular Treasury (Weltliche Schatzkammer). <b>Metallurgical analysis (2003):</b> blade dated to c. 7th century AD at earliest. Carolingian manufacture, not 1st-century Roman. Open to the public daily.', badge: '✦ Primary Relic Site', cls: 'pb-record' },
+    { latlng: [41.9022, 12.4534], color: '#d4a017', title: 'Rome — The Vatican Spear', date: 'St. Peter\'s Basilica · Present', body: 'Held in the crossing pier of St. Peter\'s Basilica, beneath Bernini\'s 1638 statue of Saint Longinus. Provenance: gift of Ottoman Sultan Bayezid II to Pope Innocent VIII, 1492. No metallurgical analysis has been published. Not publicly displayed.', badge: '✦ Active Relic', cls: 'pb-record' },
+    { latlng: [50.0547, 19.9352], color: '#d4a017', title: 'Kraków — The Wawel Spear', date: 'Wawel Cathedral Treasury · Present', body: 'Acknowledged as a 14th-century copy of the Vienna spear (gift of Emperor Charles IV, c. 1350). Not claimed as the original lance. Held in the Wawel Cathedral Treasury in Kraków, Poland.', badge: '◈ Acknowledged Copy', cls: 'pb-tradition' },
+    { latlng: [40.1596, 44.2953], color: '#d4a017', title: 'Vagharshapat — The Etchmiadzin Spear', date: 'Mother See of Holy Etchmiadzin · Armenia', body: 'Venerated as a Passion relic by the Armenian Apostolic Church. First documented in Armenian sources in the 13th century. Housed at the Etchmiadzin Treasury. No independent scientific analysis published.', badge: '◈ Venerated Relic', cls: 'pb-tradition' },
+    { latlng: [49.4551, 11.0828], color: '#6a6a6a', title: 'Nuremberg — WWII Storage Site', date: '1938–1945', body: 'The Vienna Spear was moved to Nuremberg on Hitler\'s orders after the 1938 Anschluss. Stored first at the Historisches Museum, later in a specially built underground bunker beneath the city. Recovered by the US 7th Army\'s 45th Infantry Division on April 30, 1945 — the day of Hitler\'s death.', badge: '✦ Historical Site', cls: 'pb-record' },
+    { latlng: [36.20, 36.16], color: '#8b1a1a', title: 'Antakya (Antioch) — The Lost Lance', date: '1098 · Modern Turkey', body: 'The Antioch lance, "discovered" by Peter Bartholomew in June 1098, was lost after his death. The modern city of Antakya occupies the ancient site of Antioch. No relic exists here today.', badge: '◎ Lost Relic Site', cls: 'pb-debate' },
+  ];
+
+  relicSites.forEach(s => {
+    L.marker(s.latlng, { icon: spearIcon(s.color) })
+      .addTo(map4)
+      .bindPopup(popup(s.title, s.date, s.body, s.badge, s.cls));
+  });
+
+  // Connection line: Vienna ↔ Nuremberg (WWII move)
+  L.polyline([[48.2035, 16.3663], [49.455, 11.083]], {
+    color: '#6a6a6a', weight: 1.5, opacity: 0.5, dashArray: '6,5'
+  }).addTo(map4);
+</script>
+
+</body>
+</html>
