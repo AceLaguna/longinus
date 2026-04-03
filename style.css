@@ -1,86 +1,112 @@
 /* ============================================================
-   LONGINUS — TIP OF THE SPEAR
-   Shared stylesheet  ·  style.css
-   Overrides inline dark-body styles across all 7 pages.
-   Strategy:
-     • Body / main content  → warm light parchment, dark ink
-     • Hero banners          → kept dark, text brightness raised
-     • Verse / quote blocks  → kept dark, contrast improved
-     • Warning / legend boxes→ kept dark crimson (intentional signal)
-     • Header / Footer       → kept dark leather, legibility improved
-     • All font sizes nudged up slightly for small-text readability
+   LONGINUS — TIP OF THE SPEAR  ·  style.css  v2
+   Three fixes in this version:
+     1. Hero sections: dark bg restored, no light bleed-through
+     2. Text-shadows REMOVED from all titles (was causing fuzz)
+     3. Resources page: stronger overrides to beat inline styles
    ============================================================ */
 
-/* ── Google Fonts (loaded here so pages only need the CSS link) ── */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
 
 /* ═══════════════════════════════════════════════════════════════
-   1. CSS CUSTOM PROPERTIES — FULL LIGHT PALETTE
+   1. CSS CUSTOM PROPERTIES
 ═══════════════════════════════════════════════════════════════ */
 :root {
-  /* Core parchment palette */
-  --parchment:       #fdf6e3;   /* main body background — warm white */
-  --parchment-mid:   #f5e8c7;   /* section alternates */
-  --parchment-dark:  #ede0b8;   /* card backgrounds, ruled areas */
-  --parchment-rule:  #d9c99a;   /* dividers, borders */
-
-  /* Text */
-  --ink:             #1e1206;   /* primary body text — near-black brown */
-  --ink-mid:         #3a2a14;   /* secondary text */
-  --ink-light:       #5a4020;   /* captions, meta, labels */
-  --ink-faint:       #7a5a30;   /* placeholder, decorative labels */
-
-  /* Leather / dark tones (kept for header, footer, hero) */
-  --leather:         #3c2f2f;
-  --leather-light:   #5a4040;
-  --shadow:          #1a1008;
-
-  /* Gold accent palette — unchanged */
-  --gold:            #d4a017;
-  --gold-light:      #e8b820;
-  --gold-dim:        #a07810;
-  --gold-pale:       #c8a050;
-
-  /* Status colours */
-  --green-badge:     #2d6a1f;
-  --blue-badge:      #1a4a7a;
-  --amber-badge:     #7a4a10;
-  --crimson:         #8b1a1a;
+  --parchment:      #fdf6e3;
+  --parchment-mid:  #f5e8c7;
+  --parchment-dark: #ede0b8;
+  --parchment-rule: #d9c99a;
+  --ink:            #1e1206;
+  --ink-mid:        #3a2a14;
+  --ink-light:      #5a4020;
+  --ink-faint:      #7a5a30;
+  --leather:        #3c2f2f;
+  --leather-light:  #5a4040;
+  --shadow:         #1a1008;
+  --gold:           #d4a017;
+  --gold-light:     #e8b820;
+  --gold-dim:       #a07810;
+  --gold-pale:      #c8a050;
+  --crimson:        #8b1a1a;
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   2. BODY & BASE RESET
+   2. BODY
 ═══════════════════════════════════════════════════════════════ */
 body {
   background-color: var(--parchment) !important;
   color: var(--ink) !important;
   font-family: 'EB Garamond', Georgia, serif;
-  font-size: 17px;           /* bump base size for readability */
+  font-size: 17px;
   line-height: 1.75;
 }
 
-/* Parchment grain texture on body */
+/* Subtle map-grid lines on body background */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.5;
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
-    /* Subtle map grid lines */
-    repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(160,120,40,0.04) 60px, rgba(160,120,40,0.04) 61px),
+    repeating-linear-gradient(0deg,  transparent, transparent 60px, rgba(160,120,40,0.04) 60px, rgba(160,120,40,0.04) 61px),
     repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(160,120,40,0.03) 80px, rgba(160,120,40,0.03) 81px);
 }
-
 main { position: relative; z-index: 1; }
 
 /* ═══════════════════════════════════════════════════════════════
-   3. SECTION BACKGROUNDS — LIGHT FLIPS
+   3. REMOVE FUZZY TEXT-SHADOWS FROM ALL HEADINGS
 ═══════════════════════════════════════════════════════════════ */
+h1, h2, h3, h4 {
+  text-shadow: none !important;
+}
 
-/* Any section with an explicit dark gradient background → override to light */
+/* ═══════════════════════════════════════════════════════════════
+   4. HERO SECTIONS — KEEP DARK, FIX BACKGROUND BLEED
+═══════════════════════════════════════════════════════════════ */
+#hero,
+#page-hero {
+  isolation: isolate;
+  position: relative;
+  background-color: #1a1008 !important;
+}
+
+#hero-bg,
+#page-hero-bg {
+  position: absolute !important;
+  inset: 0 !important;
+  background-color: #1a1008 !important;
+  filter: sepia(0.6) brightness(0.3) contrast(1.2) !important;
+  z-index: 0 !important;
+}
+
+#hero-overlay-1, #hero-overlay-2, #hero-overlay-3,
+#page-hero-bot { z-index: 1 !important; }
+
+#hero-content,
+#page-hero > div.relative { position: relative !important; z-index: 10 !important; }
+
+/* Hero text — crisp, no shadows */
+#hero-content .hero-verse {
+  color: #f5edcc !important;
+  font-size: clamp(1.4rem, 3.5vw, 2.1rem) !important;
+  text-shadow: none !important;
+}
+#hero-content .hero-verse em { color: #ffe070 !important; }
+#hero-content .hero-subtitle  { color: #d0a870 !important; text-shadow: none !important; }
+#hero-content .hero-citation  { color: #b09050 !important; }
+
+#page-hero h1 { color: #f5edcc !important; text-shadow: none !important; }
+#page-hero h1 span { text-shadow: none !important; }
+#page-hero p  { color: #d0a870 !important; font-size: clamp(1rem, 2vw, 1.2rem) !important; }
+
+.breadcrumb       { color: #9a7a5a !important; }
+.breadcrumb a     { color: #b09060 !important; }
+.breadcrumb a:hover { color: var(--gold) !important; }
+
+/* ═══════════════════════════════════════════════════════════════
+   5. LIGHT BODY SECTIONS
+═══════════════════════════════════════════════════════════════ */
 section[style*="background:linear-gradient(180deg,#f5e8c7"],
 section[style*="background:linear-gradient(180deg, #f5e8c7"],
 section[style*="background:linear-gradient(180deg,#eed9b0"],
@@ -88,20 +114,10 @@ section[style*="background:linear-gradient(180deg, #eed9b0"],
 section[style*="background:linear-gradient(180deg,#e8d5a3"],
 section[style*="background:linear-gradient(180deg, #e8d5a3"],
 section[style*="background:linear-gradient(180deg,#f0e0b8"],
-section[style*="background:linear-gradient(180deg, #f0e0b8"],
-section[style*="background:linear-gradient(180deg,#e8d5a3 0%,#f0e0b8"],
-.map-section,
-.map-section.dark {
+section[style*="background:linear-gradient(180deg, #f0e0b8"] {
   background: linear-gradient(180deg, var(--parchment) 0%, var(--parchment-mid) 100%) !important;
 }
 
-/* Intro strip */
-.intro-strip {
-  background: linear-gradient(180deg, var(--parchment-mid) 0%, var(--parchment-dark) 100%) !important;
-  border-color: rgba(160,120,40,0.2) !important;
-}
-
-/* ─── The big wrapper divs used on history.html and resources.html ─── */
 div[style*="background:linear-gradient(180deg,#eed9b0"],
 div[style*="background:linear-gradient(180deg, #eed9b0"],
 div[style*="background:linear-gradient(180deg,#f0e0b8"],
@@ -111,543 +127,312 @@ div[style*="background:linear-gradient(180deg, #e8d5a3"] {
   background: var(--parchment) !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   4. BODY TEXT — GLOBAL DARK INK ON LIGHT
-═══════════════════════════════════════════════════════════════ */
+.map-section,
+.map-section.dark,
+.intro-strip {
+  background: linear-gradient(180deg, var(--parchment) 0%, var(--parchment-mid) 100%) !important;
+}
 
-/* Main prose paragraphs */
-p[style*="color:#4a3020"],
-p[style*="color: #4a3020"],
-p[style*="color:#5a4030"],
-p[style*="color: #5a4030"],
-p[style*="color:#6a4a2a"],
-p[style*="color: #6a4a2a"],
-p[style*="color:#4a3020"],
-p[style*="color:#5a4030"] {
+/* ═══════════════════════════════════════════════════════════════
+   6. BODY TEXT
+═══════════════════════════════════════════════════════════════ */
+p[style*="color:#4a3020"], p[style*="color:#5a4030"],
+p[style*="color:#6a4a2a"], p[style*="color:#3a2a12"] {
   color: var(--ink-mid) !important;
 }
-
-/* Italic / secondary prose */
-p[style*="color:#7a5a3a"],
-p[style*="color:#6a4a2a"],
-p[style*="color:#8a6040"],
-p[style*="color:#6a4a2a"] {
+p[style*="color:#7a5a3a"], p[style*="color:#8a6040"] {
   color: var(--ink-light) !important;
 }
-
-/* Section headings (Cinzel Decorative, rendered on light bg) */
 h2[style*="color:var(--leather)"],
-h2[style*="color: var(--leather)"],
-h3[style*="color:var(--leather)"],
-h3[style*="color: var(--leather)"] {
-  color: var(--leather) !important;
-}
+h3[style*="color:var(--leather)"] { color: var(--leather) !important; }
+.section-eyebrow { color: var(--gold-dim) !important; font-size: 0.68rem !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   5. TEASER / FEATURE CARDS (index.html)
+   7. TEASER CARDS
 ═══════════════════════════════════════════════════════════════ */
 .teaser-card {
   background: linear-gradient(145deg, #fffbf0 0%, var(--parchment-dark) 100%) !important;
   border-color: rgba(160,120,40,0.3) !important;
-  box-shadow: 0 2px 12px rgba(60,40,10,0.08);
 }
-.teaser-card:hover {
-  box-shadow: 0 8px 32px rgba(60,40,10,0.15), 0 0 0 1px rgba(212,160,23,0.3) !important;
-}
-.teaser-title {
-  color: var(--leather) !important;
-  font-size: 1rem !important;
-}
-.teaser-desc {
-  color: var(--ink-mid) !important;
-  font-size: 1.05rem !important;
-}
-.teaser-cta {
-  color: var(--gold-dim) !important;
-}
-.teaser-card:hover .teaser-cta {
-  color: var(--gold) !important;
-}
-.teaser-num {
-  color: var(--gold-dim) !important;
-  opacity: 0.8;
-}
+.teaser-card:hover { box-shadow: 0 8px 32px rgba(60,40,10,0.15), 0 0 0 1px rgba(212,160,23,0.3) !important; }
+.teaser-title { color: var(--leather) !important; font-size: 1rem !important; text-shadow: none !important; }
+.teaser-desc  { color: var(--ink-mid) !important; font-size: 1.05rem !important; }
+.teaser-cta   { color: var(--gold-dim) !important; }
+.teaser-num   { color: var(--gold-dim) !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   6. "WHAT IS KNOWN" BOX (index.html)
+   8. WHAT IS KNOWN BOX — dark, text improved
 ═══════════════════════════════════════════════════════════════ */
-/* This stays dark intentionally — it's a feature box — but text gets brightened */
 .known-box { background: linear-gradient(160deg, #2a1a0e, #3c2f2f, #2e2020) !important; }
-.evidence-label { color: var(--gold-light) !important; font-size: 0.76rem !important; }
-.evidence-text  { color: #d8c090 !important; font-size: 1.05rem !important; line-height: 1.8 !important; }
-.evidence-marker { color: var(--gold-light) !important; border-color: rgba(212,160,23,0.5) !important; }
+.evidence-label  { color: var(--gold-light) !important; font-size: 0.76rem !important; }
+.evidence-text   { color: #d8c090 !important; font-size: 1.05rem !important; line-height: 1.8 !important; }
+.evidence-marker { color: var(--gold-light) !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   7. RELIABILITY BADGES (shared)
+   9. BADGES
 ═══════════════════════════════════════════════════════════════ */
-.badge-biblical  { background: rgba(40,100,60,0.12) !important;  border-color: rgba(40,130,60,0.45) !important;  color: #1e5c30 !important; }
-.badge-tradition { background: rgba(140,90,10,0.12) !important;  border-color: rgba(180,110,20,0.45) !important; color: #6a4010 !important; }
-.badge-legend    { background: rgba(140,30,30,0.1)  !important;  border-color: rgba(180,40,40,0.4)  !important;  color: #7a2020 !important; }
-.badge-debate    { background: rgba(20,80,140,0.1)  !important;  border-color: rgba(30,100,160,0.4) !important;  color: #1a4a7a !important; }
-.badge-scholarly { background: rgba(20,80,140,0.1)  !important;  border-color: rgba(30,100,160,0.4) !important;  color: #1a4a7a !important; }
+.badge-biblical  { background: rgba(40,100,60,0.12)  !important; border-color: rgba(40,130,60,0.45)   !important; color: #1e5c30 !important; }
+.badge-tradition { background: rgba(140,90,10,0.12)  !important; border-color: rgba(180,110,20,0.45)  !important; color: #6a4010 !important; }
+.badge-legend    { background: rgba(140,30,30,0.1)   !important; border-color: rgba(180,40,40,0.4)    !important; color: #7a2020 !important; }
+.badge-debate    { background: rgba(20,80,140,0.1)   !important; border-color: rgba(30,100,160,0.4)   !important; color: #1a4a7a !important; }
+.badge-scholarly { background: rgba(20,80,140,0.1)   !important; border-color: rgba(30,100,160,0.4)   !important; color: #1a4a7a !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   8. FACT PANELS (longinus.html)
+   10. FACT PANELS (soldier.html)
 ═══════════════════════════════════════════════════════════════ */
-.fact-panel-biblical {
-  background: linear-gradient(135deg, #edf7ea 0%, #dff0da 100%) !important;
-  border-color: rgba(50,130,50,0.3) !important;
-}
-.fact-panel-biblical .evidence-text,
-.fact-panel-biblical p[style*="color:#a8d898"] {
-  color: #1e4a1e !important;
-  font-size: 1.05rem !important;
-}
-.fact-panel-tradition {
-  background: linear-gradient(135deg, #fdf4e0 0%, #f5e6c0 100%) !important;
-  border-color: rgba(160,110,20,0.3) !important;
-}
-.fact-panel-tradition p[style*="color:#c8a860"] {
-  color: #5a3a08 !important;
-  font-size: 1.05rem !important;
-}
-.fact-panel-legend {
-  background: linear-gradient(135deg, #fdf0f0 0%, #f5dada 100%) !important;
-  border-color: rgba(160,50,50,0.3) !important;
-}
-.fact-panel-legend p[style*="color:#c07878"] {
-  color: #6a1a1a !important;
-  font-size: 1.05rem !important;
-}
+.fact-panel-biblical  { background: linear-gradient(135deg,#edf7ea,#dff0da) !important; border-color: rgba(50,130,50,0.3) !important; }
+.fact-panel-biblical p { color: #1e4a1e !important; font-size: 1.05rem !important; }
+.fact-panel-tradition  { background: linear-gradient(135deg,#fdf4e0,#f5e6c0) !important; border-color: rgba(160,110,20,0.3) !important; }
+.fact-panel-tradition p { color: #5a3a08 !important; font-size: 1.05rem !important; }
+.fact-panel-legend     { background: linear-gradient(135deg,#fdf0f0,#f5dada) !important; border-color: rgba(160,50,50,0.3) !important; }
+.fact-panel-legend p   { color: #6a1a1a !important; font-size: 1.05rem !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   9. VERSE BLOCKS (soldier.html, the-spear.html) — KEPT DARK, CONTRAST IMPROVED
+   11. VERSE BLOCKS — dark, contrast maximised
 ═══════════════════════════════════════════════════════════════ */
-.verse-block {
-  background: linear-gradient(160deg, #1e1008 0%, #2e1e0e 50%, #1e1008 100%) !important;
-  border-left-color: var(--gold) !important;
-}
-.verse-line {
-  color: #f0dfa0 !important;   /* was #c8a878 — much brighter */
-  font-size: 1.1rem !important;
-  line-height: 2 !important;
-}
-.verse-num  { color: var(--gold-light) !important; }
-.verse-hi,
-.verse-highlight { color: #ffe080 !important; text-shadow: 0 0 16px rgba(255,200,50,0.35) !important; }
-.verse-cite,
-.verse-citation  { color: #b0904a !important; font-size: 0.68rem !important; }
-
-/* Isolated key verse panel */
-div[style*="1a1008,#2a1a10"] blockquote,
-div[style*="1a1008"] blockquote {
-  color: #ffe090 !important;
-  font-size: 1.3rem !important;
-}
+.verse-block { background: linear-gradient(160deg,#1e1008,#2e1e0e,#1e1008) !important; border-left-color: var(--gold) !important; }
+.verse-line  { color: #f0e0a0 !important; font-size: 1.1rem !important; line-height: 2 !important; }
+.verse-num   { color: var(--gold-light) !important; }
+.verse-hi, .verse-highlight { color: #ffe060 !important; text-shadow: none !important; }
+.verse-cite, .verse-citation { color: #b0904a !important; font-size: 0.68rem !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   10. IMAGE PLACEHOLDERS
+   12. PROPHECY / SACRAMENT CARDS
 ═══════════════════════════════════════════════════════════════ */
-.img-placeholder {
-  background: linear-gradient(135deg, #2a1a0e, #3c2a14, #1a1008) !important;
-  border-color: rgba(212,160,23,0.25) !important;
-}
-.img-caption p:first-child { color: var(--gold-dim) !important; }
-.img-caption p:last-child  { color: #c8a878 !important; font-size: 0.92rem !important; }
+.prophecy-card { background: linear-gradient(135deg,#2a1a0e,#3a2510) !important; }
+.prophecy-card p { color: #d8b870 !important; font-size: 1.05rem !important; }
+.sacrament-blood { background: linear-gradient(160deg,#1e0a0a,#2e1212) !important; }
+.sacrament-blood p { color: #e8a0a0 !important; font-size: 1.05rem !important; }
+.sacrament-water { background: linear-gradient(160deg,#0a1020,#121830) !important; }
+.sacrament-water p { color: #a0b8e0 !important; font-size: 1.05rem !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   11. PROPHECY CARDS (the-spear.html)
+   13. RELIC TABLE
 ═══════════════════════════════════════════════════════════════ */
-.prophecy-card {
-  background: linear-gradient(135deg, #2a1a0e 0%, #3a2510 100%) !important;
-  border-color: rgba(212,160,23,0.25) !important;
-}
-/* Text inside prophecy cards stays dark-on-dark (intentional) — just boost brightness */
-.prophecy-card .verse-line,
-.prophecy-card p[style*="color:#a89060"],
-.prophecy-card p[style*="color:#c8a868"] {
-  color: #d8b870 !important;
-  font-size: 1.05rem !important;
-}
-.prophecy-card p[style*="color:#a89060"] { color: #c0a060 !important; }
-.prophecy-card p[style*="color:#8a7050"] { color: #b09060 !important; }
-
-/* ═══════════════════════════════════════════════════════════════
-   12. SACRAMENT COLUMNS — BLOOD & WATER (the-spear.html)
-═══════════════════════════════════════════════════════════════ */
-.sacrament-blood {
-  background: linear-gradient(160deg, #1e0a0a 0%, #2e1212 100%) !important;
-  border-color: rgba(160,40,40,0.4) !important;
-}
-.sacrament-blood p[style*="color:#c87878"]  { color: #e8a0a0 !important; font-size: 1.05rem !important; }
-.sacrament-blood blockquote               { color: #c07070 !important; }
-
-.sacrament-water {
-  background: linear-gradient(160deg, #0a1020 0%, #121830 100%) !important;
-  border-color: rgba(40,80,160,0.4) !important;
-}
-.sacrament-water p[style*="color:#7890c0"]  { color: #a0b8e0 !important; font-size: 1.05rem !important; }
-.sacrament-water blockquote               { color: #7090c0 !important; }
-
-/* ═══════════════════════════════════════════════════════════════
-   13. RELIC TABLE (the-spear.html)
-═══════════════════════════════════════════════════════════════ */
-div[style*="2a1a0e,#3a2a14"] {
-  background: linear-gradient(160deg, #2a1a0e, #3a2814) !important;
-}
-.relic-table th { font-size: 0.68rem !important; color: var(--gold-light) !important; }
+.relic-table th { color: var(--gold-light) !important; font-size: 0.68rem !important; }
 .relic-table td { color: #d8b870 !important; font-size: 1rem !important; }
 .relic-table td:first-child { color: #f0d080 !important; }
-.relic-date-chip { font-size: 0.56rem !important; }
 .chip-verified   { color: #3aaa30 !important; }
 .chip-unverified { color: #e08030 !important; }
 .chip-copy       { color: #6090d0 !important; }
 .chip-lost       { color: #d05050 !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   14. GALLERY CARDS (artifacts / art-depictions.html)
+   14. GALLERY CARDS — dark (image display), text brightened
 ═══════════════════════════════════════════════════════════════ */
-/* Gallery cards stay dark (image display) but text inside brightened */
-.gallery-card { background: linear-gradient(160deg, #2a1a0e, #3c2a14, #2a1a0e) !important; }
-.card-title   { color: #f8e898 !important; font-size: 0.9rem  !important; }
+.gallery-card { background: linear-gradient(160deg,#2a1a0e,#3c2a14,#2a1a0e) !important; }
+.card-title   { color: #f8e898 !important; font-size: 0.9rem !important; text-shadow: none !important; }
 .card-artist  { color: #c0a060 !important; font-size: 0.95rem !important; }
-.card-date    { color: var(--gold-dim) !important; font-size: 0.62rem !important; }
+.card-date    { color: var(--gold-dim) !important; }
 .card-desc    { color: #c8a870 !important; font-size: 1rem !important; line-height: 1.7 !important; }
 
-/* Art cards (inside gallery) */
-.art-card-img + div p:first-child { color: var(--gold-dim) !important; }
-.art-card-img + div h4 { color: #f8e898 !important; }
-.art-card-img + div p:last-child  { color: #c8a870 !important; font-size: 0.95rem !important; }
-
-/* Filter tabs */
+/* Filter / Map tabs */
 .filter-tab, .map-tab {
-  background: rgba(255,248,220,0.7) !important;
+  background: rgba(255,248,220,0.9) !important;
   border-color: rgba(160,120,40,0.3) !important;
   color: var(--ink-light) !important;
+  font-size: 0.62rem !important;
 }
-.filter-tab:hover, .map-tab:hover {
-  background: rgba(212,160,23,0.15) !important;
-  color: var(--gold-dim) !important;
-}
-.filter-tab.active, .map-tab.active {
-  background: rgba(212,160,23,0.2) !important;
-  color: var(--leather) !important;
-  border-color: rgba(212,160,23,0.6) !important;
-}
+.filter-tab:hover, .map-tab:hover { background: rgba(212,160,23,0.15) !important; color: var(--gold-dim) !important; }
+.filter-tab.active, .map-tab.active { background: rgba(212,160,23,0.22) !important; color: var(--leather) !important; border-color: rgba(212,160,23,0.6) !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   15. LIGHTBOX — text contrast
+   15. LIGHTBOX
 ═══════════════════════════════════════════════════════════════ */
-#lb-title  { color: #f8e898 !important; font-size: 1rem !important; }
-#lb-artist { color: #c0a060 !important; font-size: 1rem !important; }
-#lb-date   { color: var(--gold-dim) !important; font-size: 0.65rem !important; }
-#lb-desc   { color: #d8b870 !important; font-size: 1.05rem !important; line-height: 1.75 !important; }
-#lb-source { color: var(--gold-dim) !important; font-size: 0.62rem !important; }
-#lb-counter{ color: #9a7a4a !important; }
+#lb-title   { color: #f8e898 !important; font-size: 1rem !important; text-shadow: none !important; }
+#lb-artist  { color: #c0a060 !important; font-size: 1rem !important; }
+#lb-date    { color: var(--gold-dim) !important; }
+#lb-desc    { color: #d8b870 !important; font-size: 1.05rem !important; line-height: 1.75 !important; }
+#lb-source  { color: var(--gold-dim) !important; }
+#lb-counter { color: #9a7a4a !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   16. TIMELINE CARDS (through-the-ages / history.html)
+   16. TIMELINE CARDS (through-the-ages.html)
 ═══════════════════════════════════════════════════════════════ */
-/* Light parchment timeline cards */
 .tl-card {
-  background: linear-gradient(145deg, #fffbf0 0%, var(--parchment-dark) 100%) !important;
+  background: linear-gradient(145deg,#fffbf0,var(--parchment-dark)) !important;
   border-color: rgba(160,120,40,0.25) !important;
-  box-shadow: 0 2px 12px rgba(60,40,10,0.07);
+  box-shadow: 0 2px 12px rgba(60,40,10,0.07) !important;
 }
-.tl-card:hover {
-  box-shadow: 0 6px 24px rgba(60,40,10,0.14), 0 0 0 1px rgba(212,160,23,0.3) !important;
-}
-.tl-date-dark  { color: var(--leather) !important; }
-.tl-heading-dark { color: var(--leather) !important; font-size: 0.95rem !important; }
-.tl-body-dark  { color: var(--ink-mid) !important; font-size: 1.05rem !important; line-height: 1.85 !important; }
-.tl-note-light { color: var(--ink-light) !important; font-size: 0.95rem !important; border-color: rgba(160,120,40,0.2) !important; }
+.tl-card:hover { box-shadow: 0 6px 24px rgba(60,40,10,0.14), 0 0 0 1px rgba(212,160,23,0.3) !important; }
+.tl-date-dark    { color: var(--leather) !important; text-shadow: none !important; }
+.tl-heading-dark { color: var(--leather) !important; font-size: 0.95rem !important; text-shadow: none !important; }
+.tl-body-dark    { color: var(--ink-mid) !important; font-size: 1.05rem !important; line-height: 1.85 !important; }
+.tl-note-light   { color: var(--ink-light) !important; font-size: 0.95rem !important; }
 
-/* Dark variant timeline cards — kept dark, text brightened */
-.tl-card-dark {
-  background: linear-gradient(145deg, #2a1a0e 0%, #3a2810 100%) !important;
-  border-color: rgba(212,160,23,0.22) !important;
-}
-.tl-card-dark .tl-date-light    { color: var(--gold-light) !important; }
-.tl-card-dark .tl-heading-light { color: #f0d080 !important; font-size: 0.95rem !important; }
-.tl-card-dark .tl-body-light    { color: #d8b870 !important; font-size: 1.05rem !important; line-height: 1.85 !important; }
+.tl-card-dark { background: linear-gradient(145deg,#2a1a0e,#3a2810) !important; }
+.tl-card-dark .tl-date-light    { color: var(--gold-light) !important; text-shadow: none !important; }
+.tl-card-dark .tl-heading-light { color: #f0d080 !important; text-shadow: none !important; }
+.tl-card-dark .tl-body-light    { color: #d8b870 !important; font-size: 1.05rem !important; }
 .tl-card-dark .tl-note-dark     { color: #c0a060 !important; font-size: 0.95rem !important; }
 
-/* Crimson legend cards — kept dark */
-.tl-card-crimson { background: linear-gradient(145deg, #2a1010 0%, #3a1818 100%) !important; }
-.tl-card-crimson .tl-body       { color: #e8a090 !important; font-size: 1.05rem !important; }
-.tl-card-crimson .tl-note-crimson { color: #c07878 !important; font-size: 0.95rem !important; }
+.tl-card-crimson { background: linear-gradient(145deg,#2a1010,#3a1818) !important; }
+.tl-card-crimson .tl-body      { color: #e8a090 !important; font-size: 1.05rem !important; }
+.tl-card-crimson .tl-note-crimson { color: #c07878 !important; }
 
-/* Era divider labels */
-.era-divider-label {
-  color: var(--gold-dim) !important;
-  background: var(--parchment) !important;
-  font-size: 0.68rem !important;
-}
+.era-divider-label { color: var(--gold-dim) !important; background: var(--parchment) !important; font-size: 0.68rem !important; }
 
-/* Relic comparison table in history.html */
-.relic-table th { color: var(--gold-light) !important; font-size: 0.68rem !important; }
-.relic-table td { color: #d0a860 !important; font-size: 1rem !important; }
-.relic-table td:first-child { color: #f0d080 !important; font-size: 0.85rem !important; }
-
-/* Legend box — kept dark, text lifted */
-.legend-box { background: linear-gradient(135deg, #2a0e0e, #3a1616) !important; }
-.legend-box h3 { color: #f08080 !important; font-size: 0.95rem !important; }
+/* Legend boxes — dark, text lifted */
+.legend-box { background: linear-gradient(135deg,#2a0e0e,#3a1616) !important; }
+.legend-box h3 { color: #f08080 !important; text-shadow: none !important; }
 .legend-box p  { color: #e09090 !important; font-size: 1.05rem !important; }
-.legend-claim p[style*="color:#e08888"]  { color: #f0a0a0 !important; }
-.legend-claim p[style*="color:#c07070"]  { color: #e09090 !important; font-size: 1rem !important; }
+.legend-claim p { color: #e09090 !important; font-size: 1rem !important; }
 
-/* TOC sidebar */
+/* TOC */
 .toc-link { color: var(--ink-light) !important; font-size: 0.62rem !important; }
-.toc-link:hover    { color: var(--gold-dim) !important; }
+.toc-link:hover      { color: var(--gold-dim) !important; }
 .toc-link.toc-active { color: var(--gold) !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   17. RESOURCE CARDS (resources.html)
+   17. MAPS PAGE
 ═══════════════════════════════════════════════════════════════ */
-.res-card {
-  background: linear-gradient(145deg, #fffbf0 0%, var(--parchment-dark) 100%) !important;
-  border-color: rgba(160,120,40,0.25) !important;
+.map-caption { background: linear-gradient(90deg,var(--parchment-mid),var(--parchment-dark),var(--parchment-mid)) !important; }
+.map-caption p:first-child { color: var(--gold-dim) !important; font-size: 0.65rem !important; }
+.map-caption p:last-child  { color: var(--ink-mid)  !important; font-size: 1rem !important; }
+.map-legend { background: linear-gradient(90deg,#2e2010,#3c2a14,#2e2010) !important; }
+.legend-label { color: #c0a060 !important; font-size: 0.58rem !important; }
+.waypoint-item { border-color: rgba(212,160,23,0.12) !important; }
+.waypoint-num  { color: var(--gold-light) !important; }
+
+/* ═══════════════════════════════════════════════════════════════
+   18. RESOURCES PAGE — STRONG OVERRIDES
+═══════════════════════════════════════════════════════════════ */
+
+/* Force the entire resources page background light */
+#sec-bible ~ *, #sec-scholarly ~ *, #sec-biblical-view ~ *,
+#sec-museums ~ *, #sec-images ~ *, #sec-books ~ *, #sec-caution ~ * {
+  background-color: transparent;
 }
-.res-card:hover {
+
+.res-card, a.res-card {
+  background: linear-gradient(145deg,#fffbf0,var(--parchment-dark)) !important;
+  border-color: rgba(160,120,40,0.25) !important;
+  color: var(--ink) !important;
+}
+.res-card:hover, a.res-card:hover {
   border-color: rgba(212,160,23,0.5) !important;
   box-shadow: 0 6px 24px rgba(60,40,10,0.14) !important;
 }
-.res-title    { color: var(--leather) !important; font-size: 0.88rem !important; }
-.res-subtitle { color: var(--ink-light) !important; font-size: 0.95rem !important; }
-.res-desc     { color: var(--ink-mid) !important; font-size: 1.02rem !important; line-height: 1.75 !important; }
-.res-url      { color: var(--gold-dim) !important; font-size: 0.58rem !important; }
-.res-url:hover{ color: var(--gold) !important; }
+.res-title    { color: var(--leather)   !important; font-size: 0.9rem  !important; text-shadow: none !important; }
+.res-subtitle { color: var(--ink-light) !important; font-size: 0.97rem !important; }
+.res-desc     { color: var(--ink-mid)   !important; font-size: 1.02rem !important; line-height: 1.78 !important; }
+.res-url      { color: var(--gold-dim)  !important; font-size: 0.58rem !important; }
+.res-url:hover{ color: var(--gold)      !important; }
 
-/* Resource section headers */
-.res-section-title { color: var(--leather) !important; font-size: 0.92rem !important; }
-.res-section-count { color: var(--ink-faint) !important; font-size: 0.6rem !important; }
+.res-section-title  { color: var(--leather)   !important; font-size: 0.92rem !important; text-shadow: none !important; }
+.res-section-count  { color: var(--ink-faint) !important; font-size: 0.62rem !important; }
+.res-section-header { border-color: rgba(160,120,40,0.25) !important; }
 
-/* Tags */
-.tag-primary   { color: #1e5c30 !important; background: rgba(30,120,60,0.1) !important; border-color: rgba(30,120,60,0.4) !important; }
-.tag-biblical  { color: #1a4a30 !important; background: rgba(20,100,60,0.1) !important; border-color: rgba(20,100,60,0.4) !important; }
-.tag-scholarly { color: #1a3a6a !important; background: rgba(20,60,130,0.1) !important; border-color: rgba(20,60,130,0.35) !important; }
-.tag-museum    { color: #5a3a0a !important; background: rgba(130,80,10,0.1) !important; border-color: rgba(130,80,10,0.35) !important; }
-.tag-images    { color: #4a2a6a !important; background: rgba(90,40,130,0.1) !important; border-color: rgba(90,40,130,0.3) !important; }
-.tag-overview  { color: #3a3a1a !important; background: rgba(80,80,20,0.1) !important; border-color: rgba(80,80,20,0.3) !important; }
-.tag-caution   { color: #6a2a0a !important; background: rgba(140,60,10,0.1) !important; border-color: rgba(140,60,10,0.3) !important; }
+/* Resource tags */
+.tag-primary   { color: #1e5c30 !important; background: rgba(30,120,60,0.1)  !important; border-color: rgba(30,120,60,0.4)  !important; }
+.tag-biblical  { color: #1a4a30 !important; background: rgba(20,100,60,0.1)  !important; border-color: rgba(20,100,60,0.4)  !important; }
+.tag-scholarly { color: #1a3a6a !important; background: rgba(20,60,130,0.1)  !important; border-color: rgba(20,60,130,0.35) !important; }
+.tag-museum    { color: #5a3a0a !important; background: rgba(130,80,10,0.1)  !important; border-color: rgba(130,80,10,0.35) !important; }
+.tag-images    { color: #4a2a6a !important; background: rgba(90,40,130,0.1)  !important; border-color: rgba(90,40,130,0.3)  !important; }
+.tag-overview  { color: #3a3a1a !important; background: rgba(80,80,20,0.1)   !important; border-color: rgba(80,80,20,0.3)   !important; }
+.tag-caution   { color: #6a2a0a !important; background: rgba(140,60,10,0.1)  !important; border-color: rgba(140,60,10,0.3)  !important; }
 
 /* Reliability dots */
-.rel-label { color: var(--ink-faint) !important; }
-.rel-dot   { border-color: rgba(160,120,40,0.4) !important; background: rgba(160,120,40,0.08) !important; }
+.rel-label          { color: var(--ink-faint) !important; }
+.rel-dot            { border-color: rgba(160,120,40,0.4) !important; background: rgba(160,120,40,0.08) !important; }
+.rel-dot.filled-green { background: #4a9a3a !important; border-color: #6acc50 !important; }
+.rel-dot.filled-gold  { background: var(--gold-dim) !important; border-color: var(--gold) !important; }
+.rel-dot.filled-amber { background: #c08020 !important; border-color: #e0a030 !important; }
 
-/* Filter chips (resources) */
+/* Filter chips */
 .filter-chip {
-  background: rgba(255,248,220,0.8) !important;
+  background: rgba(255,248,220,0.9) !important;
   border-color: rgba(160,120,40,0.3) !important;
   color: var(--ink-light) !important;
+  font-size: 0.6rem !important;
 }
 .filter-chip:hover  { background: rgba(212,160,23,0.15) !important; color: var(--gold-dim) !important; }
-.filter-chip.active { background: rgba(212,160,23,0.22) !important; color: var(--leather) !important; border-color: rgba(212,160,23,0.6) !important; }
+.filter-chip.active { background: rgba(212,160,23,0.22) !important; color: var(--leather)  !important; border-color: rgba(212,160,23,0.6) !important; }
 
-/* Search input */
-.res-search {
-  background: rgba(255,252,240,0.95) !important;
-  border-color: rgba(160,120,40,0.35) !important;
-  color: var(--ink) !important;
-  font-size: 1.05rem !important;
-}
+/* Search */
+.res-search { background: rgba(255,252,240,0.98) !important; border-color: rgba(160,120,40,0.35) !important; color: var(--ink) !important; font-size: 1.05rem !important; }
 .res-search:focus { border-color: rgba(212,160,23,0.7) !important; background: #fff !important; }
 
-/* With-caution section */
-.res-card[data-keywords*="ravenscroft"] .res-desc,
-.res-card[data-keywords*="caution"] .res-desc {
-  color: #7a3a20 !important;
-}
+/* Count */
+#res-count, #gallery-count { color: var(--ink-light) !important; font-size: 0.65rem !important; }
 
-/* Disclaimer box */
-.disclaimer-box {
-  background: linear-gradient(160deg, #2a1a0e, #3a2810) !important;
-  border-color: rgba(212,160,23,0.35) !important;
-}
-.disclaimer-box p { color: #d8b870 !important; font-size: 1.05rem !important; line-height: 1.85 !important; }
-.disclaimer-box p:last-child { color: #b0904a !important; }
+/* Disclaimer — dark, text bright */
+.disclaimer-box { background: linear-gradient(160deg,#2a1a0e,#3a2810) !important; border-color: rgba(212,160,23,0.35) !important; }
+.disclaimer-box h2 { color: var(--gold) !important; text-shadow: none !important; }
+.disclaimer-box p  { color: #d8b870 !important; font-size: 1.05rem !important; line-height: 1.85 !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   18. MAPS PAGE (maps-journeys.html)
+   19. PULL QUOTES & DARK INTERLUDE STRIPS
 ═══════════════════════════════════════════════════════════════ */
-.map-caption { background: linear-gradient(90deg, var(--parchment-mid), var(--parchment-dark), var(--parchment-mid)) !important; }
-.map-caption p:first-child { color: var(--gold-dim) !important; font-size: 0.65rem !important; }
-.map-caption p:last-child  { color: var(--ink-mid) !important; font-size: 1rem !important; }
+.pull-quote { color: var(--ink-light) !important; text-shadow: none !important; }
 
-.map-legend { background: linear-gradient(90deg, #2e2010, #3c2a14, #2e2010) !important; }
-.legend-label { color: #c0a060 !important; font-size: 0.58rem !important; }
-
-/* Waypoint sidebar */
-.waypoint-item { border-color: rgba(212,160,23,0.12) !important; }
-.waypoint-num  { color: var(--gold-light) !important; font-size: 0.65rem !important; }
-
-/* Static map cards */
-.static-map-card .static-map-caption p:first-child { color: var(--gold-dim) !important; }
-.static-map-card .static-map-caption p:last-child  { color: #c8a878 !important; font-size: 0.95rem !important; }
-
-/* ═══════════════════════════════════════════════════════════════
-   19. PULL QUOTES & INTERLUDE SECTIONS
-═══════════════════════════════════════════════════════════════ */
-.pull-quote { color: var(--ink-light) !important; font-size: clamp(1.2rem, 2.4vw, 1.55rem) !important; }
-
-/* Dark interlude quote sections — kept dark, text brightened */
-section[aria-hidden="true"] blockquote { color: #e0c890 !important; font-size: clamp(1.1rem,2.2vw,1.5rem) !important; line-height: 1.9 !important; }
-section[aria-hidden="true"] cite       { color: #9a7a4a !important; font-size: 0.65rem !important; }
-
-/* ═══════════════════════════════════════════════════════════════
-   20. SECTION EYEBROW LABELS
-═══════════════════════════════════════════════════════════════ */
-.section-eyebrow { color: var(--gold-dim) !important; font-size: 0.68rem !important; letter-spacing: 0.3em !important; }
-
-/* ═══════════════════════════════════════════════════════════════
-   21. HERO SECTIONS — KEPT DARK, TEXT BRIGHTNESS RAISED
-═══════════════════════════════════════════════════════════════ */
-/* Hero text — was slightly murky, now crisp */
-#hero-content .hero-verse  { color: #f5edcc !important; font-size: clamp(1.4rem, 3.5vw, 2.1rem) !important; }
-#hero-content .hero-verse em { color: #ffe070 !important; }
-#hero-content .hero-subtitle { color: #d0a870 !important; font-size: clamp(0.78rem,1.7vw,0.95rem) !important; }
-#hero-content .hero-citation { color: #c09050 !important; }
-
-/* Page hero h1 (all pages) */
-#page-hero h1 { text-shadow: 0 4px 30px rgba(0,0,0,0.95), 0 0 60px rgba(212,160,23,0.15) !important; }
-#page-hero p  { color: #d0a870 !important; font-size: clamp(1rem,2vw,1.25rem) !important; }
-
-/* Hero subtitle paragraph */
-p.hero-subtitle { color: #c8a060 !important; letter-spacing: 0.16em !important; }
-
-/* Breadcrumb */
-.breadcrumb       { color: #9a7a5a !important; }
-.breadcrumb a     { color: #b09060 !important; }
-.breadcrumb a:hover { color: var(--gold) !important; }
-
-/* ═══════════════════════════════════════════════════════════════
-   22. NAVIGATION — SUBTEXT READABILITY
-═══════════════════════════════════════════════════════════════ */
-/* The creed strip under nav */
-header .relative.z-10 span[style*="color:#7a5a3a"] {
-  color: #c8a878 !important;
-  font-size: 0.7rem !important;
+section[aria-hidden="true"] blockquote {
+  color: #e8d090 !important;
+  font-size: clamp(1.1rem,2.2vw,1.5rem) !important;
+  text-shadow: none !important;
 }
-/* Mobile menu links */
-#mobile-menu .nav-link { font-size: 0.78rem !important; }
+section[aria-hidden="true"] cite { color: #9a7a4a !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   23. FOOTER — TEXT LEGIBILITY IMPROVEMENT
+   20. PAGE NAV ARROWS
 ═══════════════════════════════════════════════════════════════ */
-footer { background: linear-gradient(0deg, #1a1008 0%, #2e2020 40%, #3c2f2f 100%) !important; }
-
-/* Footer chapter links */
-footer ul a { font-size: 0.75rem !important; letter-spacing: 0.1em !important; }
-
-/* Footer body text */
-footer p[style*="color:#8a6a4a"]  { color: #c8a878 !important; font-size: 0.95rem !important; }
-footer span[style*="color:#5a4030"] { color: #a09070 !important; font-size: 0.8rem !important; }
-footer span[style*="color:#6a4a2a"] { color: #a09070 !important; }
-
-/* Footer copyright + tagline */
-footer .flex span[style*="color:#5a4030"] { color: #b0906a !important; font-size: 0.8rem !important; }
-footer a[style*="color:#5a4030"]          { color: #a08060 !important; font-size: 0.65rem !important; }
+.page-nav-card { background: rgba(255,248,220,0.75) !important; border-color: rgba(160,120,40,0.22) !important; }
+.page-nav-card:hover { background: rgba(212,160,23,0.1) !important; border-color: rgba(212,160,23,0.45) !important; }
+.page-nav-card > div:nth-child(1) { color: var(--ink-faint) !important; font-size: 0.6rem !important; }
+.page-nav-card > div:nth-child(2) { color: var(--leather)   !important; font-size: 0.88rem !important; text-shadow: none !important; }
+.page-nav-card > div:nth-child(3) { color: var(--ink-light) !important; font-size: 0.95rem !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   24. PAGE NAV ARROWS (bottom of each page)
+   21. FOOTER
 ═══════════════════════════════════════════════════════════════ */
-.page-nav-card {
-  background: rgba(255,248,220,0.7) !important;
-  border-color: rgba(160,120,40,0.22) !important;
-}
-.page-nav-card:hover {
-  background: rgba(212,160,23,0.1) !important;
-  border-color: rgba(212,160,23,0.45) !important;
-}
-.page-nav-card div:nth-child(1) { color: var(--ink-faint) !important; }
-.page-nav-card div:nth-child(2) { color: var(--leather) !important; font-size: 0.88rem !important; }
-.page-nav-card div:nth-child(3) { color: var(--ink-light) !important; font-size: 0.95rem !important; }
+footer p[style*="color:#8a6a4a"]   { color: #c8a878 !important; font-size: 0.95rem !important; }
+footer ul a                         { font-size: 0.75rem !important; }
+footer span[style*="color:#5a4030"]{ color: #a09070 !important; font-size: 0.8rem !important; }
+footer span[style*="color:#6a4a2a"]{ color: #a09070 !important; }
+footer a[style*="color:#5a4030"]   { color: #a08060 !important; }
+.footer-ornament                    { color: var(--gold-dim); opacity: 0.55; font-size: 0.75rem; }
 
 /* ═══════════════════════════════════════════════════════════════
-   25. ORNAMENTAL & UTILITY ELEMENTS
+   22. NAV CREED STRIP
 ═══════════════════════════════════════════════════════════════ */
-.gold-rule { opacity: 0.5; }
+header span[style*="color:#7a5a3a"] { color: #c8a878 !important; font-size: 0.7rem !important; }
 
-.footer-ornament {
-  letter-spacing: 1.2em;
-  color: var(--gold-dim);
-  opacity: 0.55;
-  font-size: 0.75rem;
-}
-
-/* Button styles */
-.btn-relic {
-  color: var(--shadow) !important;
-  font-size: 0.76rem !important;
-  letter-spacing: 0.18em !important;
-}
-.btn-ghost {
-  color: #c8a878 !important;
-  border-color: rgba(212,160,23,0.4) !important;
-  font-size: 0.74rem !important;
-}
+/* ═══════════════════════════════════════════════════════════════
+   23. BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-relic { color: var(--shadow) !important; }
+.btn-ghost { color: #c8a878 !important; border-color: rgba(212,160,23,0.4) !important; }
 .btn-ghost:hover { color: var(--gold-light) !important; background: rgba(212,160,23,0.08) !important; }
 
-/* Count badge on resources */
-#gallery-count, #res-count {
-  color: var(--ink-light) !important;
-  font-size: 0.65rem !important;
-}
-
-/* Anatomy wrap (the-spear.html) */
-.anatomy-wrap {
-  background: linear-gradient(160deg, #2a1a0e, #3a2a14) !important;
-  border-color: rgba(212,160,23,0.22) !important;
-}
-
 /* ═══════════════════════════════════════════════════════════════
-   26. MOBILE RESPONSIVE FONT BOOSTS
+   24. SUBTLE COMPASS WATERMARK — Option A archaeology accent
 ═══════════════════════════════════════════════════════════════ */
-@media (max-width: 640px) {
-  body { font-size: 16px; }
-
-  .tl-body-dark, .tl-body-light,
-  .res-desc, .teaser-desc,
-  .card-desc, .verse-line { font-size: 1rem !important; }
-
-  .tl-heading-dark, .tl-heading-light,
-  .res-title, .teaser-title { font-size: 0.85rem !important; }
-
-  .section-eyebrow, .res-section-count,
-  .card-date, .tl-date-dark { font-size: 0.6rem !important; }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   27. SUBTLE MAP / ARCHAEOLOGY TEXTURE ACCENTS (Option A)
-═══════════════════════════════════════════════════════════════ */
-
-/* Compass-rose watermark on main content sections */
-.map-section::after,
-section.py-16::after {
+section.py-16::after,
+section.py-14::after {
   content: '';
   position: absolute;
-  bottom: 1rem;
-  right: 1.5rem;
-  width: 120px;
-  height: 120px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='none' stroke='%23a07810' stroke-width='1' opacity='0.12'/%3E%3Ccircle cx='50' cy='50' r='38' fill='none' stroke='%23a07810' stroke-width='0.5' opacity='0.1'/%3E%3Cpolygon points='50,4 54,46 50,50 46,46' fill='%23a07810' opacity='0.18'/%3E%3Cpolygon points='50,96 46,54 50,50 54,54' fill='%23a07810' opacity='0.12'/%3E%3Cpolygon points='4,50 46,46 50,50 46,54' fill='%23a07810' opacity='0.12'/%3E%3Cpolygon points='96,50 54,54 50,50 54,46' fill='%23a07810' opacity='0.12'/%3E%3Ccircle cx='50' cy='50' r='4' fill='%23a07810' opacity='0.2'/%3E%3Ctext x='50' y='18' text-anchor='middle' font-family='serif' font-size='8' fill='%23a07810' opacity='0.2'%3EN%3C/text%3E%3Ctext x='50' y='88' text-anchor='middle' font-family='serif' font-size='8' fill='%23a07810' opacity='0.2'%3ES%3C/text%3E%3Ctext x='16' y='53' text-anchor='middle' font-family='serif' font-size='8' fill='%23a07810' opacity='0.2'%3EW%3C/text%3E%3Ctext x='84' y='53' text-anchor='middle' font-family='serif' font-size='8' fill='%23a07810' opacity='0.2'%3EE%3C/text%3E%3C/svg%3E");
+  bottom: 1.5rem;
+  right: 2rem;
+  width: 100px;
+  height: 100px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='none' stroke='%23a07810' stroke-width='1' opacity='0.1'/%3E%3Ccircle cx='50' cy='50' r='36' fill='none' stroke='%23a07810' stroke-width='0.5' opacity='0.08'/%3E%3Cpolygon points='50,6 54,46 50,50 46,46' fill='%23a07810' opacity='0.15'/%3E%3Cpolygon points='50,94 46,54 50,50 54,54' fill='%23a07810' opacity='0.1'/%3E%3Cpolygon points='6,50 46,46 50,50 46,54' fill='%23a07810' opacity='0.1'/%3E%3Cpolygon points='94,50 54,54 50,50 54,46' fill='%23a07810' opacity='0.1'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%23a07810' opacity='0.18'/%3E%3Ctext x='50' y='20' text-anchor='middle' font-family='serif' font-size='9' fill='%23a07810' opacity='0.18'%3EN%3C/text%3E%3Ctext x='50' y='86' text-anchor='middle' font-family='serif' font-size='9' fill='%23a07810' opacity='0.18'%3ES%3C/text%3E%3Ctext x='18' y='54' text-anchor='middle' font-family='serif' font-size='9' fill='%23a07810' opacity='0.18'%3EW%3C/text%3E%3Ctext x='82' y='54' text-anchor='middle' font-family='serif' font-size='9' fill='%23a07810' opacity='0.18'%3EE%3C/text%3E%3C/svg%3E");
   background-size: contain;
   background-repeat: no-repeat;
   pointer-events: none;
-  opacity: 0.6;
+  opacity: 0.5;
+  z-index: 0;
 }
-/* Don't double-apply on hero sections */
-#hero::after, #page-hero::after { background-image: none !important; }
+#hero::after, #page-hero::after, footer::after { display: none !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   28. KNOWN BOX / SUMMARY BOX (index.html)
+   25. MOBILE
 ═══════════════════════════════════════════════════════════════ */
-.known-box > .relative.z-10 > .flex p[style*="color:#8a6a4a"] {
-  color: #c8a878 !important;
-  font-size: 1rem !important;
-}
-.known-box > .relative.z-10 > div[style*="background:rgba(212,160,23"] p {
-  color: #c0a060 !important;
-  font-size: 1rem !important;
-  line-height: 1.78 !important;
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .tl-body-dark, .tl-body-light, .res-desc, .teaser-desc,
+  .card-desc, .verse-line { font-size: 1rem !important; }
+  .tl-heading-dark, .tl-heading-light, .res-title,
+  .teaser-title { font-size: 0.85rem !important; }
+  .section-eyebrow, .res-section-count,
+  .card-date { font-size: 0.6rem !important; }
 }
