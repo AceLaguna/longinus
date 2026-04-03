@@ -1,9 +1,10 @@
 /* ============================================================
-   LONGINUS — TIP OF THE SPEAR  ·  style.css  v2
-   Three fixes in this version:
-     1. Hero sections: dark bg restored, no light bleed-through
-     2. Text-shadows REMOVED from all titles (was causing fuzz)
-     3. Resources page: stronger overrides to beat inline styles
+   LONGINUS — TIP OF THE SPEAR  ·  style.css  v3
+   Changes in this version:
+     1. Soldier page hero bg-position shifted down to show face
+     2. All hero images brightened (filter reduced)
+     3. Small/faint text made bolder and higher contrast
+     4. Art gallery images: proxy URLs (hotlink fix in HTML)
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
@@ -18,8 +19,8 @@
   --parchment-rule: #d9c99a;
   --ink:            #1e1206;
   --ink-mid:        #3a2a14;
-  --ink-light:      #5a4020;
-  --ink-faint:      #7a5a30;
+  --ink-light:      #4a3010;   /* darkened from #5a4020 */
+  --ink-faint:      #6a4a20;   /* darkened from #7a5a30 */
   --leather:        #3c2f2f;
   --leather-light:  #5a4040;
   --shadow:         #1a1008;
@@ -41,7 +42,6 @@ body {
   line-height: 1.75;
 }
 
-/* Subtle map-grid lines on body background */
 body::before {
   content: '';
   position: fixed;
@@ -57,12 +57,10 @@ main { position: relative; z-index: 1; }
 /* ═══════════════════════════════════════════════════════════════
    3. REMOVE FUZZY TEXT-SHADOWS FROM ALL HEADINGS
 ═══════════════════════════════════════════════════════════════ */
-h1, h2, h3, h4 {
-  text-shadow: none !important;
-}
+h1, h2, h3, h4 { text-shadow: none !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   4. HERO SECTIONS — KEEP DARK, FIX BACKGROUND BLEED
+   4. HERO SECTIONS — BRIGHTENED + SOLDIER FACE FIX
 ═══════════════════════════════════════════════════════════════ */
 #hero,
 #page-hero {
@@ -71,13 +69,33 @@ h1, h2, h3, h4 {
   background-color: #1a1008 !important;
 }
 
+/* ── BRIGHTER hero backgrounds (was brightness 0.28–0.32, now 0.52) ── */
 #hero-bg,
 #page-hero-bg {
   position: absolute !important;
   inset: 0 !important;
   background-color: #1a1008 !important;
-  filter: sepia(0.6) brightness(0.3) contrast(1.2) !important;
+  filter: sepia(0.4) brightness(0.52) contrast(1.05) !important;
   z-index: 0 !important;
+}
+
+/* ── SOLDIER PAGE SPECIFIC: shift bg down to show the face ──
+   The Tissot painting has the face in the centre-lower area.
+   background-position: center 20% was pulling too high.
+   We override it to center 55% to drop the frame down.        */
+#page-hero-bg[style*="soldier-hero"] {
+  background-position: center 55% !important;
+}
+
+/* Since we can't easily target by src, we use a class added via JS below,
+   OR we override all page-hero-bg positions to be lower by default
+   and let the index/other pages use their own inline position.
+   Safest: override in the soldier page only via a body data attribute.    */
+
+/* Target soldier.html specifically — the inline style has center 20%.
+   We override with a more specific rule using the known bg url pattern. */
+#page-hero-bg {
+  background-position: center 45% !important; /* global default — shows more of image */
 }
 
 #hero-overlay-1, #hero-overlay-2, #hero-overlay-3,
@@ -86,22 +104,22 @@ h1, h2, h3, h4 {
 #hero-content,
 #page-hero > div.relative { position: relative !important; z-index: 10 !important; }
 
-/* Hero text — crisp, no shadows */
+/* ── HERO TEXT — crisp, no shadows ── */
 #hero-content .hero-verse {
-  color: #f5edcc !important;
+  color: #f8f0d8 !important;
   font-size: clamp(1.4rem, 3.5vw, 2.1rem) !important;
   text-shadow: none !important;
 }
-#hero-content .hero-verse em { color: #ffe070 !important; }
-#hero-content .hero-subtitle  { color: #d0a870 !important; text-shadow: none !important; }
-#hero-content .hero-citation  { color: #b09050 !important; }
+#hero-content .hero-verse em { color: #ffe878 !important; }
+#hero-content .hero-subtitle  { color: #e0b878 !important; text-shadow: none !important; }
+#hero-content .hero-citation  { color: #c0a060 !important; }
 
-#page-hero h1 { color: #f5edcc !important; text-shadow: none !important; }
+#page-hero h1 { color: #f8f0d8 !important; text-shadow: none !important; }
 #page-hero h1 span { text-shadow: none !important; }
-#page-hero p  { color: #d0a870 !important; font-size: clamp(1rem, 2vw, 1.2rem) !important; }
+#page-hero p  { color: #e0b878 !important; font-size: clamp(1rem, 2vw, 1.25rem) !important; }
 
-.breadcrumb       { color: #9a7a5a !important; }
-.breadcrumb a     { color: #b09060 !important; }
+.breadcrumb       { color: #b09070 !important; }
+.breadcrumb a     { color: #c8a870 !important; }
 .breadcrumb a:hover { color: var(--gold) !important; }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -117,7 +135,6 @@ section[style*="background:linear-gradient(180deg,#f0e0b8"],
 section[style*="background:linear-gradient(180deg, #f0e0b8"] {
   background: linear-gradient(180deg, var(--parchment) 0%, var(--parchment-mid) 100%) !important;
 }
-
 div[style*="background:linear-gradient(180deg,#eed9b0"],
 div[style*="background:linear-gradient(180deg, #eed9b0"],
 div[style*="background:linear-gradient(180deg,#f0e0b8"],
@@ -126,15 +143,12 @@ div[style*="background:linear-gradient(180deg,#e8d5a3"],
 div[style*="background:linear-gradient(180deg, #e8d5a3"] {
   background: var(--parchment) !important;
 }
-
-.map-section,
-.map-section.dark,
-.intro-strip {
+.map-section, .map-section.dark, .intro-strip {
   background: linear-gradient(180deg, var(--parchment) 0%, var(--parchment-mid) 100%) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   6. BODY TEXT
+   6. BODY TEXT — HIGH CONTRAST INK
 ═══════════════════════════════════════════════════════════════ */
 p[style*="color:#4a3020"], p[style*="color:#5a4030"],
 p[style*="color:#6a4a2a"], p[style*="color:#3a2a12"] {
@@ -145,106 +159,189 @@ p[style*="color:#7a5a3a"], p[style*="color:#8a6040"] {
 }
 h2[style*="color:var(--leather)"],
 h3[style*="color:var(--leather)"] { color: var(--leather) !important; }
-.section-eyebrow { color: var(--gold-dim) !important; font-size: 0.68rem !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   7. TEASER CARDS
+   7. SMALL TEXT — BOOSTED CONTRAST GLOBALLY
+   Was too faint at #7a5a3a and similar — now all lifted
+═══════════════════════════════════════════════════════════════ */
+.section-eyebrow {
+  color: #8a6010 !important;   /* was gold-dim #a07810 — now richer */
+  font-size: 0.72rem !important;
+  letter-spacing: 0.28em !important;
+  font-weight: 600 !important;
+}
+
+/* Cinzel small caps labels throughout */
+span[style*="font-size:0.6rem"],
+span[style*="font-size: 0.6rem"],
+span[style*="font-size:0.58rem"],
+span[style*="font-size: 0.58rem"],
+div[style*="font-size:0.6rem"],
+div[style*="font-size: 0.6rem"] {
+  color: #6a4a10 !important;
+}
+
+/* Caption text under images */
+.img-caption p { color: #c8a878 !important; font-size: 0.95rem !important; }
+
+/* Card meta text (dates, artist names) */
+.card-date   { color: #9a7820 !important; font-size: 0.65rem !important; letter-spacing: 0.15em !important; }
+.card-artist { color: #c8a050 !important; font-size: 1rem !important; }
+
+/* Teaser card number labels */
+.teaser-num { color: #9a7820 !important; font-size: 0.65rem !important; font-weight: 600 !important; }
+
+/* Timeline side dates */
+.tl-side-date { color: #9a7820 !important; font-size: 1.1rem !important; }
+
+/* Badge text — all badges slightly darker for better contrast */
+.badge { font-size: 0.6rem !important; letter-spacing: 0.16em !important; }
+
+/* Resource tags */
+.res-tag { font-size: 0.58rem !important; }
+
+/* Evidence markers */
+.evidence-label  { color: var(--gold-light) !important; font-size: 0.78rem !important; letter-spacing: 0.14em !important; }
+.evidence-text   { color: #ddc890 !important; font-size: 1.05rem !important; line-height: 1.8 !important; }
+
+/* Verse citation */
+.verse-cite,
+.verse-citation { color: #c8a060 !important; font-size: 0.72rem !important; letter-spacing: 0.2em !important; }
+
+/* Dark section body text */
+.tl-body-light    { color: #e0c080 !important; }
+.tl-note-dark     { color: #c8a860 !important; font-size: 0.97rem !important; }
+.tl-note-crimson  { color: #d08888 !important; font-size: 0.97rem !important; }
+
+/* Footer small text */
+.footer-ornament { color: var(--gold-dim); opacity: 0.7; font-size: 0.78rem; }
+footer ul a      { font-size: 0.78rem !important; color: #b09070 !important; }
+footer ul a:hover { color: var(--gold) !important; }
+footer span[style*="color:#5a4030"],
+footer span[style*="color:#6a4a2a"] { color: #b09070 !important; font-size: 0.82rem !important; }
+footer a[style*="color:#5a4030"]    { color: #a08060 !important; font-size: 0.68rem !important; }
+
+/* Nav creed strip */
+header span[style*="color:#7a5a3a"] { color: #d0a878 !important; font-size: 0.72rem !important; }
+
+/* Page nav arrows */
+.page-nav-card > div:nth-child(1) { color: #8a6020 !important; font-size: 0.65rem !important; }
+.page-nav-card > div:nth-child(3) { color: var(--ink-light) !important; font-size: 1rem !important; }
+
+/* Resource section count */
+.res-section-count { color: #6a4a10 !important; font-size: 0.65rem !important; font-weight: 600 !important; }
+
+/* TOC sidebar */
+.toc-link { color: #6a4a10 !important; font-size: 0.65rem !important; font-weight: 600 !important; }
+.toc-link:hover      { color: var(--gold-dim) !important; }
+.toc-link.toc-active { color: var(--gold) !important; }
+
+/* Interlude quote sections */
+section[aria-hidden="true"] blockquote {
+  color: #f0d898 !important;
+  font-size: clamp(1.15rem,2.3vw,1.55rem) !important;
+  text-shadow: none !important;
+}
+section[aria-hidden="true"] cite { color: #b09050 !important; font-size: 0.68rem !important; }
+
+/* ═══════════════════════════════════════════════════════════════
+   8. TEASER CARDS
 ═══════════════════════════════════════════════════════════════ */
 .teaser-card {
   background: linear-gradient(145deg, #fffbf0 0%, var(--parchment-dark) 100%) !important;
   border-color: rgba(160,120,40,0.3) !important;
 }
 .teaser-card:hover { box-shadow: 0 8px 32px rgba(60,40,10,0.15), 0 0 0 1px rgba(212,160,23,0.3) !important; }
-.teaser-title { color: var(--leather) !important; font-size: 1rem !important; text-shadow: none !important; }
-.teaser-desc  { color: var(--ink-mid) !important; font-size: 1.05rem !important; }
-.teaser-cta   { color: var(--gold-dim) !important; }
-.teaser-num   { color: var(--gold-dim) !important; }
+.teaser-title { color: var(--leather) !important; font-size: 1.05rem !important; text-shadow: none !important; }
+.teaser-desc  { color: var(--ink-mid) !important; font-size: 1.08rem !important; }
+.teaser-cta   { color: var(--gold-dim) !important; font-size: 0.68rem !important; font-weight: 600 !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   8. WHAT IS KNOWN BOX — dark, text improved
+   9. "WHAT IS KNOWN" BOX
 ═══════════════════════════════════════════════════════════════ */
 .known-box { background: linear-gradient(160deg, #2a1a0e, #3c2f2f, #2e2020) !important; }
-.evidence-label  { color: var(--gold-light) !important; font-size: 0.76rem !important; }
-.evidence-text   { color: #d8c090 !important; font-size: 1.05rem !important; line-height: 1.8 !important; }
 .evidence-marker { color: var(--gold-light) !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   9. BADGES
+   10. BADGES
 ═══════════════════════════════════════════════════════════════ */
-.badge-biblical  { background: rgba(40,100,60,0.12)  !important; border-color: rgba(40,130,60,0.45)   !important; color: #1e5c30 !important; }
-.badge-tradition { background: rgba(140,90,10,0.12)  !important; border-color: rgba(180,110,20,0.45)  !important; color: #6a4010 !important; }
-.badge-legend    { background: rgba(140,30,30,0.1)   !important; border-color: rgba(180,40,40,0.4)    !important; color: #7a2020 !important; }
-.badge-debate    { background: rgba(20,80,140,0.1)   !important; border-color: rgba(30,100,160,0.4)   !important; color: #1a4a7a !important; }
-.badge-scholarly { background: rgba(20,80,140,0.1)   !important; border-color: rgba(30,100,160,0.4)   !important; color: #1a4a7a !important; }
+.badge-biblical  { background: rgba(40,100,60,0.12)  !important; border-color: rgba(40,130,60,0.45)   !important; color: #1a5028 !important; }
+.badge-tradition { background: rgba(140,90,10,0.12)  !important; border-color: rgba(180,110,20,0.45)  !important; color: #5a3808 !important; }
+.badge-legend    { background: rgba(140,30,30,0.1)   !important; border-color: rgba(180,40,40,0.4)    !important; color: #6a1818 !important; }
+.badge-debate    { background: rgba(20,80,140,0.1)   !important; border-color: rgba(30,100,160,0.4)   !important; color: #163870 !important; }
+.badge-scholarly { background: rgba(20,80,140,0.1)   !important; border-color: rgba(30,100,160,0.4)   !important; color: #163870 !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   10. FACT PANELS (soldier.html)
+   11. FACT PANELS (soldier.html)
 ═══════════════════════════════════════════════════════════════ */
 .fact-panel-biblical  { background: linear-gradient(135deg,#edf7ea,#dff0da) !important; border-color: rgba(50,130,50,0.3) !important; }
-.fact-panel-biblical p { color: #1e4a1e !important; font-size: 1.05rem !important; }
+.fact-panel-biblical p { color: #1a3a18 !important; font-size: 1.05rem !important; }
 .fact-panel-tradition  { background: linear-gradient(135deg,#fdf4e0,#f5e6c0) !important; border-color: rgba(160,110,20,0.3) !important; }
-.fact-panel-tradition p { color: #5a3a08 !important; font-size: 1.05rem !important; }
+.fact-panel-tradition p { color: #4a3006 !important; font-size: 1.05rem !important; }
 .fact-panel-legend     { background: linear-gradient(135deg,#fdf0f0,#f5dada) !important; border-color: rgba(160,50,50,0.3) !important; }
-.fact-panel-legend p   { color: #6a1a1a !important; font-size: 1.05rem !important; }
+.fact-panel-legend p   { color: #5a1212 !important; font-size: 1.05rem !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   11. VERSE BLOCKS — dark, contrast maximised
+   12. VERSE BLOCKS — dark, maximum contrast
 ═══════════════════════════════════════════════════════════════ */
-.verse-block { background: linear-gradient(160deg,#1e1008,#2e1e0e,#1e1008) !important; border-left-color: var(--gold) !important; }
-.verse-line  { color: #f0e0a0 !important; font-size: 1.1rem !important; line-height: 2 !important; }
+.verse-block { background: linear-gradient(160deg,#1a0e06,#281808,#1a0e06) !important; border-left-color: var(--gold) !important; }
+.verse-line  { color: #f5e8b0 !important; font-size: 1.12rem !important; line-height: 2 !important; }
 .verse-num   { color: var(--gold-light) !important; }
-.verse-hi, .verse-highlight { color: #ffe060 !important; text-shadow: none !important; }
-.verse-cite, .verse-citation { color: #b0904a !important; font-size: 0.68rem !important; }
+.verse-hi, .verse-highlight { color: #ffe050 !important; text-shadow: none !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   12. PROPHECY / SACRAMENT CARDS
+   13. PROPHECY / SACRAMENT (the-spear.html)
 ═══════════════════════════════════════════════════════════════ */
 .prophecy-card { background: linear-gradient(135deg,#2a1a0e,#3a2510) !important; }
-.prophecy-card p { color: #d8b870 !important; font-size: 1.05rem !important; }
+.prophecy-card p { color: #e0c078 !important; font-size: 1.05rem !important; }
 .sacrament-blood { background: linear-gradient(160deg,#1e0a0a,#2e1212) !important; }
-.sacrament-blood p { color: #e8a0a0 !important; font-size: 1.05rem !important; }
+.sacrament-blood p { color: #f0a8a8 !important; font-size: 1.05rem !important; }
 .sacrament-water { background: linear-gradient(160deg,#0a1020,#121830) !important; }
-.sacrament-water p { color: #a0b8e0 !important; font-size: 1.05rem !important; }
+.sacrament-water p { color: #b0c8f0 !important; font-size: 1.05rem !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   13. RELIC TABLE
+   14. RELIC TABLE
 ═══════════════════════════════════════════════════════════════ */
-.relic-table th { color: var(--gold-light) !important; font-size: 0.68rem !important; }
-.relic-table td { color: #d8b870 !important; font-size: 1rem !important; }
-.relic-table td:first-child { color: #f0d080 !important; }
-.chip-verified   { color: #3aaa30 !important; }
-.chip-unverified { color: #e08030 !important; }
-.chip-copy       { color: #6090d0 !important; }
-.chip-lost       { color: #d05050 !important; }
+.relic-table th { color: var(--gold-light) !important; font-size: 0.7rem !important; }
+.relic-table td { color: #e0c080 !important; font-size: 1rem !important; }
+.relic-table td:first-child { color: #f8d878 !important; }
+.chip-verified   { color: #2aaa20 !important; font-size: 0.58rem !important; }
+.chip-unverified { color: #e08828 !important; font-size: 0.58rem !important; }
+.chip-copy       { color: #5888d0 !important; font-size: 0.58rem !important; }
+.chip-lost       { color: #d04848 !important; font-size: 0.58rem !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   14. GALLERY CARDS — dark (image display), text brightened
+   15. GALLERY CARDS (art-depictions.html)
+       Cards stay dark for image display — text brightened
 ═══════════════════════════════════════════════════════════════ */
 .gallery-card { background: linear-gradient(160deg,#2a1a0e,#3c2a14,#2a1a0e) !important; }
-.card-title   { color: #f8e898 !important; font-size: 0.9rem !important; text-shadow: none !important; }
-.card-artist  { color: #c0a060 !important; font-size: 0.95rem !important; }
-.card-date    { color: var(--gold-dim) !important; }
-.card-desc    { color: #c8a870 !important; font-size: 1rem !important; line-height: 1.7 !important; }
+.card-title   { color: #f8e898 !important; font-size: 0.92rem !important; text-shadow: none !important; font-weight: 700 !important; }
+.card-desc    { color: #d0a870 !important; font-size: 1.02rem !important; line-height: 1.7 !important; }
+.card-footer  { border-color: rgba(212,160,23,0.18) !important; }
+.card-source-link { color: #b09040 !important; font-size: 0.6rem !important; }
+.card-source-link:hover { color: var(--gold-light) !important; }
+.card-medium-tag { color: #9a7830 !important; font-size: 0.55rem !important; background: rgba(212,160,23,0.1) !important; border-color: rgba(212,160,23,0.25) !important; }
+.card-era-badge  { color: var(--gold-light) !important; font-size: 0.55rem !important; }
+.card-featured-ribbon { font-size: 0.52rem !important; }
 
-/* Filter / Map tabs */
+/* Lightbox */
+#lb-title   { color: #f8e898 !important; font-size: 1.05rem !important; font-weight: 700 !important; text-shadow: none !important; }
+#lb-artist  { color: #c8a860 !important; font-size: 1rem !important; }
+#lb-date    { color: var(--gold-dim) !important; font-size: 0.68rem !important; letter-spacing: 0.16em !important; }
+#lb-desc    { color: #e0c080 !important; font-size: 1.05rem !important; line-height: 1.75 !important; }
+#lb-source  { color: var(--gold-dim) !important; font-size: 0.65rem !important; }
+#lb-counter { color: #b09050 !important; font-size: 0.65rem !important; }
+
+/* Filter / map tabs */
 .filter-tab, .map-tab {
   background: rgba(255,248,220,0.9) !important;
   border-color: rgba(160,120,40,0.3) !important;
-  color: var(--ink-light) !important;
-  font-size: 0.62rem !important;
+  color: #5a3a08 !important;
+  font-size: 0.65rem !important;
+  font-weight: 600 !important;
 }
-.filter-tab:hover, .map-tab:hover { background: rgba(212,160,23,0.15) !important; color: var(--gold-dim) !important; }
-.filter-tab.active, .map-tab.active { background: rgba(212,160,23,0.22) !important; color: var(--leather) !important; border-color: rgba(212,160,23,0.6) !important; }
-
-/* ═══════════════════════════════════════════════════════════════
-   15. LIGHTBOX
-═══════════════════════════════════════════════════════════════ */
-#lb-title   { color: #f8e898 !important; font-size: 1rem !important; text-shadow: none !important; }
-#lb-artist  { color: #c0a060 !important; font-size: 1rem !important; }
-#lb-date    { color: var(--gold-dim) !important; }
-#lb-desc    { color: #d8b870 !important; font-size: 1.05rem !important; line-height: 1.75 !important; }
-#lb-source  { color: var(--gold-dim) !important; }
-#lb-counter { color: #9a7a4a !important; }
+.filter-tab:hover, .map-tab:hover { background: rgba(212,160,23,0.18) !important; color: #6a4a00 !important; }
+.filter-tab.active, .map-tab.active { background: rgba(212,160,23,0.28) !important; color: var(--leather) !important; border-color: rgba(212,160,23,0.65) !important; font-weight: 700 !important; }
 
 /* ═══════════════════════════════════════════════════════════════
    16. TIMELINE CARDS (through-the-ages.html)
@@ -252,58 +349,43 @@ h3[style*="color:var(--leather)"] { color: var(--leather) !important; }
 .tl-card {
   background: linear-gradient(145deg,#fffbf0,var(--parchment-dark)) !important;
   border-color: rgba(160,120,40,0.25) !important;
-  box-shadow: 0 2px 12px rgba(60,40,10,0.07) !important;
 }
 .tl-card:hover { box-shadow: 0 6px 24px rgba(60,40,10,0.14), 0 0 0 1px rgba(212,160,23,0.3) !important; }
-.tl-date-dark    { color: var(--leather) !important; text-shadow: none !important; }
-.tl-heading-dark { color: var(--leather) !important; font-size: 0.95rem !important; text-shadow: none !important; }
-.tl-body-dark    { color: var(--ink-mid) !important; font-size: 1.05rem !important; line-height: 1.85 !important; }
-.tl-note-light   { color: var(--ink-light) !important; font-size: 0.95rem !important; }
+.tl-date-dark    { color: var(--leather) !important; text-shadow: none !important; font-size: 1.2rem !important; }
+.tl-heading-dark { color: var(--leather) !important; font-size: 0.97rem !important; text-shadow: none !important; font-weight: 700 !important; }
+.tl-body-dark    { color: var(--ink-mid) !important; font-size: 1.07rem !important; line-height: 1.85 !important; }
+.tl-note-light   { color: #5a3808 !important; font-size: 0.97rem !important; font-style: italic; }
 
 .tl-card-dark { background: linear-gradient(145deg,#2a1a0e,#3a2810) !important; }
 .tl-card-dark .tl-date-light    { color: var(--gold-light) !important; text-shadow: none !important; }
-.tl-card-dark .tl-heading-light { color: #f0d080 !important; text-shadow: none !important; }
-.tl-card-dark .tl-body-light    { color: #d8b870 !important; font-size: 1.05rem !important; }
-.tl-card-dark .tl-note-dark     { color: #c0a060 !important; font-size: 0.95rem !important; }
+.tl-card-dark .tl-heading-light { color: #f8e090 !important; font-size: 0.97rem !important; text-shadow: none !important; font-weight: 700 !important; }
+.tl-card-dark .tl-body-light    { color: #e0c080 !important; font-size: 1.07rem !important; line-height: 1.85 !important; }
 
 .tl-card-crimson { background: linear-gradient(145deg,#2a1010,#3a1818) !important; }
-.tl-card-crimson .tl-body      { color: #e8a090 !important; font-size: 1.05rem !important; }
-.tl-card-crimson .tl-note-crimson { color: #c07878 !important; }
+.tl-card-crimson .tl-body      { color: #f0a898 !important; font-size: 1.07rem !important; }
 
-.era-divider-label { color: var(--gold-dim) !important; background: var(--parchment) !important; font-size: 0.68rem !important; }
+.era-divider-label { color: #8a6010 !important; background: var(--parchment) !important; font-size: 0.7rem !important; font-weight: 700 !important; letter-spacing: 0.25em !important; }
 
-/* Legend boxes — dark, text lifted */
+/* Legend boxes */
 .legend-box { background: linear-gradient(135deg,#2a0e0e,#3a1616) !important; }
-.legend-box h3 { color: #f08080 !important; text-shadow: none !important; }
-.legend-box p  { color: #e09090 !important; font-size: 1.05rem !important; }
-.legend-claim p { color: #e09090 !important; font-size: 1rem !important; }
-
-/* TOC */
-.toc-link { color: var(--ink-light) !important; font-size: 0.62rem !important; }
-.toc-link:hover      { color: var(--gold-dim) !important; }
-.toc-link.toc-active { color: var(--gold) !important; }
+.legend-box h3 { color: #f09090 !important; text-shadow: none !important; font-size: 0.97rem !important; }
+.legend-box p  { color: #f0a0a0 !important; font-size: 1.07rem !important; }
+.legend-claim p { color: #f0a0a0 !important; font-size: 1.02rem !important; }
 
 /* ═══════════════════════════════════════════════════════════════
    17. MAPS PAGE
 ═══════════════════════════════════════════════════════════════ */
 .map-caption { background: linear-gradient(90deg,var(--parchment-mid),var(--parchment-dark),var(--parchment-mid)) !important; }
-.map-caption p:first-child { color: var(--gold-dim) !important; font-size: 0.65rem !important; }
-.map-caption p:last-child  { color: var(--ink-mid)  !important; font-size: 1rem !important; }
+.map-caption p:first-child { color: #8a6010 !important; font-size: 0.68rem !important; font-weight: 700 !important; letter-spacing: 0.2em !important; }
+.map-caption p:last-child  { color: var(--ink-mid) !important; font-size: 1.02rem !important; }
 .map-legend { background: linear-gradient(90deg,#2e2010,#3c2a14,#2e2010) !important; }
-.legend-label { color: #c0a060 !important; font-size: 0.58rem !important; }
-.waypoint-item { border-color: rgba(212,160,23,0.12) !important; }
-.waypoint-num  { color: var(--gold-light) !important; }
+.legend-label { color: #d0a860 !important; font-size: 0.62rem !important; font-weight: 600 !important; }
+.waypoint-item { border-color: rgba(212,160,23,0.15) !important; }
+.waypoint-num  { color: var(--gold-light) !important; font-size: 0.68rem !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   18. RESOURCES PAGE — STRONG OVERRIDES
+   18. RESOURCES PAGE
 ═══════════════════════════════════════════════════════════════ */
-
-/* Force the entire resources page background light */
-#sec-bible ~ *, #sec-scholarly ~ *, #sec-biblical-view ~ *,
-#sec-museums ~ *, #sec-images ~ *, #sec-books ~ *, #sec-caution ~ * {
-  background-color: transparent;
-}
-
 .res-card, a.res-card {
   background: linear-gradient(145deg,#fffbf0,var(--parchment-dark)) !important;
   border-color: rgba(160,120,40,0.25) !important;
@@ -313,126 +395,99 @@ h3[style*="color:var(--leather)"] { color: var(--leather) !important; }
   border-color: rgba(212,160,23,0.5) !important;
   box-shadow: 0 6px 24px rgba(60,40,10,0.14) !important;
 }
-.res-title    { color: var(--leather)   !important; font-size: 0.9rem  !important; text-shadow: none !important; }
-.res-subtitle { color: var(--ink-light) !important; font-size: 0.97rem !important; }
-.res-desc     { color: var(--ink-mid)   !important; font-size: 1.02rem !important; line-height: 1.78 !important; }
-.res-url      { color: var(--gold-dim)  !important; font-size: 0.58rem !important; }
-.res-url:hover{ color: var(--gold)      !important; }
+.res-title    { color: var(--leather)  !important; font-size: 0.92rem !important; text-shadow: none !important; font-weight: 700 !important; }
+.res-subtitle { color: #4a3010 !important; font-size: 0.97rem !important; font-weight: 600 !important; }
+.res-desc     { color: var(--ink-mid)  !important; font-size: 1.02rem !important; line-height: 1.78 !important; }
+.res-url      { color: #8a6010 !important; font-size: 0.62rem !important; font-weight: 600 !important; }
+.res-url:hover{ color: var(--gold)     !important; }
 
-.res-section-title  { color: var(--leather)   !important; font-size: 0.92rem !important; text-shadow: none !important; }
-.res-section-count  { color: var(--ink-faint) !important; font-size: 0.62rem !important; }
+.res-section-title  { color: var(--leather)  !important; font-size: 0.95rem !important; text-shadow: none !important; font-weight: 700 !important; }
+.res-section-count  { color: #6a4a10 !important; font-size: 0.65rem !important; font-weight: 600 !important; }
 .res-section-header { border-color: rgba(160,120,40,0.25) !important; }
 
-/* Resource tags */
-.tag-primary   { color: #1e5c30 !important; background: rgba(30,120,60,0.1)  !important; border-color: rgba(30,120,60,0.4)  !important; }
-.tag-biblical  { color: #1a4a30 !important; background: rgba(20,100,60,0.1)  !important; border-color: rgba(20,100,60,0.4)  !important; }
-.tag-scholarly { color: #1a3a6a !important; background: rgba(20,60,130,0.1)  !important; border-color: rgba(20,60,130,0.35) !important; }
-.tag-museum    { color: #5a3a0a !important; background: rgba(130,80,10,0.1)  !important; border-color: rgba(130,80,10,0.35) !important; }
-.tag-images    { color: #4a2a6a !important; background: rgba(90,40,130,0.1)  !important; border-color: rgba(90,40,130,0.3)  !important; }
-.tag-overview  { color: #3a3a1a !important; background: rgba(80,80,20,0.1)   !important; border-color: rgba(80,80,20,0.3)   !important; }
-.tag-caution   { color: #6a2a0a !important; background: rgba(140,60,10,0.1)  !important; border-color: rgba(140,60,10,0.3)  !important; }
+/* Tags */
+.tag-primary   { color: #1a5028 !important; background: rgba(30,120,60,0.12)  !important; border-color: rgba(30,120,60,0.45) !important; font-weight: 600 !important; }
+.tag-biblical  { color: #154028 !important; background: rgba(20,100,60,0.12)  !important; border-color: rgba(20,100,60,0.45) !important; font-weight: 600 !important; }
+.tag-scholarly { color: #14306a !important; background: rgba(20,60,130,0.12)  !important; border-color: rgba(20,60,130,0.4)  !important; font-weight: 600 !important; }
+.tag-museum    { color: #4a3008 !important; background: rgba(130,80,10,0.12)  !important; border-color: rgba(130,80,10,0.4)  !important; font-weight: 600 !important; }
+.tag-images    { color: #3a2060 !important; background: rgba(90,40,130,0.12)  !important; border-color: rgba(90,40,130,0.35) !important; font-weight: 600 !important; }
+.tag-overview  { color: #303010 !important; background: rgba(80,80,20,0.12)   !important; border-color: rgba(80,80,20,0.35)  !important; font-weight: 600 !important; }
+.tag-caution   { color: #5a2008 !important; background: rgba(140,60,10,0.12)  !important; border-color: rgba(140,60,10,0.35) !important; font-weight: 600 !important; }
 
 /* Reliability dots */
-.rel-label          { color: var(--ink-faint) !important; }
-.rel-dot            { border-color: rgba(160,120,40,0.4) !important; background: rgba(160,120,40,0.08) !important; }
-.rel-dot.filled-green { background: #4a9a3a !important; border-color: #6acc50 !important; }
+.rel-label          { color: #6a4a10 !important; font-size: 0.55rem !important; font-weight: 600 !important; }
+.rel-dot            { border-color: rgba(160,120,40,0.45) !important; background: rgba(160,120,40,0.1) !important; }
+.rel-dot.filled-green { background: #3a9028 !important; border-color: #5acc40 !important; }
 .rel-dot.filled-gold  { background: var(--gold-dim) !important; border-color: var(--gold) !important; }
-.rel-dot.filled-amber { background: #c08020 !important; border-color: #e0a030 !important; }
+.rel-dot.filled-amber { background: #b07018 !important; border-color: #d09030 !important; }
 
 /* Filter chips */
 .filter-chip {
-  background: rgba(255,248,220,0.9) !important;
-  border-color: rgba(160,120,40,0.3) !important;
-  color: var(--ink-light) !important;
-  font-size: 0.6rem !important;
+  background: rgba(255,248,220,0.95) !important;
+  border-color: rgba(160,120,40,0.35) !important;
+  color: #5a3a08 !important;
+  font-size: 0.64rem !important;
+  font-weight: 600 !important;
 }
-.filter-chip:hover  { background: rgba(212,160,23,0.15) !important; color: var(--gold-dim) !important; }
-.filter-chip.active { background: rgba(212,160,23,0.22) !important; color: var(--leather)  !important; border-color: rgba(212,160,23,0.6) !important; }
+.filter-chip:hover  { background: rgba(212,160,23,0.18) !important; color: #4a2a00 !important; }
+.filter-chip.active { background: rgba(212,160,23,0.28) !important; color: var(--leather) !important; border-color: rgba(212,160,23,0.65) !important; font-weight: 700 !important; }
 
 /* Search */
-.res-search { background: rgba(255,252,240,0.98) !important; border-color: rgba(160,120,40,0.35) !important; color: var(--ink) !important; font-size: 1.05rem !important; }
-.res-search:focus { border-color: rgba(212,160,23,0.7) !important; background: #fff !important; }
+.res-search { background: rgba(255,252,240,0.98) !important; border-color: rgba(160,120,40,0.4) !important; color: var(--ink) !important; font-size: 1.05rem !important; }
+.res-search::placeholder { color: #8a6030 !important; font-style: italic; }
+.res-search:focus { border-color: rgba(212,160,23,0.7) !important; }
 
 /* Count */
-#res-count, #gallery-count { color: var(--ink-light) !important; font-size: 0.65rem !important; }
+#res-count, #gallery-count { color: #6a4a10 !important; font-size: 0.68rem !important; font-weight: 600 !important; }
+#res-count strong, #gallery-count strong { color: var(--leather) !important; }
 
-/* Disclaimer — dark, text bright */
-.disclaimer-box { background: linear-gradient(160deg,#2a1a0e,#3a2810) !important; border-color: rgba(212,160,23,0.35) !important; }
-.disclaimer-box h2 { color: var(--gold) !important; text-shadow: none !important; }
-.disclaimer-box p  { color: #d8b870 !important; font-size: 1.05rem !important; line-height: 1.85 !important; }
+/* Disclaimer */
+.disclaimer-box { background: linear-gradient(160deg,#2a1a0e,#3a2810) !important; border-color: rgba(212,160,23,0.4) !important; }
+.disclaimer-box h2 { color: var(--gold-light) !important; text-shadow: none !important; font-size: 0.95rem !important; }
+.disclaimer-box p  { color: #e0c080 !important; font-size: 1.07rem !important; line-height: 1.85 !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   19. PULL QUOTES & DARK INTERLUDE STRIPS
+   19. PULL QUOTES
 ═══════════════════════════════════════════════════════════════ */
-.pull-quote { color: var(--ink-light) !important; text-shadow: none !important; }
-
-section[aria-hidden="true"] blockquote {
-  color: #e8d090 !important;
-  font-size: clamp(1.1rem,2.2vw,1.5rem) !important;
-  text-shadow: none !important;
-}
-section[aria-hidden="true"] cite { color: #9a7a4a !important; }
+.pull-quote { color: var(--ink-light) !important; text-shadow: none !important; font-size: clamp(1.2rem,2.4vw,1.55rem) !important; }
 
 /* ═══════════════════════════════════════════════════════════════
    20. PAGE NAV ARROWS
 ═══════════════════════════════════════════════════════════════ */
-.page-nav-card { background: rgba(255,248,220,0.75) !important; border-color: rgba(160,120,40,0.22) !important; }
-.page-nav-card:hover { background: rgba(212,160,23,0.1) !important; border-color: rgba(212,160,23,0.45) !important; }
-.page-nav-card > div:nth-child(1) { color: var(--ink-faint) !important; font-size: 0.6rem !important; }
-.page-nav-card > div:nth-child(2) { color: var(--leather)   !important; font-size: 0.88rem !important; text-shadow: none !important; }
-.page-nav-card > div:nth-child(3) { color: var(--ink-light) !important; font-size: 0.95rem !important; }
+.page-nav-card { background: rgba(255,248,220,0.8) !important; border-color: rgba(160,120,40,0.25) !important; }
+.page-nav-card:hover { background: rgba(212,160,23,0.12) !important; border-color: rgba(212,160,23,0.5) !important; }
+.page-nav-card > div:nth-child(2) { color: var(--leather) !important; font-size: 0.9rem !important; text-shadow: none !important; font-weight: 700 !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   21. FOOTER
+   21. BUTTONS
 ═══════════════════════════════════════════════════════════════ */
-footer p[style*="color:#8a6a4a"]   { color: #c8a878 !important; font-size: 0.95rem !important; }
-footer ul a                         { font-size: 0.75rem !important; }
-footer span[style*="color:#5a4030"]{ color: #a09070 !important; font-size: 0.8rem !important; }
-footer span[style*="color:#6a4a2a"]{ color: #a09070 !important; }
-footer a[style*="color:#5a4030"]   { color: #a08060 !important; }
-.footer-ornament                    { color: var(--gold-dim); opacity: 0.55; font-size: 0.75rem; }
+.btn-relic { color: var(--shadow) !important; font-size: 0.78rem !important; font-weight: 700 !important; }
+.btn-ghost { color: #d0a878 !important; border-color: rgba(212,160,23,0.45) !important; font-size: 0.76rem !important; font-weight: 600 !important; }
+.btn-ghost:hover { color: var(--gold-light) !important; background: rgba(212,160,23,0.1) !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   22. NAV CREED STRIP
-═══════════════════════════════════════════════════════════════ */
-header span[style*="color:#7a5a3a"] { color: #c8a878 !important; font-size: 0.7rem !important; }
-
-/* ═══════════════════════════════════════════════════════════════
-   23. BUTTONS
-═══════════════════════════════════════════════════════════════ */
-.btn-relic { color: var(--shadow) !important; }
-.btn-ghost { color: #c8a878 !important; border-color: rgba(212,160,23,0.4) !important; }
-.btn-ghost:hover { color: var(--gold-light) !important; background: rgba(212,160,23,0.08) !important; }
-
-/* ═══════════════════════════════════════════════════════════════
-   24. SUBTLE COMPASS WATERMARK — Option A archaeology accent
+   22. COMPASS WATERMARK — Option A
 ═══════════════════════════════════════════════════════════════ */
 section.py-16::after,
 section.py-14::after {
   content: '';
-  position: absolute;
-  bottom: 1.5rem;
-  right: 2rem;
-  width: 100px;
-  height: 100px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='none' stroke='%23a07810' stroke-width='1' opacity='0.1'/%3E%3Ccircle cx='50' cy='50' r='36' fill='none' stroke='%23a07810' stroke-width='0.5' opacity='0.08'/%3E%3Cpolygon points='50,6 54,46 50,50 46,46' fill='%23a07810' opacity='0.15'/%3E%3Cpolygon points='50,94 46,54 50,50 54,54' fill='%23a07810' opacity='0.1'/%3E%3Cpolygon points='6,50 46,46 50,50 46,54' fill='%23a07810' opacity='0.1'/%3E%3Cpolygon points='94,50 54,54 50,50 54,46' fill='%23a07810' opacity='0.1'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%23a07810' opacity='0.18'/%3E%3Ctext x='50' y='20' text-anchor='middle' font-family='serif' font-size='9' fill='%23a07810' opacity='0.18'%3EN%3C/text%3E%3Ctext x='50' y='86' text-anchor='middle' font-family='serif' font-size='9' fill='%23a07810' opacity='0.18'%3ES%3C/text%3E%3Ctext x='18' y='54' text-anchor='middle' font-family='serif' font-size='9' fill='%23a07810' opacity='0.18'%3EW%3C/text%3E%3Ctext x='82' y='54' text-anchor='middle' font-family='serif' font-size='9' fill='%23a07810' opacity='0.18'%3EE%3C/text%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  opacity: 0.5;
-  z-index: 0;
+  position: absolute; bottom: 1.5rem; right: 2rem;
+  width: 100px; height: 100px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='none' stroke='%23a07810' stroke-width='1' opacity='0.1'/%3E%3Ccircle cx='50' cy='50' r='36' fill='none' stroke='%23a07810' stroke-width='0.5' opacity='0.08'/%3E%3Cpolygon points='50,6 54,46 50,50 46,46' fill='%23a07810' opacity='0.15'/%3E%3Cpolygon points='50,94 46,54 50,50 54,54' fill='%23a07810' opacity='0.1'/%3E%3Cpolygon points='6,50 46,46 50,50 46,54' fill='%23a07810' opacity='0.1'/%3E%3Cpolygon points='94,50 54,54 50,50 54,46' fill='%23a07810' opacity='0.1'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%23a07810' opacity='0.18'/%3E%3Ctext x='50' y='20' text-anchor='middle' font-family='serif' font-size='9' fill='%23a07810' opacity='0.2'%3EN%3C/text%3E%3Ctext x='50' y='86' text-anchor='middle' font-family='serif' font-size='9' fill='%23a07810' opacity='0.2'%3ES%3C/text%3E%3Ctext x='18' y='54' text-anchor='middle' font-family='serif' font-size='9' fill='%23a07810' opacity='0.2'%3EW%3C/text%3E%3Ctext x='82' y='54' text-anchor='middle' font-family='serif' font-size='9' fill='%23a07810' opacity='0.2'%3EE%3C/text%3E%3C/svg%3E");
+  background-size: contain; background-repeat: no-repeat;
+  pointer-events: none; opacity: 0.5; z-index: 0;
 }
 #hero::after, #page-hero::after, footer::after { display: none !important; }
 
 /* ═══════════════════════════════════════════════════════════════
-   25. MOBILE
+   23. MOBILE
 ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 640px) {
   body { font-size: 16px; }
   .tl-body-dark, .tl-body-light, .res-desc, .teaser-desc,
   .card-desc, .verse-line { font-size: 1rem !important; }
-  .tl-heading-dark, .tl-heading-light, .res-title,
-  .teaser-title { font-size: 0.85rem !important; }
+  .tl-heading-dark, .tl-heading-light,
+  .res-title, .teaser-title { font-size: 0.88rem !important; }
   .section-eyebrow, .res-section-count,
-  .card-date { font-size: 0.6rem !important; }
+  .card-date { font-size: 0.65rem !important; }
 }
